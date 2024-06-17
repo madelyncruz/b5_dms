@@ -1,0 +1,124 @@
+{#
+/**
+ * @file
+ * b5_dms theme implementation to display a single page.
+ *
+ * @see template_preprocess_page()
+ * @see html.html.twig
+ */
+#}
+
+{# Classes for sidebar first region. #}
+{# Backup for sidebar toggle #}
+{# {% set sidebar_first_classes = [
+  'sidebar-nav',
+  'navbar',
+  'align-items-start',
+  'col-md-3 col-lg-2',
+  'p-4',
+] %}
+<aside{{ sidebar_first_attributes.addClass(sidebar_first_classes) }}>
+  <div class="sidebar-nav-inner">
+    <div class="sidebar-nav-top">
+      <button class="js-slide-toggle d-flex justify-content-center align-items-center">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+      {{ page.sidebar_first }}
+    </div>
+  </div>
+</aside> #}
+
+<div {{ attributes.addClass('page-wrapper') }}>
+  {% if page.header_top_left or page.header_top_center or page.header_top_right or page.header_bottom_left or page.header_bottom_right %}
+    <nav{{ header_attributes }}>
+      <div class="{{ container }}">
+        {% include '@b5_dms/includes/header_top.html.twig' %}
+        {% include '@b5_dms/includes/header_bottom.html.twig' %}
+      </div>
+    </nav>
+  {% endif %}
+
+  {% if page.banner %}
+    <div{{ banner_attributes }}>
+      {{ page.banner }}
+    </div>
+  {% endif %}
+
+  {% if page.banner_sticky %}
+    <div{{ banner_sticky_attributes }}>
+      {{ page.banner_sticky }}
+    </div>
+  {% endif %}
+
+  <div id="main-wrapper" class="main-wrapper clearfix">
+    {% block content %}
+      <div id="main" class="{{ container }}">
+        {{ page.breadcrumb }}
+        <div class="row mx-0">
+          <section{{ main_section_attributes }}>
+            <a id="main-content" tabindex="-1"></a>
+            {% include '@b5_dms/includes/highlighted.html.twig' %}
+            <div class="main-container">
+              {{ page.content }}
+            </div>
+          </section>
+          {% if page.sidebar_first %}
+            <div{{ sidebar_first_attributes }}>
+              <aside>
+                {{ page.sidebar_first }}
+              </aside>
+            </div>
+          </div>
+          {% endif %}
+          {% if page.sidebar_second %}
+            <div{{ sidebar_second_attributes }}>
+              <aside role="complementary">
+                {{ page.sidebar_second }}
+              </aside>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endblock %}
+  </div>
+
+  {% if footer_show %}
+    <footer{{ footer_attributes }}>
+      {% if page.footer_showcase %}
+        <div class="footer-showcase">
+          {{ page.footer_showcase }}
+        </div>
+      {% endif %}
+      {% if page.footer_logo %}
+        <div class="footer-logo">
+          <div class="{{ container }}">
+            {{ page.footer_logo }}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if page.footer_top_left or page.footer_top_right or page.footer_bottom_left or page.footer_bottom_right %}
+        <div class="footer-main bg-light">
+          <div class="{{ container }}">
+            {% include '@b5_dms/includes/footer_top.html.twig' %}
+            {% include '@b5_dms/includes/footer_bottom.html.twig' %}
+          </div>
+        </div>
+      {% endif %}
+    </footer>
+  {% endif %}
+
+  {% if page.modal %}
+    <div{{ modal_attributes }}>
+      {{ page.modal }}
+    </div>
+  {% endif %}
+
+  {% include '@b5_dms/includes/modal.html.twig' %}
+
+  {% if page.offcanvas %}
+    <div{{ offcanvas_attributes }}>
+      {{ page.offcanvas }}
+    </div>
+  {% endif %}
+</div>

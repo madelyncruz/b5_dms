@@ -1,0 +1,135 @@
+@import "../node_modules/bootstrap/scss/navbar";
+
+//--------------------------------------
+// NAVBAR
+//--------------------------------------
+.navbar-counter {
+  @include make-counter(
+    'navbar-counter',
+    '.nav-item > .nav-link',
+    '.nav-item:first-child > .nav-link',
+    5,
+    'white',
+    'black-800'
+  );
+}
+
+//--------------------------------------
+// @group Navbar
+// @description Tabbable styles.
+//
+// @example
+//   <!-- HTML usage -->
+//   <div class="tabbable-nav">
+//     <ul class="nav">
+//       <li class="nav-item">
+//         <a class="nav-link"></a>
+//       </li>
+//     </ul>
+//   </div>
+//--------------------------------------
+.nav-tabs {
+  --nav-tabs-link-fw: 600;
+  --nav-tabs-link-lh: 21px;
+  --nav-tabs-link-ls: 0.1em;
+  --nav-tabs-link-hover-color: var(--bs-black);
+  --nav-tabs-item-gap: var(--bs-spacing-6);
+  --nav-tabs-divider-height: 2px;
+  --nav-tabs-divider-width: 100%;
+
+  gap: var(--nav-tabs-item-gap);
+
+  .nav-link {
+    font-weight: var(--nav-tabs-link-fw);
+    line-height: var(--nav-tabs-link-lh);
+    letter-spacing: var(--nav-tabs-link-ls);
+    padding: $nav-link-padding-y 0;
+    position: relative;
+    text-transform: uppercase;
+
+    &:hover {
+      color: var(--nav-tabs-link-hover-color);
+    }
+    &.active {
+      @include make-divider('after', 100%, 2px);
+
+      &:after {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+      }
+    }
+  }
+}
+
+//--------------------------------------
+// @group Navbar
+// @description Tabbable styles.
+//
+// @example
+//   <!-- HTML usage -->
+//   <div class="tabbable-nav">
+//     <ul class="nav nav-tabs">
+//       <li class="nav-item">
+//         <a href="#" class="nav-link"></a>
+//       </li>
+//       <li class="nav-item">
+//         <a href="#" class="nav-link active"></a>
+//       </li>
+//     </ul>
+//   </div>
+//--------------------------------------
+.tabbable-nav {
+  .nav {
+    flex-wrap: nowrap;
+    opacity: 0;
+    overflow-x: auto;
+    overflow-y :hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+  }
+  .nav-link {
+    white-space: nowrap;
+  }
+}
+
+//--------------------------------------
+// @group Navbar
+// @description Actions styles.
+//
+// @example
+//   <!-- HTML usage -->
+//   <div class="actions-nav">
+//     <ul class="nav navbar-nav">
+//       <li class="nav-item">
+//         <a href="#" class="nav-link"></a>
+//       </li>
+//       <li class="nav-item">
+//         <a href="#" class="nav-link active"></a>
+//       </li>
+//     </ul>
+//   </div>
+//--------------------------------------
+.actions-nav {
+  --actions-nav-gap: var(--bs-spacing-1);
+  --actions-nav-item-gap: var(--bs-spacing-1);
+  --actions-nav-item-color: var(--primary-color);
+
+  .nav {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: var(--actions-nav-gap);
+
+    > .nav-item > a {
+      align-items: center;
+      border: 0;
+      color: var(--actions-nav-item-color);
+      display: flex;
+      gap: var(--actions-nav-item-gap);
+      padding: 0;
+      @include make-button-style(true);
+    }
+  }
+}

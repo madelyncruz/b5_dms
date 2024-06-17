@@ -1,0 +1,92 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a set of links.
+ *
+ * Available variables:
+ * - attributes: Attributes for the UL containing the list of links.
+ * - links: Links to be output.
+ *   Each link will have the following elements:
+ *   - title: The link text.
+ *   - url: The link URL. If omitted, the 'title' is shown as a plain text
+ *     item in the links list. If 'url' is supplied, the entire link is passed
+ *     to l() as its $options parameter.
+ *   - attributes: (optional) HTML attributes for the anchor, or for the <span>
+ *     tag if no 'url' is supplied.
+ * - heading: (optional) A heading to precede the links.
+ *   - text: The heading text.
+ *   - level: The heading level (e.g. 'h2', 'h3').
+ *   - attributes: (optional) A keyed list of attributes for the heading.
+ *   If the heading is a string, it will be used as the text of the heading and
+ *   the level will default to 'h2'.
+ *
+ *   Headings should be used on navigation menus and any list of links that
+ *   consistently appears on multiple pages. To make the heading invisible use
+ *   the 'visually-hidden' CSS class. Do not use 'display:none', which
+ *   removes it from screen readers and assistive technology. Headings allow
+ *   screen reader and keyboard only users to navigate to or skip the links.
+ *   See http://juicystudio.com/article/screen-readers-display-none.php and
+ *   http://www.w3.org/TR/WCAG-TECHS/H42.html for more information.
+ *
+ * @see template_preprocess_links()
+ *
+ * @ingroup themeable
+ */
+#}
+{% if links -%}
+  {%- if heading -%}
+    {%- if heading.level -%}
+      <{{ heading.level }}{{ heading.attributes }}>{{ heading.text }}</{{ heading.level }}>
+    {%- else -%}
+      <h2{{ heading.attributes }}>{{ heading.text }}</h2>
+    {%- endif -%}
+  {%- endif -%}
+  <div class="navbar-expand">
+    <ul{{ attributes.addClass('nav navbar-nav gap-3') }}>
+      {% if links['comment-view-replies'] %}
+        {% set comment_view_replies_opts = links['comment-view-replies']['link']['#options'] %}
+        {% set collapse_id = 'collapse-' ~ comment_view_replies_opts.id ~ '-' ~ comment_view_replies_opts.theme|clean_class %}
+        <li class="nav-item nav-item-comment-view-replies">
+          <a class="ui-label -h3" href="#{{ collapse_id }}" data-bs-toggle="collapse" aria-expanded="{{ collapse_id }}">
+            <span>{{- 'View replies (@count)'|t({'@count': comment_view_replies_opts.count}) -}}</span>
+            <i class="icon-down-arrow-soft align-middle"></i>
+          </a>
+        </li>
+      {% endif %}
+      {%- for key, item in links -%}
+      <li{{ item.attributes.addClass('nav-item') }}>
+        {%- if item.link -%}
+          {% set url = item.link['#url'] %}
+          {% set link_plain = url.toString %}
+          {% set link_attribute = create_attribute({
+            'href': url.toString,
+            'class': ['ui-label', '-h3', 'use-ajax'],
+            'data-dialog-type': 'bootstrap4_modal',
+          }) %}
+
+          {% if key == 'comment-edit' %}
+            <a{{ link_attribute }}>
+              <i class="icon-edit me-1"></i>
+              {{- 'Edit'|t -}}
+            </a>
+          {% elseif key == 'comment-delete' %}
+            <a{{ link_attribute }}>
+              <i class="icon-delete me-1"></i>
+              {{- 'Delete'|t -}}
+            </a>
+          {% elseif key == 'comment-reply' %}
+            <a{{ link_attribute }}>
+              <i class="icon-jump me-1"></i>
+              {{- 'Reply'|t -}}
+            </a>
+          {% endif %}
+        {%- elseif item.text_attributes -%}
+          <span{{ item.text_attributes }}>{{ item.text }}</span>
+        {%- else -%}
+          {{ item.text }}
+        {%- endif -%}
+      </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif %}

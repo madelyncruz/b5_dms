@@ -1,0 +1,21 @@
+.site-branding {
+  --site-branding-logo-size: 100%;
+  --site-branding-name-color: var(--bs-black);
+  --site-branding-name-font-size: 1rem;
+  --site-branding-brand-gap: 16px;
+
+  .navbar-brand {
+    align-items: center;
+    display: flex;
+    gap: var(--site-branding-brand-gap);
+  }
+
+  .site-name {
+    color: var(--site-branding-name-color);
+    font-size: var(--site-branding-name-font-size);
+    white-space: break-spaces;
+  }
+  .site-logo img {
+    max-width: var(--site-branding-logo-size);
+  }
+}

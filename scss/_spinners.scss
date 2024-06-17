@@ -1,0 +1,25 @@
+@import "../node_modules/bootstrap/scss/spinners";
+
+//--------------------------------------
+// SPINNERS
+//--------------------------------------
+.spinner-border-throbber {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  z-index: 10;
+}
+
+//--------------------------------------
+// AJAX THROBBER
+//--------------------------------------
+.spinner-ajax {
+  width: 100%;
+  .spinner-border-inner {
+    justify-content: center;
+  }
+  .spinner-grow {
+    height: 16px;
+    width: 16px;
+  }
+}

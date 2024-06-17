@@ -1,0 +1,58 @@
+//--------------------------------------
+// DIVIDER
+//--------------------------------------
+.divider {
+
+  // GRADIENT BORDER BEFORE THE ELEMENT
+  &-before {
+    @include make-divider('before');
+  }
+
+  // GRADIENT BORDER AFTER THE ELEMENT
+  &-after {
+    @include make-divider('after');
+  }
+
+  // GRAY BORDER IN THE RIGHT MIDDLE OF THE ELEMENT
+  &-middle {
+    color: var(--bs-black-800);
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+
+    > span {
+      background-color: var(--bs-white);
+      padding-right: 30px;
+    }
+
+    &::before {
+      background-color: $border-color;
+      content: "";
+      height: 1px;
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      z-index: -1;
+    }
+  }
+  &-full:after,
+  &-full:before {
+    width: 100%;
+  }
+}
+
+//--------------------------------------
+// ALIGN DIVIDER ACCORDINGLY
+//--------------------------------------
+.text-center .divider-a:after,
+.text-center .divider-b:before {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+//--------------------------------------
+// DIVIDER SPACER
+//--------------------------------------
+.text-center .main-title.divider-after:after {
+  margin-top: $primary-spacer-3;
+}

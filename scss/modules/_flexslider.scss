@@ -1,0 +1,18 @@
+//--------------------------------------
+// FLEXSLIDER
+//--------------------------------------
+.flexslider {
+  background-color: var(--bs-blue-dark);
+  border: 0;
+  margin-bottom: 0;
+}
+.flex-direction-nav a {
+  background-color: $white;
+  border-radius: 20px;
+}
+.flex-direction-nav a:before {
+  font-size: 20px;
+  display: block;
+  line-height: 2.1;
+  text-align: center;
+}

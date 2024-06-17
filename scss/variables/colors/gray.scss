@@ -1,0 +1,24 @@
+
+//--------------------------------------
+// Gray palette.
+//--------------------------------------
+$palette-gray-400:                      #7c8db0;
+$palette-gray-dark:                     #586472;
+$palette-gray-light:                    #f7f8fa;
+$palette-gray-lighter:                  #f8fafc;
+
+//--------------------------------------
+// Bootstrap gray color.
+//--------------------------------------
+$gray:                                  #cdd0d6;
+
+//--------------------------------------
+// Generate gray colors for utilities usage and CSS variables.
+//--------------------------------------
+$grays: (
+  "gray":                                 $gray,
+  "gray-400":                             $palette-gray-400,
+  "gray-dark":                            $palette-gray-dark,
+  "gray-light":                           $palette-gray-light,
+  "gray-lighter":                         $palette-gray-lighter,
+);

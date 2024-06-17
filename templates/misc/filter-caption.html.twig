@@ -1,0 +1,26 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a filter caption.
+ *
+ * Returns HTML for a captioned image, audio, video or other tag.
+ *
+ * Available variables
+ * - string node: The complete HTML tag whose contents are being captioned.
+ * - string tag: The name of the HTML tag whose contents are being captioned.
+ * - string caption: The caption text.
+ * - string classes: The classes of the captioned HTML tag.
+ */
+#}
+<div class="filter-caption mb-4{{ classes ? ' ' ~ classes|replace({'align-': 'text-'}) : '' }}">
+  <figure role="group" class="d-flex align-items-center">
+    {% if node %}
+    <div class="filter-caption--entity">
+      {{ node }}
+    </div>
+    {% endif %}
+    <figcaption class="filter-caption--text ml-2">
+      {{ caption }}
+    </figcaption>
+  </figure>
+</div>

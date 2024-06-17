@@ -1,0 +1,99 @@
+//--------------------------------------
+// DRAGGABLE TABLE
+//--------------------------------------
+.tabledrag-changed-warning {
+  background-color: #f7f8fa;
+  font-size: 14px;
+  margin-bottom: 12px;
+  padding: 16px 24px;
+}
+.tabledrag-toggle-weight-wrapper {
+  display: none;
+}
+
+//--------------------------------------
+// FORM: SUBMIT
+//--------------------------------------
+.form-submit[name*="cancel"]:not(.dropdown-item),
+.form-submit[name*="remove"]:not(.dropdown-item) {
+  @include make-button-plain('sm');
+  border: 0;
+  padding-left: var(--bs-spacing-3);
+  padding-right: 0;
+}
+
+//--------------------------------------
+// FIELD: AUTOCOMPLETE WIDGET
+//--------------------------------------
+.ui-autocomplete {
+  z-index: 10000;
+}
+
+//--------------------------------------
+// FIELD: MULTIPLE TABLE WIDGET
+//--------------------------------------
+.field-multiple-table {
+  --field-multiple-table-cell-form-item-px: var(--bs-spacing-2);
+  --field-multiple-table-cell-form-item-py: var(--bs-spacing-2);
+
+  @include make-counter-table('multiple-table-counter', 'field-multiple-drag', 'ief-entity-operations');
+  td {
+    vertical-align: middle;
+    width: 100%;
+  }
+  td.field-multiple-drag {
+    width: 80px;
+  }
+  .label {
+    display: none;
+  }
+  ~ div .field-add-more-submit {
+    margin-top: var(--bs-spacing-4);
+  }
+  td .js-form-item {
+    padding: var(--field-multiple-table-cell-form-item-py) var(--field-multiple-table-cell-form-item-px);
+  }
+}
+
+//--------------------------------------
+// FIELD: MULTIPLE GENERIC FILE WIDGET
+//--------------------------------------
+.field--widget-file-generic .card-details {
+  --file-generic-table-mb: 0;
+  --file-generic-table-cell-pb: var(--bs-spacing-4);
+  --file-generic-table-cell-pl: var(--bs-spacing-4);
+
+  border: 0;
+
+  .table-head,
+  .card-header {
+    display: none;
+  }
+  .card-body {
+    padding: 0;
+  }
+  table {
+    border: 0;
+    margin-bottom: var(--file-generic-table-mb);
+
+    tbody {
+      border-top: 0;
+    }
+    td {
+      border: 0;
+      padding: 0 0 var(--file-generic-table-cell-pb);
+      vertical-align: middle;
+
+      &:last-child {
+        padding-left: var(--file-generic-table-cell-pl);
+      }
+    }
+    .label {
+      display: none;
+    }
+  }
+
+  .tabledrag-handle {
+    display: none;
+  }
+}

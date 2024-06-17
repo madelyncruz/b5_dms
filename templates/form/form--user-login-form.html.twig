@@ -1,0 +1,56 @@
+{#
+/**
+ * @file
+ * Theme override for a 'form' element.
+ *
+ * Available variables
+ * - attributes: A list of HTML attributes for the wrapper element.
+ * - children: The child elements of the form.
+ *
+ * @see template_preprocess_form()
+ */
+#}
+{% set saml_login_item = element.saml_sp_drupal_login_links ? element.saml_sp_drupal_login_links['#items']|first %}
+{% set saml_login_path = saml_login_item.url ? path(saml_login_item.url.getRouteName, saml_login_item.url.getRouteParameters) %}
+{% set header_attributes = create_attribute({
+  'class': [
+    'mb-5',
+    saml_login_path ? 'border-bottom pb-5',
+  ]
+}) %}
+{% set form_classes = [
+  'needs-validation',
+] %}
+
+<form{{ attributes.addClass(form_classes).setAttribute('autocomplete', 'off').setAttribute('novalidate', '') }}>
+  <h2{{ header_attributes }}>
+    {{- 'Log into your account'|t -}}
+  </h2>
+
+  {% if saml_login_path %}
+    <div class="saml-login">
+      <p class="mb-6">
+        <a href="{{ saml_login_path }}" class="btn btn-outline-gradient w-100 text-black-800">
+          {{- 'Login with SAML account'|t -}}
+        </a>
+      </p>
+      <p class="ui-label -h3 text-center mb-6">
+      {{- 'or login with details below'|t -}}
+      </p>
+    </div>
+  {% endif %}
+
+  <div class="element-basic">
+    {{ element.name }}
+    {{ element.pass }}
+  </div>
+
+  {#
+    The form builder and token must remain visible at all times during AJAX callbacks
+    to ensure the successful reloading of the form and to prevent PHP errors.
+  #}
+  {{ element.form_build_id }}
+  {{ element.form_token }}
+  {{ element.form_id }}
+  {{ element.actions }}
+</form>

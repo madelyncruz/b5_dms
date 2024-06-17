@@ -1,0 +1,73 @@
+//--------------------------------------
+// VIEWS: TABLE
+//--------------------------------------
+.view {
+  table {
+    .views-field > ul,
+    .views-field > ol {
+      margin-bottom: 0;
+      padding-left: $primary-spacer-2;
+    }
+    thead th:not(.views-align-right) {
+      min-width: 160px;
+    }
+    th.views-field.views-field-counter {
+      min-width: 80px;
+      width: 80px;
+    }
+    @include make-counter-table('views-field-counter', 'views-field-counter', 'ief-entity-operations', true);
+  }
+}
+.views-align-center {
+  text-align: center;
+}
+.views-align-right {
+  @include make-sticky-table-cell();
+}
+
+
+//--------------------------------------
+// VIEWS: EXPOSED FILTER
+//--------------------------------------
+.form-exposed-filter {
+  background-color: var(--bs-white);
+  display: flex;
+  flex-wrap: wrap;
+
+  > div,
+  > fieldset {
+    flex-grow: 1;
+    @include make-grid-cols();
+
+    .form-exposed-filter-col-md-3s & {
+      @include media-breakpoint-up(md) {
+        @include make-col(3);
+      }
+    }
+    .form-exposed-filter-col-md-4s & {
+      @include media-breakpoint-up(md) {
+        @include make-col(4);
+      }
+    }
+    .form-exposed-filter-col-md-6s & {
+      @include media-breakpoint-up(md) {
+        @include make-col(6);
+      }
+    }
+  }
+  label {
+    font-size: 12px;
+  }
+  .form-submit {
+    width: 100%;
+  }
+
+  .form-date-wrapper {
+    > label {
+      display: none;
+    }
+    > .fieldset-wrapper {
+      display: flex;
+    }
+  }
+}

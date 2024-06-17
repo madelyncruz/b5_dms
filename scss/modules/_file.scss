@@ -1,0 +1,79 @@
+//--------------------------------------
+// FILE
+//--------------------------------------
+.field--type-file {
+  --field-type-file-description-fs: 12px;
+  --field-type-file-description-lh: var(--bs-lh-1);
+  --field-type-file-description-margin: var(--bs-spacing-4) 0 0;
+  --field-type-file-details-description-margin: 0 0 var(--bs-spacing-6);
+
+  &,
+  .card,
+  .table-responsive {
+    border: 0;
+  }
+
+  &.form-group {
+    margin-bottom: 0;
+  }
+  details > summary {
+    pointer-events: none;
+  }
+  details .details-description {
+    display: block;
+    margin: var(--field-type-file-details-description-margin);
+  }
+  .description {
+    font-size: var(--field-type-file-description-fs);
+    line-height: var(--field-type-file-description-lh);
+    margin: var(--field-type-file-description-margin);
+  }
+
+  .card-body {
+    padding: 0;
+  }
+
+  .tabledrag-handle,
+  .table .table-head,
+  .card-header {
+    display: none;
+  }
+
+  .table {
+    border: 0;
+    margin-bottom: 0;
+
+    .label {
+      display: none;
+    }
+    tbody {
+      border-top: 0;
+    }
+    td {
+      border: 0;
+      padding: 0;
+      vertical-align: middle;
+    }
+  }
+
+  .table-responsive ~ .form-type-managed-file {
+    margin-top: var(--bs-spacing-4);
+  }
+}
+
+//--------------------------------------
+// CARD
+//--------------------------------------
+.card {
+  .field--type-file .card-header {
+    border: 0;
+  }
+}
+
+//--------------------------------------
+// FILE: LINK
+//--------------------------------------
+.file-link-items {
+  --file-link-items-margin-bottom: var(--bs-spacing-1);
+  margin-bottom: var(--file-link-items-margin-bottom);
+}

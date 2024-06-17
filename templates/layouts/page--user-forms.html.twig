@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * b5_dms theme implementation to display a single page.
+ *
+ * @see template_preprocess_page()
+ * @see html.html.twig
+ */
+#}
+<div {{ attributes.addClass('page-wrapper') }}>
+  <div class="rounded-3">
+    <div id="main-wrapper" class="main-wrapper clearfix p-7">
+      {% block content %}
+        <div id="main">
+          <div class="row">
+            <section {{ main_section_attributes }}>
+              <a id="main-content" tabindex="-1"></a>
+              {{ page.content }}
+            </section>
+          </div>
+        </div>
+      {% endblock %}
+    </div>
+  </div>
+</div>

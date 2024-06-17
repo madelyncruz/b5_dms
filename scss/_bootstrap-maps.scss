@@ -1,0 +1,32 @@
+//--------------------------------------
+// Remove default theme colors.
+//--------------------------------------
+$theme-colors: map-remove($theme-colors, "secondary", "info", "dark");
+$colors: map-remove($colors,
+  "cyan",
+  "gray",
+  "gray-dark",
+  "pink",
+  "indigo",
+  "purple",
+);
+
+//--------------------------------------
+// Override spacers.
+//--------------------------------------
+$spacers: map-merge($spacers, $primary-spacers);
+$negative-spacers: if($enable-negative-margins, negativify-map($spacers), null);
+
+//--------------------------------------
+// Define new theme colors.
+// Add mapping here later.
+//--------------------------------------
+$custom-theme-colors: map-merge-multiple(
+  $light-blues,
+  $violets,
+);
+
+//--------------------------------------
+// Merge the new theme colors.
+//--------------------------------------
+$theme-colors: map-merge($theme-colors, $custom-theme-colors);

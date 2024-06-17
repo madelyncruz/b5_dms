@@ -1,0 +1,55 @@
+//--------------------------------------
+// HEADER
+//--------------------------------------
+.header {
+  --header-region-gap: var(--bs-spacing-3);
+
+  background-color: var(--bs-light-rgb);
+  padding-bottom: 20px;
+  padding-top: 20px;
+  width: 100%;
+
+  .navbar {
+    padding: 0;
+  }
+  .dropdown-menu {
+    z-index: 300;
+  }
+  .region {
+    align-items: center;
+    display: flex;
+    gap: var(--header-region-gap);
+  }
+  .region-header-top-center {
+    justify-content: center;
+  }
+}
+
+//--------------------------------------
+// NAVBAR
+//--------------------------------------
+.header .navbar-brand {
+  margin: 0;
+  img {
+    margin: auto;
+    display: block;
+  }
+}
+
+//--------------------------------------
+// HEADER: TOP
+//--------------------------------------
+.header-top ~ .header-bottom {
+  border-top: 1px solid $border-color;
+  margin-top: 17px;
+  padding-top: 20px;
+}
+
+//--------------------------------------
+// HEADER: BOTTOM
+//--------------------------------------
+.header-bottom .block-system-menu-blockmain {
+  @include media-breakpoint-down(lg) {
+    display: none;
+  }
+}

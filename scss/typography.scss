@@ -1,0 +1,209 @@
+/*!
+ * DMS Typography v1.0.0
+ * Copyright 2023
+ */
+@import "dependency-import";
+
+hr {
+  border-top: 0;
+}
+
+//--------------------------------------
+// LABELS
+//--------------------------------------
+.ui-label {
+  @include make-ui-label-style();
+  @each $size in $ui-label {
+    &.-#{$size} {
+      @include make-ui-label-size($size);
+    }
+  }
+}
+
+//--------------------------------------
+// HEADINGS - h1-h5 font sizes variables
+//--------------------------------------
+h4,
+.h4 {
+  font-family: $font-body;
+  font-weight: 500;
+}
+h5,
+.h5 {
+  font-family: $font-body;
+  font-weight: 500;
+}
+h6,
+.h6 {
+  font-family: $font-body;
+  font-weight: 600;
+}
+
+//--------------------------------------
+// BOOTSTRAP: DISPLAY
+//--------------------------------------
+.display-1 {
+  letter-spacing: -0.5px;
+  line-height: 86.4px;
+}
+
+//--------------------------------------
+// DATA TEXT
+//--------------------------------------
+.ui-data {
+  @include make-ui-data-style();
+
+  @at-root span#{&} {
+    display: inline-block;
+  }
+
+  @each $size in $ui-data {
+    &.-#{$size} {
+      @include make-ui-data-size($size);
+    }
+  }
+}
+
+//--------------------------------------
+// BODY OPENING
+//--------------------------------------
+.ui-body-opening {
+  @include make-ui-body-opening-style();
+
+  @at-root span#{&} {
+    display: inline-block;
+  }
+
+  @each $size in $ui-body-opening {
+    &.-#{$size} {
+      @include make-ui-body-opening-size($size);
+    }
+  }
+}
+
+//--------------------------------------
+// BODY LARGE
+//--------------------------------------
+.ui-body-large {
+  @include make-ui-body-large-style();
+
+  @at-root span#{&} {
+    display: inline-block;
+  }
+
+  @each $size in $ui-body-large {
+    &.-#{$size} {
+      @include make-ui-body-large-size($size);
+    }
+  }
+}
+
+//--------------------------------------
+// BODY NORMAL
+//--------------------------------------
+.ui-body-normal {
+  @include make-ui-body-normal-style();
+
+  @at-root span#{&} {
+    display: inline-block;
+  }
+
+  @each $size in $ui-body-normal {
+    &.-#{$size} {
+      @include make-ui-body-normal-size($size);
+    }
+  }
+}
+
+//--------------------------------------
+// BODY CAPTION
+//--------------------------------------
+.ui-body-caption {
+  @include make-ui-body-caption-style();
+
+  @at-root span#{&} {
+    display: inline-block;
+  }
+
+  @each $size in $ui-body-caption {
+    &.-#{$size} {
+      @include make-ui-body-caption-size($size);
+    }
+  }
+}
+
+//--------------------------------------
+// PAGE TITLE
+//--------------------------------------
+.main-title {
+  margin-bottom: 30px;
+
+  &.divider-before:before {
+    margin-bottom: 25px;
+  }
+}
+
+//--------------------------------------
+// LABEL VARIATIONS
+//--------------------------------------
+.label-body {
+  --label-body-color: var(--bs-black-800);
+  --label-margin-bottom: var(--bs-spacing-4);
+
+  // OVERRIDE FORM FIELD LABEL STYLE
+  > .field > .field__label,
+  > div > fieldset > .label,
+  > div > div > .label {
+    color: var(--label-body-color);
+    letter-spacing: inherit;
+    text-transform: inherit;
+
+    @include make-ui-body-normal-style();
+    @include make-ui-body-normal-size('h1');
+  }
+  > .field > .field__label,
+  label.label {
+    margin-bottom: var(--label-margin-bottom);
+  }
+}
+
+//--------------------------------------
+// TEXT UNDERLINE
+//--------------------------------------
+.text-underline {
+  --text-underline-border-color: var(--bs-gradient-100);
+  --text-underline-color: var(--bs-black-800);
+  --text-underline-fw: 600;
+  color: var(--bs-black-800);
+  font-weight: var(--text-underline-fw);
+
+  &:after {
+    @include make-icon-background((
+      'background-linear': var(--text-underline-border-color),
+      'display': 'block',
+      'height': 2px,
+      'margin-right': 0,
+      'width': 100%,
+    ));
+  }
+}
+
+//--------------------------------------
+// LINK UNDERLINE
+//--------------------------------------
+.link-underline {
+  --link-underline-color: var(--bs-black-800);
+  --link-underline-border-color: var(--bs-primary);
+  --link-underline-border-image-color: var(--bs-gradient-100);
+  --link-underline-border-size: 2px;
+  --link-underline-border-slice: 1;
+  --link-underline-fw: 500;
+
+  border-bottom: var(--link-underline-border-size) solid var(--link-underline-border-color);
+  border-image-slice: 1;
+  border-image-source: var(--link-underline-border-image-color);
+  color: var(--link-underline-color);
+  display: inline-block;
+  font-weight: var(--link-underline-fw);
+  text-decoration: none;
+}

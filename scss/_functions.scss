@@ -1,0 +1,41 @@
+// converter rgba(r, g, b, a) color to #HEX string without alpha channel,
+// with optional applying afterwards opacity ($opacity)
+// by default alpha channel for rgba-color is applying against white background,
+// but you can change it by setting third argumnet ($background)
+@function rgba-rgb($rgba, $opacity: 0, $background: #fff) {
+  @if $opacity > 0 {
+    @if $opacity < 1 {
+      $opacity: $opacity * 100
+    }
+    @return mix(mix(rgb(red($rgba), green($rgba), blue($rgba)), $background, alpha($rgba) * 100%), rgb(255,255,255), $opacity)
+  }
+  @return mix(rgb(red($rgba), green($rgba), blue($rgba)), $background, alpha($rgba) * 100%)
+}
+
+@function generate-shades($colorValue, $colorKey, $step: 9) {
+  // Initialize a map with the base color.
+  $colors: ($colorKey: $colorValue);
+
+  // Loop to generate shades by step.
+  @for $i from 1 through $step {
+    // Calculate shade with reduced opacity.
+    $shade: rgba($colorValue, $i * 0.1);
+
+    // Create a key for the shade.
+    $key: "#{$colorKey}-#{$i * 100}";
+
+    // Merge the new shade into the colors map.
+    $colors: map-merge($colors, ($key: $shade));
+  }
+
+  // Return the map containing color shades
+  @return $colors
+}
+
+@function map-merge-multiple($maps...) {
+  $result: ();
+  @each $map in $maps {
+    $result: map-merge($result, $map);
+  }
+  @return $result;
+}

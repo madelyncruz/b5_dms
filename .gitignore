@@ -1,0 +1,7 @@
+# Ignore node_modules when managing dependencies with NodeJs.
+node_modules/
+
+# Ignore OSX template
+*.DS_Store
+.AppleDouble
+.LSOverride

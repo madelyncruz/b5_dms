@@ -1,0 +1,44 @@
+//--------------------------------------
+// LOGIN / PASSWORD RESET / REGISTER
+//--------------------------------------
+.user-login-form > .js-form-item {
+  margin-bottom: $primary-spacer-4;
+}
+
+.path-user-form {
+  &,
+  .page-wrapper {
+    background-color: var(--bs-gray-light);
+  }
+}
+.path-user-form .page-wrapper {
+  padding: 48px;
+
+  .block-page-title-block {
+    display: none;
+  }
+
+  > div {
+    background-color: var(--bs-white);
+    border: 1px solid $border-color;
+    box-shadow: 5px 5px 12px -5px var(--bs-black-100);
+    margin: 0 auto;
+    max-width: 600px;
+  }
+
+  .header-top {
+    .-left,
+    .-right {
+      display: none;
+    }
+    .-center {
+      width: 100%;
+    }
+  }
+  .header-top > div > div:not(.-center) > div {
+    display: none;
+  }
+  .form-actions .btn {
+    width: 100%;
+  }
+}

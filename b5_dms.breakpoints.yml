@@ -1,0 +1,6 @@
+b5_dms.medium:
+  label: medium
+  mediaQuery: 'all and (min-width: 991.98px)'
+  weight: 1
+  multipliers:
+    - 1x

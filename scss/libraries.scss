@@ -1,0 +1,32 @@
+/*!
+ * DMS Theme - Libraries v1.0.0
+ * Copyright 2023
+ */
+
+//--------------------------------------
+// International Telephone Input Style
+//
+// @compatibility
+//   | Modules             | Compatibility             |
+//   | ------------------- | ------------------------- |
+//   | International Phone | Fully compatible          |
+//   | Webform Telephone   | Fully compatible          |
+//
+// @see https://github.com/jackocnr/intl-tel-input
+//--------------------------------------
+.js-form-item {
+  .iti .form-tel.form-control {
+    height: auto;
+    padding-left: 66px;
+  }
+  .iti__flag-container {
+    padding: 0;
+  }
+  .iti__selected-flag {
+    border-right: 1px solid rgba(38, 47, 64, 0.1);
+    padding: 0 16px 0 0;
+  }
+  .iti--allow-dropdown .iti__flag-container:hover .iti__selected-flag {
+    background-color: transparent;
+  }
+}

@@ -1,0 +1,24 @@
+b5_dms.settings:
+  type: theme_settings
+  label: 'DMS Bootstrap settings'
+  mapping:
+
+    # Project link.
+    # ----------------------------
+    b5_dms_project_link_title:
+      type: text
+      label: 'Project title'
+
+    b5_dms_project_link_url:
+      type: text
+      label: 'Project URL'
+
+    # Mail.
+    # ----------------------------
+    b5_dms_mail_header:
+      type: text
+      label: 'Email header'
+
+    b5_dms_mail_footer:
+      type: text
+      label: 'Email footer'

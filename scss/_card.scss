@@ -1,0 +1,575 @@
+@import "../node_modules/bootstrap/scss/card";
+
+//--------------------------------------
+// CARD
+//--------------------------------------
+.card {
+  .form-group,
+  ol,
+  ul {
+    margin-bottom: 0;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: $primary-spacer-5;
+  }
+}
+
+//--------------------------------------
+// @group Card
+// @description Card label style
+//
+// These styles define the appearance of card label element.
+//
+// @example
+//   <!-- HTML usage -->
+//   <div class="card-label"></div>
+//
+//   <!-- HTML usage to offset inside .card-form-group -->
+//   <div class="card-label card-label-offset"></div>
+//
+// @example
+//
+// @example
+//   // Default style
+//   .card-label {
+//     @include make-ui-label-style();
+//     @include make-ui-label-size('h3');
+//     background-color: $card-cap-bg;
+//     display: block;
+//     padding: $card-cap-padding-y $card-cap-padding-x;
+//   }
+//
+//   // Offset style
+//   .card-label-offset {
+//     margin: (-$primary-spacer-4) (-$primary-spacer-4) $primary-spacer-4;
+//   }
+//--------------------------------------
+.card-label {
+  @include make-card-header();
+
+  &-offset {
+    margin: (-$primary-spacer-4) (-$primary-spacer-4) $primary-spacer-4;
+  }
+}
+
+//--------------------------------------
+// @group Card
+// @description Removes card label which is useful in field groups.
+//
+// Visually hides the field group fieldset label
+//
+// @example
+//    <div class="card-no-label" data-drupal-selector="group-foo">
+//      <label></label>
+//    </div>
+//--------------------------------------
+.card-no-label > label {
+  display: none;
+}
+
+//--------------------------------------
+// CARD: MEDIUM
+// DO NOT USE .card.-md
+// USE .card-md instead.
+//--------------------------------------
+.card-md {
+  > .card-body {
+    padding: $primary-spacer-6;
+  }
+  > .card-header,
+  > .card-footer {
+    padding-left: $primary-spacer-6;
+    padding-right: $primary-spacer-6;
+  }
+}
+
+// scss-docs-start card-body
+.card-body {
+  color: var(--bs-black);
+  margin: 0;
+  padding: $primary-spacer-4;
+}
+// scss-docs-end card-body
+
+// scss-docs-start card-header
+.card-header {
+  border: 0;
+}
+.card-header,
+.card-header-label > .form-group > .js-form-item > .label  {
+  @include make-card-header();
+}
+.card.border-0 .card-header {
+  border: 1px solid $border-color;
+  border-bottom: 0;
+  margin-bottom: -1px;
+  position: relative;
+  z-index: 1;
+}
+.card-header-label > .form-group > .js-form-item > .label {
+  border: 0;
+  margin: (-$primary-spacer-4) (-$primary-spacer-4) $primary-spacer-4;
+}
+.card-header-label .field--type-string-long label {
+  margin-bottom: 0;
+}
+
+.card-header + .field--type-entity-reference > .form-group > .label {
+  display: none;
+}
+.card-header ~ .card {
+  border-top: 0;
+}
+.card-header > .card-header-sub {
+  display: flex;
+  justify-content: space-between;
+  gap: $primary-spacer-4;
+  width: 100%;
+}
+// scss-docs-end card-header
+
+.card {
+  // STRETCH OUT FIELD LABEL
+  // ADD FIELD SPACERS
+  &.card-header-label fieldset:not(.form-type-entity-autocomplete) > {
+    .label {
+      background-color: var(--bs-red);
+    }
+    > div:not(:last-child) {
+      margin-bottom: $primary-spacer-4;
+    }
+  }
+}
+
+//--------------------------------------
+// CARD HEADER COUNTER
+//--------------------------------------
+.card-counter-wrapper {
+  @include make-counter(
+    'card-counter',
+    '.card.-counter > .card-header',
+    '.card.-counter:first-child > .card-header',
+    6,
+  );
+}
+.card-counter-reset {
+  counter-reset: card-counter;
+}
+
+//--------------------------------------
+// CARD DETAILS
+//--------------------------------------
+.card-details {
+  .card-header {
+    align-items: center;
+    background-color: var(--bs-white);
+    color: var(--bs-black);
+    display: flex;
+    gap: $primary-spacer-4;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    width: 100%;
+    @include make-ui-data-style();
+    @include make-ui-data-size('h4');
+  }
+}
+
+// CARD DETAILS INSIDE CARD DETAILS
+.card-details .card-details.-counter>.card-header {
+  border: 1px solid $border-color;
+  border-top: 0;
+  font-size: 16px;
+  font-family: $font-body;
+  font-weight: 500;
+  gap: $primary-spacer-3;
+  justify-content: flex-start;
+  margin-bottom: -1px;
+  padding: $primary-spacer-2 $primary-spacer-4;
+
+  &::before {
+    background-color: var(--bs-black-600);
+    font-size: 14px;
+    @include make-size(5, 5, true);
+  }
+}
+
+//--------------------------------------
+// RESET THE CARD STYLE INSIDE THE CARD DETAILS CARD
+//--------------------------------------
+.card.card-details-detail > div > .card-body {
+  padding: 0;
+  .card-details.card {
+    margin-bottom: 0;
+    &:not(.card-form-group) {
+      border: 0;
+      border-top: 1px solid $border-color;
+      padding: 0;
+    }
+  }
+}
+.card-details.no-header>.card-header {
+  display: none;
+}
+
+//--------------------------------------
+// CARD ITEM
+//--------------------------------------
+.card-view-item {
+  overflow: hidden;
+  position: relative;
+}
+
+//--------------------------------------
+// CARD ARTICLE
+//--------------------------------------
+.card-view.-article {
+  .card-view-item > article {
+    margin-bottom: $primary-spacer-5;
+  }
+  .card-view-item:not(:last-child) > article {
+    border-bottom: 1px solid var(--bs-black-100);
+    padding-bottom: $primary-spacer-5;
+  }
+  .date {
+    margin-bottom: $primary-spacer-1;
+  }
+  .title {
+    margin-bottom: $primary-spacer-3;
+  }
+}
+
+//--------------------------------------
+// CARD BUTTON
+//--------------------------------------
+.card-button {
+  border: 1px solid $border-color;
+  border-radius: 2px;
+  margin-bottom: 12px;
+
+  .group-header {
+    padding: 25px;
+  }
+  .group-header .btn,
+  .group-item .btn {
+    margin-left: auto;
+  }
+  .group-header,
+  .group-item {
+    align-items: center;
+    display: flex;
+  }
+  .group-items {
+    padding: 2px 25px 25px;
+  }
+  .group-item {
+    border-bottom: 1px solid $border-color;
+    color: var(--bs-black-800);
+    padding: 15px 0;
+  }
+  .group-item:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  .group-row .group-label {
+    background-color: var(--bs-blue-100);
+    color: var(--bs-black-600);
+    padding: 15px 23px;
+  }
+}
+
+//--------------------------------------
+// CARD BUTTON
+//--------------------------------------
+
+//--------------------------------------
+// CARD FORM
+//--------------------------------------
+form .card {
+  .form-type-checkbox {
+    margin: 0;
+  }
+  .card-body.form-wrapper > label {
+    display: none;
+  }
+
+  // Multiple drag table default
+  .field-multiple-table thead,
+  .field-multiple-table .tabledrag-handle .handle,
+  .tabledrag-toggle-weight-wrapper {
+    display: none;
+  }
+
+  // Multiple drag table footer
+  .field-multiple-table ~ .clearfix {
+    margin-top: $primary-spacer-4;
+    position: relative;
+    text-align: right;
+  }
+
+  // Card legend style on form elements
+  .field--type-datetime > h4,
+  .form-item > div > label:not(.option),
+  fieldset .fieldset-legend,
+  .field--type-file details > summary {
+    @include make-card-header();
+    margin-bottom: 0;
+  }
+}
+
+/* Hides entity reference field label if fieldset label is present */
+.card .fieldset-wrapper > div > h3 ~ .field--widget-inline-entity-form-simple > fieldset > legend {
+  display: none;
+}
+
+//--------------------------------------
+// CARD GRID
+//--------------------------------------
+.card-view.-grid > div:not(.view-content) {
+  background-color: $white;
+  border: 1px solid $border-color;
+  margin: 0;
+
+  > div {
+    border-bottom: 1px solid $border-color;
+    // margin-bottom: -1px;
+    padding: 35px;
+  }
+  > div:not(:first-child, .col-12) {
+    border-left: 1px solid $border-color;
+  }
+  > div:last-child {
+    margin-bottom: -1px;
+  }
+}
+
+//--------------------------------------
+// CARD HOVER FX
+//--------------------------------------
+.card-view.-hover-fx {
+  .card-view-item {
+    margin-bottom: 50px;
+    text-align: center;
+  }
+
+  .title {
+    margin-bottom: 10px;
+  }
+
+  // CAPTION
+  .caption {
+    border-bottom: 1px solid transparent;
+    color: var(--bs-black-700);
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    width: 100%;
+
+    &:after {
+      height: 3px;
+      margin: 20px auto;
+    }
+  }
+  .card-view-item:hover .caption {
+    border-color: $border-color;
+  }
+  .card-view-item:hover .caption:after {
+    height: 0;
+  }
+
+  // IMAGE
+  .image {
+    position: relative;
+    &:before {
+      background: var(--bs-gradient-200);
+      content: "";
+      height: 100%;
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      transition: all .3s ease 0s;
+      width: 100%;
+      z-index: 0;
+    }
+    img {
+      width: 100%;
+    }
+  }
+  .group {
+    background-color: var(--bs-blue-100);
+    padding: 30px;
+  }
+  .info > div:not(:last-child) {
+    margin-bottom: 30px;
+  }
+
+  @include media-breakpoint-up(md) {
+    .card-view-item {
+      padding-bottom: 120px;
+    }
+    .card-view-item:hover .detail {
+      top: 0;
+    }
+    .card-view-item:hover .image:before {
+      opacity: .8;
+    }
+    .detail {
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 70%;
+      transition: all .3s ease 0s;
+    }
+    .group {
+      background-color: var(--bs-white);
+      min-height: 100%;
+      margin: 20px 30px;
+      padding: 42px;
+    }
+  }
+}
+
+//--------------------------------------
+// CARD STACKED
+// LEFT SECTION SHADED IN DARK BLUE WITH EMBEDDED VIDEO BUTTON
+// RIGHT SECTION CONTAINS IMAGE
+//--------------------------------------
+.card-view.-stacked {
+  background-color: var(--bs-black);
+  color: $white;
+
+  .caption {
+    color: var(--bs-black-300);
+    margin-bottom: 10px;
+  }
+
+  // LEFT SECTION
+  .-left {
+    > .group {
+      padding: 30px 0;
+    }
+    > .group > div:not(:last-child),
+    p:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+
+  // RIGHT SECTION
+  .-right > .group {
+    margin-left: -30px;
+    margin-right: -30px;
+    max-height: 110%;
+    overflow: hidden;
+  }
+  .-right > .group iframe {
+    min-height: 600px;
+  }
+  .-image-bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 110%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 80% 0;
+  }
+
+  @include media-breakpoint-up(md) {
+    .-left {
+      min-height: 548.188px;
+    }
+    .-left > .group {
+      padding-right: 60px;
+    }
+    .-right {
+      position: absolute;
+      right: 0;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    .-left {
+      min-height: inherit !important;
+    }
+  }
+}
+
+//--------------------------------------
+// CARD FORM GROUP
+//--------------------------------------
+.card-form-group {
+  background-color: var(--bs-white);
+  border-top: 1px solid $border-color;
+  border-left: 1px solid $border-color;
+
+  .fieldset-wrapper {
+    gap: 0;
+  }
+  .form-group {
+    margin-bottom: 0;
+  }
+
+  &.row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  > div,
+  > fieldset {
+    border-bottom: 1px solid $border-color;
+    border-right: 1px solid $border-color;
+    padding: $primary-spacer-4;
+
+    .form-control:not(.btn) {
+      border: 0;
+      box-shadow: 0 0 transparent;
+      height: auto;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .card-header {
+    border: 0;
+  }
+  .card-header-label > .form-group > fieldset > .label {
+    border: 0;
+    margin: -#{$primary-spacer-4} -#{$primary-spacer-4} $primary-spacer-4;
+  }
+
+  // FIELD DESCRIPTION
+  .field--type-string .description {
+    background-color: var(--bs-gray-light);
+    font-size: 14px;
+    margin: $primary-spacer-4 (-$primary-spacer-4) (-$primary-spacer-4);
+    padding: $primary-spacer-3 $primary-spacer-4;
+  }
+
+  // MULTI-VALUED TABLE
+  .field-multiple-table {
+    tbody {
+      border: 0;
+    }
+    td {
+      padding: 0;
+    }
+  }
+
+  // IEF: SIMPLE
+  // RESET BORDERED STYLE
+  .form-group.field--widget-inline-entity-form-simple,
+  .form-group.field--widget-inline-entity-form-simple .fieldset-wrapper > .form-group {
+    border: 0;
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  // NODE VIEW
+  &.-label-header .field__label {
+    margin: (-$primary-spacer-4) (-$primary-spacer-4) $primary-spacer-4 !important;
+    @include make-card-header();
+  }
+  .field__items {
+    min-height: 32px;
+  }
+}

@@ -1,0 +1,132 @@
+@import "../node_modules/bootstrap/scss/nav";
+
+//--------------------------------------
+// @group Navigation
+// @description Shaded navigation styles
+//
+// These styles define the appearance of shaded navigation.
+//
+// @example
+//    <ul class="nav nav-shaded">
+//      <li class="nav-item">
+//        <a class="nav-link"></a>
+//      </li>
+//    </ul>
+//--------------------------------------
+ .nav-shaded {
+  --bs-navbar-shaded-link-bg-color: var(--bs-white-800);
+  --bs-navbar-shaded-link-padding-x: var(--bs-spacing-5);
+  --bs-navbar-shaded-link-padding-y: var(--bs-spacing-3);
+  --bs-navbar-shaded-link-color: var(--bs-black-800);
+  --bs-navbar-shaded-link-fw: 400;
+  --bs-navbar-gap: var(--bs-spacing-1);
+}
+.nav.nav-shaded {
+  gap: var(--bs-navbar-gap);
+  .nav-link {
+    background-color: var(--bs-navbar-shaded-link-bg-color);
+    color: var(--bs-navbar-shaded-link-color);
+    font-weight: var(--bs-navbar-shaded-link-fw);
+    padding: var(--bs-navbar-shaded-link-padding-y) var(--bs-navbar-shaded-link-padding-x);
+  }
+}
+
+.dropdown-menu li {
+  position: relative;
+}
+.dropdown-menu .dropdown-menu {
+  border-left: 5px solid $blue;
+  left: 100%;
+  top: 0;
+}
+.dropdown .dropdown-item.-caret {
+  @include caret('end');
+
+  &::after {
+    position: absolute;
+    right: $dropdown-item-padding-x;
+    top: 18px;
+  }
+}
+.navbar-nav .dropdown:hover > .navbar-expand > .dropdown-menu {
+  display: block;
+}
+
+//--------------------------------------
+// HEADER: NAV
+//--------------------------------------
+.header .navbar-nav {
+  > .nav-item:not(:first-child) > .nav-link {
+    margin-left: 24px;
+  }
+  > .nav-item {
+    > .nav-link {
+      border-bottom: 3px solid transparent;
+      border-image-slice: 1;
+      padding: 0 0 5px;
+
+      &.is-active {
+        border-image-source: var(--bs-gradient-100);
+      }
+    }
+    &.-active-trail > .nav-link {
+      border-image-source: var(--bs-gradient-100);
+    }
+  }
+}
+
+.dropdown-menu > li:not(:last-child) {
+  border-bottom: 1px solid $border-color;
+}
+
+//--------------------------------------
+// COMPACT NAV LINKS
+//--------------------------------------
+.nav.navbar-expand.-compact {
+  .nav-link {
+    align-items: center;
+    color: $blue;
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: 1px;
+    padding-bottom: 0;
+    padding-top: 0;
+    text-transform: uppercase;
+  }
+  .nav-item:first-child .nav-link {
+    padding-left: 0;
+  }
+  .nav-item:not(:last-child) {
+    border-right: 1px solid $border-color;
+  }
+}
+
+//--------------------------------------
+// NAV UNDERLINE
+//--------------------------------------
+.nav-underline {
+  --nav-underline-letter-spacing: 1px;
+  --nav-underline-line-height: 20px;
+  --nav-underline-font-size: 14px;
+  --nav-underline-font-weight: 600;
+  --nav-underline-border-width: 4px;
+  --nav-underline-link-active-color: var(--bs-blue);
+
+  .nav-link {
+    border-bottom: var(--nav-underline-border-width) solid transparent;
+    cursor: pointer;
+    font-size: var(--nav-underline-font-size);
+    font-weight: var(--nav-underline-font-weight);
+    letter-spacing: var(--nav-underline-letter-spacing);
+    line-height: var(--nav-underline-line-height);
+    text-transform: uppercase;
+
+    &.active {
+      border-bottom-color: currentcolor;
+      color: var(--nav-underline-link-active-color);
+    }
+  }
+}

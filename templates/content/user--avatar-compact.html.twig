@@ -1,0 +1,52 @@
+{#
+/**
+ * @file
+ * Default theme implementation to present all user data.
+ *
+ * @see template_preprocess_user()
+ *
+ * @ingroup themeable
+ */
+#}
+{% set first_name = user.id > 0 ? user.getEmail : default_name %}
+{% set user_picture = content.user_picture %}
+
+{% if b5_dms_avatar_theme %}
+  {% set first_name = user.id > 0 ? content[b5_dms_avatar_name_first] : default_name %}
+  {% set last_name = user.id > 0 ? content[b5_dms_avatar_name_last] %}
+  {% set designation = not user[b5_dms_avatar_designation].isEmpty ? content[b5_dms_avatar_designation] %}
+{% endif %}
+
+{% if b5_dms_avatar_theme %}
+  <article{{ attributes.addClass('avatar-author') }}>
+    {% if user_picture %}
+    <div class="picture">
+      {{- user_picture -}}
+    </div>
+    {% endif %}
+
+    {% if first_name or last_name or designation %}
+    <div class="name opacity-80">
+      {% if last_name %}
+      <div class="name-last">
+        {{- last_name -}}
+      </div>
+      {% endif %}
+      {% if first_name %}
+      <div class="name-first">
+        {{- first_name -}}
+      </div>
+      {% endif %}
+      {% if designation %}
+      <div class="job-title w-100 text-black-600 fs-12 text-nowrap">
+        {{- designation -}}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </article>
+{% else %}
+  <article{{ attributes }}>
+    {{ content }}
+  </article>
+{% endif %}

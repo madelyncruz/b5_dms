@@ -1,0 +1,35 @@
+@import "../node_modules/bootstrap/scss/grid";
+
+//--------------------------------------
+// GRID FOR DIV CHILDREN
+//--------------------------------------
+.col-md-4s {
+  @include make-grid-cols();
+  >div {
+    @include media-breakpoint-up(md) {
+      @include make-col(4);
+    }
+  }
+}
+.col-md-6s {
+  @include make-grid-cols();
+  >div {
+    @include media-breakpoint-up(md) {
+      @include make-col(6);
+    }
+  }
+}
+.col-xl-4s {
+  @include make-grid-cols();
+  >div {
+    @include media-breakpoint-up(xl) {
+      @include make-col(4);
+    }
+  }
+}
+.col-12s {
+  @include make-grid-cols();
+  >div {
+    @include make-col(12);
+  }
+}

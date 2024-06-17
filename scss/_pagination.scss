@@ -1,0 +1,14 @@
+@import "../node_modules/bootstrap/scss/pagination";
+
+//--------------------------------------
+// PAGINATION
+//--------------------------------------
+.pagination {
+  font-size: 14px;
+  gap: 10px;
+  line-height: 20px;
+}
+.page-item.active .page-link {
+  background: var(--bs-gradient-100);
+  font-weight: 700;
+}

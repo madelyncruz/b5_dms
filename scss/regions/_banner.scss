@@ -1,0 +1,67 @@
+//--------------------------------------
+// BANNER
+//--------------------------------------
+.banner {
+  // min-height: 200px;
+  // overflow: hidden;
+
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+//--------------------------------------
+// IMAGE
+//--------------------------------------
+.banner .image {
+  img {
+    width: 100%;
+  }
+}
+
+//--------------------------------------
+// DESCRIPTION
+//--------------------------------------
+.banner .description {
+  padding-bottom: 40px;
+  padding-top:  40px;
+
+  @include media-breakpoint-up(lg) {
+    align-items: flex-end;
+    bottom: 0;
+    display: flex;
+    left: 0;
+    height: 100%;
+    padding-bottom: 64px;
+    padding-top: 64px;
+    position: absolute;
+    width: 100%;
+
+    &::before {
+      content: "";
+      background: linear-gradient(11deg,#273744 12.35%,rgba(24, 35, 44, 0) 67.6%);
+      bottom: 0;
+      height: 100%;
+      left: 0;
+      mix-blend-mode: multiply;
+      opacity: 0.85;
+      position: absolute;
+      width: 100%;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &,
+    a:not(.btn) {
+      color: $white;
+    }
+  }
+
+  @include media-breakpoint-down(lg) {
+    .link a {
+      border-color: var(--bs-blue);
+      color: var(--bs-blue);
+    }
+  }
+}

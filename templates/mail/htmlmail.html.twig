@@ -1,0 +1,55 @@
+{#
+/**
+ * @file
+ * Default template for HTML Mail.
+ *
+ * @see template_preprocess_htmlmail()
+ *
+ * @ingroup themeable
+ */
+#}
+{# Attach library is not working, so use include instead #}
+<style type="text/css">
+  {% include '@b5_dms/css/mail.css' ignore missing %}
+</style>
+<div class="mail-body" style="background-color: #f7f8fa;padding:16px;width: 100%;">
+  <center>
+    <table class="mail-table" cellpadding="12px" style="width: 100%;">
+      <tbody>
+        <tr>
+          <td style="color: #505765;font-family: 'Helvetica Neue',Helvetica,Arial,Verdana,sans-serif;font-size: 16px;font-weight: 400;line-height: 24px;">
+            <table cellpadding="32px" width="100%">
+              <tr>
+                <td bgcolor="#fff" style="color: #505765;font-family: 'Helvetica Neue',Helvetica,Arial,Verdana,sans-serif;font-size: 16px;font-weight: 400;line-height: 24px;">
+                  {% if message.header %}
+                  <table class="mail-header" cellpadding="0" width="100%">
+                    <tbody>
+                      {{- message.header|raw -}}
+                    </tbody>
+                  </table>
+                  {% endif %}
+                  <table class="mail-content" cellpadding="0" width="100%">
+                    <tbody>
+                      <tr>
+                        <td style="color: #505765;font-family: 'Helvetica Neue',Helvetica,Arial,Verdana,sans-serif;font-size: 16px;font-weight: 400;line-height: 24px;padding-top: 24px;">{{ message.body|raw }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  {% if message.footer %}
+                  <table class="mail-footer" cellpadding="0" width="100%">
+                    <tbody>
+                      <tr>
+                        <td style="color: #505765;font-family: 'Helvetica Neue',Helvetica,Arial,Verdana,sans-serif;font-size: 16px;font-weight: 400;line-height: 24px;border-top: 1px solid #ededee;padding-top: 24px;">{{- message.footer|raw -}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  {% endif %}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </center>
+</div>

@@ -1,0 +1,37 @@
+# Container.
+# ----------------------------
+b5_dms_fluid_container: 0
+
+# Footer.
+# ----------------------------
+b5_dms_footer_show: 1
+b5_dms_footer_about_title: ''
+b5_dms_footer_about_message: ''
+
+# IEF table.
+# ----------------------------
+b5_dms_ief_table_action: ''
+b5_dms_ief_table_action_ignore: ''
+
+# Navbar.
+# ----------------------------
+b5_dms_navbar_top_background: 'bg-light'
+b5_dms_navbar_top_color: 'navbar-light'
+
+# Project link.
+# ----------------------------
+b5_dms_project_link_show: 0
+b5_dms_project_link_title: ''
+b5_dms_project_link_url: ''
+
+# Mail.
+# ----------------------------
+b5_dms_mail_header: ''
+b5_dms_mail_footer: ''
+
+# User account.
+# ----------------------------
+b5_dms_user_account_theme: 0
+b5_dms_user_account_name_first: ''
+b5_dms_user_account_name_last: ''
+b5_dms_user_account_job_title: ''

@@ -1,0 +1,52 @@
+//--------------------------------------
+// Red palette.
+//--------------------------------------
+$palette-red:                           #490200;
+$palette-red-950:                       #6b0400;
+$palette-red-900:                       #870700;
+$palette-red-850:                       #a00a01;
+$palette-red-800:                       #b60d01;
+$palette-red-750:                       #c62314;
+$palette-red-700:                       #d43424;
+$palette-red-650:                       #e14130;
+$palette-red-600:                       #ee4e3b;
+$palette-red-550:                       #ff6c58;
+$palette-red-500:                       #ff8976;
+$palette-red-450:                       #ff9989;
+$palette-red-400:                       #ffa89a;
+$palette-red-350:                       #ffb6aa;
+$palette-red-300:                       #ffc4b9;
+$palette-red-250:                       #ffd0c8;
+$palette-red-200:                       #ffddd6;
+$palette-red-150:                       #ffe8e4;
+$palette-red-100:                       #fff4f2;
+
+//--------------------------------------
+// Bootstrap red color.
+//--------------------------------------
+$red:                                   $palette-red-750;
+
+//--------------------------------------
+// Generate red colors for utilities usage and CSS variables.
+//--------------------------------------
+$reds: (
+  "red":                                $palette-red,
+  "red-950":                            $palette-red-950,
+  "red-900":                            $palette-red-900,
+  "red-850":                            $palette-red-850,
+  "red-800":                            $palette-red-800,
+  "red-750":                            $palette-red-750,
+  "red-700":                            $palette-red-700,
+  "red-650":                            $palette-red-650,
+  "red-600":                            $palette-red-600,
+  "red-550":                            $palette-red-550,
+  "red-500":                            $palette-red-500,
+  "red-450":                            $palette-red-450,
+  "red-400":                            $palette-red-400,
+  "red-350":                            $palette-red-350,
+  "red-300":                            $palette-red-300,
+  "red-250":                            $palette-red-250,
+  "red-200":                            $palette-red-200,
+  "red-150":                            $palette-red-150,
+  "red-100":                            $palette-red-100,
+);

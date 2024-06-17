@@ -1,0 +1,174 @@
+@import "../node_modules/bootstrap/scss/progress";
+
+
+
+//--------------------------------------
+// @group Progress
+// @description Progress stepper Styles.
+//
+// These styles define the appearance of progress element.
+//
+// @example
+//   <div class="progress-stepper -start-0">
+//     <div class="nav navbar-nav justify-content-between">
+//       <div class="nav-item done">
+//         <div class="nav-link"></div>
+//       </div>
+//       <div class="nav-item active">
+//         <div class="nav-link"></div>
+//       </div>
+//       <div class="nav-item">
+//         <div class="nav-link"></div>
+//       </div>
+//     </div>
+//   </div>
+//--------------------------------------
+.progress-stepper {
+  --progress-stepper-counter-bg-color: var(--bs-gray);
+  --progress-stepper-counter-bg-active-color: var(--bs-blue);
+  --progress-stepper-counter-bg-done-color: var(--bs-green);
+  --progress-stepper-counter-text-color: var(--bs-white);
+
+  margin: 0 $primary-spacer-7 $primary-spacer-10;
+  overflow: auto;
+  position: relative;
+}
+
+.progress-stepper > .nav {
+  align-items: start;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: $primary-spacer-4;
+  justify-content: center;
+}
+
+.progress-stepper > .nav > .nav-item {
+  min-width: 100px;
+  position: relative;
+
+  &:first-child:before,
+  &:last-child:before {
+    content: "";
+    background: var(--bs-gray-light);
+    display: block;
+    height: 2px;
+    position: absolute;
+    top: 15px;
+    width: 50%;
+    z-index: 1;
+  }
+  &:first-child:before {
+    left: 0;
+  }
+  &:last-child:before {
+    right: 0;
+  }
+
+  .nav-link {
+    display: block;
+    margin: auto;
+    max-width: 85px;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    z-index: 1;
+  }
+  .nav-link > span {
+    align-items: center;
+    background-color: var(--progress-stepper-counter-bg-color);
+    border-radius: 32px;
+    color: var(--progress-stepper-counter-text-color);
+    display: flex;
+    height: 32px;
+    justify-content: center;
+    margin: 0 auto $primary-spacer-2;
+    width: 32px;
+  }
+  &:after {
+    background-color: var(--bs-gray);
+    content: "";
+    display: block;
+    height: 2px;
+    position: absolute;
+    right: 0;
+    top: 15px;
+    width: 1000%;
+  }
+
+  // DONE STEP
+  &.done > .nav-link > span {
+    background-color: var(--progress-stepper-counter-bg-done-color);
+  }
+
+  // ACTIVE STEP
+  &.active > .nav-link > span {
+    background-color: var(--progress-stepper-counter-bg-active-color);
+  }
+}
+
+//--------------------------------------
+// Progress bar for Drupal
+//--------------------------------------
+// Disable animation if transitions are disabled
+
+// scss-docs-start progress-keyframes
+@if $enable-transitions {
+  @keyframes progress-bar-stripes {
+    0% { background-position-x: $progress-height; }
+  }
+}
+
+.progress__track {
+  display: flex;
+  height: $progress-height;
+  overflow: hidden; // force rounded corners by cropping it
+  @include font-size($progress-font-size);
+  @include border-radius($progress-border-radius);
+  @include box-shadow($progress-box-shadow);
+
+  &.-plain .progress__bar {
+    background-image: none;
+  }
+  &:not([class*="bg"]) {
+    background-color: $progress-bg;
+  }
+}
+
+.progress__bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  color: $progress-bar-color;
+  text-align: center;
+  white-space: nowrap;
+  background-color: $progress-bar-bg;
+  @include transition($progress-bar-transition);
+
+  @include gradient-striped();
+  background-size: $progress-height $progress-height;
+
+  animation: $progress-bar-animation-timing progress-bar-stripes;
+
+  @if $enable-reduced-motion {
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+}
+
+[dir="rtl"] .progress__bar {
+  margin-left: 0;
+  margin-right: -1px;
+  animation-direction: reverse;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  .progress__bar {
+    transition: none;
+  }
+}
+
+.progress__percentage {
+  color: $secondary;
+}

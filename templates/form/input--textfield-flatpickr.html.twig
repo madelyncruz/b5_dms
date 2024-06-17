@@ -1,0 +1,16 @@
+{#
+/**
+ * @file
+ * Theme override for an 'input' #type form element.
+ *
+ * Available variables:
+ * - attributes: A list of HTML attributes for the input element.
+ * - children: Optional additional rendered elements.
+ *
+ * @see template_preprocess_input()
+ */
+#}
+<div class="flatpicker-textfield">
+  <input{{ attributes.addClass('form-control').setAttribute('placeholder', 'Enter date'|t ) }} />{{ children }}
+  <i class="icon-24x24 icon-r3 icon-c6 opacity-40"></i>
+<div>

@@ -1,0 +1,39 @@
+//--------------------------------------
+// SHADES FOR CASES COLORS
+//--------------------------------------
+$shades: (
+  "danger": var(--bs-red),
+  "light-blue": var(--bs-light-blue),
+  "neutral": var(--bs-neutral),
+  "orange": var(--bs-orange),
+  "primary": var(--bs-blue),
+  "violet": var(--bs-violet),
+  "success": var(--bs-green),
+  "warning": var(--bs-yellow),
+);
+
+@each $shade, $color in $shades {
+  .shade-#{$shade} {
+    .shade-border {
+      border-color: $color !important;
+    }
+    .shade-btn {
+      background-color: rgba(var(--bs-#{$shade}-rgb), 0.05);
+      border: 1px solid $color;
+      color: $color;
+    }
+    .shade-text {
+      color: $color;
+    }
+
+    .checkbox-button input:checked ~ .custom-control-label {
+      background-color: rgba(var(--bs-#{$shade}-rgb), 0.05);
+      border-color: $color;
+
+      &,
+      .ui-label {
+        color: $color;
+      }
+    }
+  }
+}

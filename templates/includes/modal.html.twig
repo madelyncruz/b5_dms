@@ -1,0 +1,16 @@
+{# Template for modal callbacks. #}
+<div id="js-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-light border-0">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancel btn-outline-light" data-bs-dismiss="modal">{{- 'Cancel'|t -}}</button>
+        <button type="button" class="btn btn-continue btn-gradient">{{- 'Continue'|t -}}</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+{#
+/**
+ * @file
+ * Theme override for status messages.
+ *
+ * Displays status, error, and warning messages, grouped by type.
+ *
+ * An invisible heading identifies the messages for assistive technology.
+ * Sighted users see a colored box. See http://www.w3.org/TR/WCAG-TECHS/H69.html
+ * for info.
+ *
+ * Add an ARIA label to the contentinfo area so that assistive technology
+ * user agents will better describe this landmark.
+ *
+ * Available variables:
+ * - message_list: List of messages to be displayed, grouped by type.
+ * - status_headings: List of all status types.
+ * - attributes: HTML attributes for the element, including:
+ *   - class: HTML classes.
+ */
+#}
+{% block messages %}
+  {% for type, messages in message_list %}
+    {% set message_id = 'message-alert-' ~ loop.index %}
+    {%
+      set classes = [
+        'messages',
+        'alert',
+        'alert-dismissible',
+        'fade',
+        'show',
+        type == 'status' ? 'alert-success',
+        type == 'warning' ? 'alert-warning',
+        type == 'error' ? 'alert-danger',
+        type == 'info' ? 'alert-info',
+      ]
+    %}
+    {%
+      set role = {
+        'status': 'status',
+        'error': 'alert',
+        'warning': 'alert',
+        'info': 'status',
+      }
+    %}
+
+    <div id="{{ message_id }}" class="messages-wrapper bg-white">
+      <div aria-label="{{ status_headings[type] }}" {{ attributes|without('role', 'aria-label').addClass(classes).setAttribute('role', role[type]) }}>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" data-bs-target="#{{ message_id }}">
+          <span aria-hidden="true"></span>
+        </button>
+        <div class="messages-content d-flex gap-2">
+          {% if type == 'status' %}
+          <i class="bi bi-check-circle-fill fs-9"></i>
+          {% elseif type == 'warning' %}
+          <i class="bi bi-exclamation-circle-fill fs-9"></i>
+          {% elseif type == 'error' %}
+          <i class="bi bi-x-circle-fill fs-9"></i>
+          {% endif %}
+          <div class="messages-content-body">
+            {% if status_headings[type] %}
+            <h2 class="visually-hidden">{{ status_headings[type] }}</h2>
+            {% endif %}
+            {% for message in messages %}
+              {% if loop.last %}
+                {{ message }}
+              {% else %}
+                {{ message }}
+                <hr>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock messages %}

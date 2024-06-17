@@ -1,0 +1,108 @@
+//--------------------------------------
+// FOOTER
+//--------------------------------------
+.footer-main {
+  border-top: 4px solid var(--bs-blue);
+  color: #7b818a;
+  padding-bottom: 38px;
+  padding-top: 38px;
+  @include make-border-gradient();
+}
+.footer-top .navbar-nav,
+.footer-bottom .-right > div {
+  clear: both;
+  @include media-breakpoint-up(sm) {
+    float: right;
+  }
+}
+
+//--------------------------------------
+// FOOTER: NAVBAR
+//--------------------------------------
+.footer .navbar-nav .nav-item .nav-link {
+  color: #91959e;
+  padding-left: 0;
+  padding-top: 0;
+}
+.footer .navbar-nav .nav-item:last-child .nav-link {
+  padding-right: 0;
+}
+
+//--------------------------------------
+// FOOTER: TOP NAVBAR
+//--------------------------------------
+.footer-top .navbar {
+  padding: 0;
+
+  .nav {
+    flex-direction: column;
+  }
+}
+
+//--------------------------------------
+// FOOTER: INTRO
+//--------------------------------------
+.footer-intro {
+  padding-bottom: 40px;
+  padding-top: 40px;
+
+  @include media-breakpoint-up(lg) {
+    .-right {
+      margin-bottom: -25px;
+      margin-top: -85px;
+    }
+  }
+}
+
+//--------------------------------------
+// FOOTER: LOGO
+//--------------------------------------
+.footer-logo {
+  border-top: 1px solid $border-color;
+  padding-bottom: 40px;
+  padding-top: 40px;
+}
+
+//--------------------------------------
+// FOOTER: SHOWCASE
+//--------------------------------------
+.footer-showcase {
+  ~ .footer-intro.bg-light {
+    padding-top: 180px;
+  }
+}
+
+//--------------------------------------
+// FOOTER: BOTTOM
+//--------------------------------------
+.footer-top ~ .footer-bottom {
+  border-top: 1px solid $border-color;
+  margin-top: 30px;
+  padding-top: 30px;
+}
+.footer-bottom .navbar-brand {
+  margin: 0;
+  padding: 0;
+  img {
+    filter: grayscale(1);
+    opacity: 0.5;
+  }
+}
+.footer-bottom .logo-dms {
+  border-left: 1px solid $border-color;
+  padding-left: $primary-spacer-6;
+
+  img {
+    height: 40px;
+  }
+}
+.footer-bottom .navbar-nav .nav-item .nav-link {
+  font-weight: 400;
+  padding-bottom: 0;
+  padding-right: $primary-spacer-4;
+
+  &.is-active {
+    color: var(--bs-black);
+    font-weight: 600;
+  }
+}

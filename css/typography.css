@@ -1,0 +1,223 @@
+/*!
+ * DMS Typography v1.0.0
+ * Copyright 2023
+ */
+hr {
+  border-top: 0;
+}
+
+.ui-label {
+  font-family: "IBM Plex Sans", sans-serif;
+  color: var(--bs-black-600);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+.ui-label.-h1 {
+  font-size: 18px;
+  line-height: 23.4px;
+}
+.ui-label.-h2 {
+  font-size: 16px;
+  line-height: 20.8px;
+}
+.ui-label.-h3 {
+  font-size: 14px;
+  line-height: 18.2px;
+}
+.ui-label.-h4 {
+  font-size: 12px;
+  line-height: 15.6px;
+}
+
+h4,
+.h4 {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 500;
+}
+
+h5,
+.h5 {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 500;
+}
+
+h6,
+.h6 {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 600;
+}
+
+.display-1 {
+  letter-spacing: -0.5px;
+  line-height: 86.4px;
+}
+
+.ui-data {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 400;
+}
+span.ui-data {
+  display: inline-block;
+}
+
+.ui-data.-h1 {
+  font-size: 72px;
+  letter-spacing: -0.5px;
+  line-height: 86.4px;
+}
+@media (min-width: 768px) {
+  .ui-data.-h1 {
+    font-size: 120px;
+    line-height: 144px;
+  }
+}
+.ui-data.-h2 {
+  font-size: 72px;
+  letter-spacing: -0.5px;
+  line-height: 86.4px;
+}
+.ui-data.-h3 {
+  font-size: 48px;
+  line-height: 62.4px;
+}
+.ui-data.-h4 {
+  font-size: 32px;
+  line-height: 41.6px;
+}
+.ui-data.-h5 {
+  font-size: 24px;
+  line-height: 31.2px;
+}
+.ui-data.-h6 {
+  font-size: 18px;
+  line-height: 27px;
+}
+
+.ui-body-opening {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 400;
+}
+span.ui-body-opening {
+  display: inline-block;
+}
+
+.ui-body-opening.-h1 {
+  font-size: 32px;
+  line-height: 44.8px;
+}
+.ui-body-opening.-h2 {
+  font-size: 24px;
+  line-height: 33.6px;
+}
+
+.ui-body-large {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 400;
+}
+span.ui-body-large {
+  display: inline-block;
+}
+
+.ui-body-large.-h1 {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 25.2px;
+}
+.ui-body-large.-h2 {
+  font-size: 18px;
+  line-height: 25.2px;
+}
+
+.ui-body-normal {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 400;
+}
+span.ui-body-normal {
+  display: inline-block;
+}
+
+.ui-body-normal.-h1 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22.4px;
+}
+.ui-body-normal.-h2 {
+  font-size: 16px;
+  line-height: 25.6px;
+}
+
+.ui-body-caption {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19.6px;
+}
+span.ui-body-caption {
+  display: inline-block;
+}
+
+.ui-body-caption.-h1 {
+  font-weight: 500;
+}
+.main-title {
+  margin-bottom: 30px;
+}
+.main-title.divider-before:before {
+  margin-bottom: 25px;
+}
+
+.label-body {
+  --label-body-color: var(--bs-black-800);
+  --label-margin-bottom: var(--bs-spacing-4);
+}
+.label-body > .field > .field__label,
+.label-body > div > fieldset > .label,
+.label-body > div > div > .label {
+  color: var(--label-body-color);
+  letter-spacing: inherit;
+  text-transform: inherit;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22.4px;
+}
+.label-body > .field > .field__label,
+.label-body label.label {
+  margin-bottom: var(--label-margin-bottom);
+}
+
+.text-underline {
+  --text-underline-border-color: var(--bs-gradient-100);
+  --text-underline-color: var(--bs-black-800);
+  --text-underline-fw: 600;
+  color: var(--bs-black-800);
+  font-weight: var(--text-underline-fw);
+}
+.text-underline:after {
+  content: "";
+  display: "block";
+  height: 2px;
+  margin-right: 0;
+  vertical-align: middle;
+  min-width: 100%;
+  background: var(--text-underline-border-color);
+}
+
+.link-underline {
+  --link-underline-color: var(--bs-black-800);
+  --link-underline-border-color: var(--bs-primary);
+  --link-underline-border-image-color: var(--bs-gradient-100);
+  --link-underline-border-size: 2px;
+  --link-underline-border-slice: 1;
+  --link-underline-fw: 500;
+  border-bottom: var(--link-underline-border-size) solid var(--link-underline-border-color);
+  border-image-slice: 1;
+  border-image-source: var(--link-underline-border-image-color);
+  color: var(--link-underline-color);
+  display: inline-block;
+  font-weight: var(--link-underline-fw);
+  text-decoration: none;
+}

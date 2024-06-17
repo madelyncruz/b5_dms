@@ -1,0 +1,90 @@
+{#
+/**
+ * @file
+ * Default theme implementation to present all user data.
+ *
+ * @see template_preprocess_user()
+ *
+ * @ingroup themeable
+ */
+#}
+{% set destination = path('entity.user.canonical', {'user': user.id}) %}
+{% set edit_path = path('entity.user.edit_form', {'user': user.id, 'destination': destination}) %}
+{% set first_name = user.id > 0 ? user.getEmail : default_name %}
+{% set user_picture = content.user_picture %}
+{% set na = 'n/a' %}
+{% set designation_value = na %}
+{% set country_value = na %}
+
+{% if b5_dms_avatar_theme %}
+  {% set first_name = user.id > 0 ? content[b5_dms_avatar_name_first] : default_name %}
+  {% set last_name = user.id > 0 ? content[b5_dms_avatar_name_last] %}
+  {% set designation_label = b5_dms_avatar_designation ? attribute(user, b5_dms_avatar_designation).getFieldDefinition.getLabel %}
+  {% set designation_value = not user[b5_dms_avatar_designation].isEmpty ? content[b5_dms_avatar_designation] %}
+
+  {% set country_label = b5_dms_avatar_country ? attribute(user, b5_dms_avatar_country).getFieldDefinition.getLabel %}
+  {% set country_value = not user[b5_dms_avatar_country].isEmpty ? content[b5_dms_avatar_country] %}
+{% endif %}
+
+{% if b5_dms_avatar_theme %}
+  <article{{ attributes.addClass('card card-md mt-9') }}>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 d-flex align-items-center justify-content-between gap-3 mb-5">
+          <h5 class="mb-0 text-truncate d-flex gap-1">
+            {% if last_name %}
+            <div class="name-last">
+              {{- last_name -}}
+            </div>
+            {% endif %}
+            {% if first_name %}
+            <div class="name-first">
+              {{- first_name -}}
+            </div>
+            {% endif %}
+          </h5>
+          {% if can_edit_account %}
+            {% include '@b5_dms/misc/buttons/edit.html.twig' with {'button_path': edit_path} %}
+          {% endif %}
+        </div>
+        {% if user_picture %}
+        <div class="col-12 col-xl-auto mb-5 mb-xl-0">
+          <div class="avatar-author avatar-lg">
+            <div class="picture">
+              {{- user_picture -}}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        <div class="col-12 col-xl ps-xl-5">
+          <div class="card-form-group row">
+            <div class="col-md-6">
+              <div{{ label_small_attributes.addClass('mb-1') }}>
+                {{- 'Email address'|t -}}
+              </div>
+              <div>{{- user.getEmail -}}</div>
+            </div>
+            <div class="col-md-6">
+              <div{{ label_small_attributes.addClass('mb-1') }}>
+                {{- designation_label -}}
+              </div>
+              {{- designation_value -}}
+            </div>
+            {% if country_value %}
+              <div class="col-12">
+                <div{{ label_small_attributes.addClass('mb-1') }}>
+                  {{- country_label -}}
+                </div>
+                {{- country_value -}}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+{% else %}
+  <article{{ attributes }}>
+    {{ content }}
+  </article>
+{% endif %}

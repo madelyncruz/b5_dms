@@ -1,0 +1,158 @@
+.form-type-number .form-item-content {
+  align-items: flex-end;
+  display: flex;
+  gap: 12px;
+}
+
+//--------------------------------------
+// FIELD STYLES
+//--------------------------------------
+.field-suffix {
+  @include make-field-suffix();
+
+  .card-form-group & {
+    margin: 0 -24px -24px;
+  }
+}
+.field-no-label .label {
+  display: none;
+}
+.form-group {
+  --form-group-table-submit-margin: var(--bs-spacing-4) 0 0 0;
+
+  .table-responsive {
+    // Add a top spacer to the table submit.
+    ~ div > .form-submit {
+      margin: var(--form-group-table-submit-margin);
+    }
+  }
+}
+
+/**
+ * Add spacer as compact style to multi-valued fields.
+ *
+ * ==============
+ *
+ * @section Field
+ *
+ * @example
+ *    <div class="field-items-compact">
+ *      <div class="field">
+ *        <div class="field__items"></div>
+ *      </div>
+ *    </div>
+ */
+.field-items-compact {
+  --field-items-compact-direction: column;
+  --field-items-compact-gap: var(--bs-spacing-3);
+
+  .field__items {
+    display: flex;
+    flex-direction: var(--field-items-compact-direction);
+    gap: var(--field-items-compact-gap);
+  }
+}
+
+/**
+ * Field description style
+ * ==============
+ *
+ * @section Field
+ *
+ * @example
+ *    <div class="field-description-above">
+ *      <label></label>
+ *    </div>
+ */
+.field-description-above {
+  .js-form-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .form-item-description {
+    border: 0;
+    margin-bottom: var(--bs-spacing-3);
+    margin-top: 0;
+    order: -1;
+    padding: 0;
+  }
+  .form-group {
+    margin-bottom: 0;
+  }
+}
+
+//--------------------------------------
+// PARAGRAPH TYPE
+//--------------------------------------
+.field--type-entity-reference-revisions {
+  > .field__items > .field__item:not(:last-child) {
+    margin-bottom: 60px;
+  }
+}
+
+//--------------------------------------
+// ENTITY REFERENCE FIELDS
+//--------------------------------------
+.field--type-entity-reference {
+  table:last-child {
+    margin-bottom: 0;
+  }
+}
+
+//--------------------------------------
+// NODE FIELDS
+//--------------------------------------
+.node__content>.field--label-inline:not(:last-child) {
+  margin-bottom: var(--bs-spacing-1);
+}
+.field--label-inline {
+  display: flex;
+  gap: 4px;
+}
+
+//--------------------------------------
+// CREATED
+//--------------------------------------
+.field--type-created {
+  > h4 {
+    font-size: 14px;
+    @include make-ui-label-style();
+  }
+  > div {
+    display: flex;
+    gap: var(--bs-spacing-1);
+
+    .label {
+      margin: 0;
+    }
+
+    // QUICK WORKAROUND TO APPLY ".description" STYLES.
+    &[data-drupal-field-elements="description"] {
+      color: $text-muted;
+      font-size: $small-font-size;
+    }
+  }
+}
+
+//--------------------------------------
+// TEXTAREA
+//--------------------------------------
+.form-type-textarea {
+ ~ .js-filter-wrapper {
+  display: none;
+ }
+}
+
+//--------------------------------------
+// VISUALLY DISABLE FIELDS
+//--------------------------------------
+.fields-disabled {
+  input,
+  select {
+    pointer-events: none;
+    cursor: not-allowed;
+    background-color: #f1f1f1;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+}

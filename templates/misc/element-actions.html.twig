@@ -1,0 +1,14 @@
+{#
+  The form advanced must remain visible at all times
+  in order to save a new revision if enabled.
+#}
+{{ element.advanced }}
+
+{#
+  The form builder and token must remain visible at all times during AJAX callbacks
+  to ensure the successful reloading of the form and to prevent PHP errors.
+#}
+{{ element.form_build_id }}
+{{ element.form_token }}
+{{ element.form_id }}
+{{ element.actions }}

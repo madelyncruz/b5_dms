@@ -1,0 +1,19 @@
+//--------------------------------------
+// CONDITIONAL FIELDS
+//--------------------------------------
+.conditional-fields-wrapper {
+  transition: opacity 500ms ease 0s, opacity 500ms ease 0s;
+}
+
+// Hides the element by removing the wrapper height.
+// "display:none" style on the wrapper
+// doesn't work with conditional fields.
+//--------------------------------------
+.conditional-fields-wrapper:not(.show) {
+  border-width: 0;
+  height: 0;
+  margin: 0 !important;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0;
+}

@@ -1,0 +1,22 @@
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - b5_dms
+id: b5_dms_page_title
+theme: b5_dms
+region: content
+weight: -2
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  provider: core
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: /user/login

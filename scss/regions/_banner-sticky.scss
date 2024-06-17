@@ -1,0 +1,19 @@
+//--------------------------------------
+// BANNER
+//--------------------------------------
+.banner-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+
+  .toolbar-fixed & {
+    top: 39px;
+  }
+  .toolbar-horizontal.toolbar-tray-open & {
+    top: 79px;
+  }
+
+  .node-form .form-actions {
+    --node-form-action-margin-y: 0;
+  }
+}

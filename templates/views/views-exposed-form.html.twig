@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Theme override for a views exposed form.
+ *
+ * Available variables:
+ * - form: A render element representing the form.
+ *
+ * @see template_preprocess_views_exposed_form()
+ */
+#}
+{% if q is not empty %}
+  {#
+    This ensures that, if clean URLs are off, the 'q' is added first,
+    as a hidden form element, so that it shows up first in the POST URL.
+  #}
+{{ q }}
+{% endif %}
+<div class="form-exposed-filter card-form-group mb-5">
+  {{ form|without('actions') }}
+  <fieldset class="form-exposed-filter-actions d-flex gap-2 justify-content-between">
+    {{ form.actions.submit }}
+    <span class="btn btn-reset">
+      <i class="bi bi-arrow-clockwise fs-9 opacity-60"></i>
+    </span>
+  </fieldset>
+</div>

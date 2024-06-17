@@ -1,0 +1,24 @@
+{% if page.footer_top_left or page.footer_top_right or footer_about_title or footer_about_message %}
+<div{{ footer_top_attributes }}>
+  <div class="row">
+    <div class="col-lg-6 -left">
+      {% if footer_about_title %}
+      <div class="footer-about-title ui-label -h4 mb-1">
+        {{- footer_about_title -}}
+      </div>
+      {% endif %}
+      {% if footer_about_message %}
+      <div class="footer-about-message ui-body-caption -h2">
+        {{- footer_about_message|trans|nl2br -}}
+      </div>
+      {% endif %}
+      {{ page.footer_top_left }}
+    </div>
+    {% if page.footer_top_right %}
+    <div class="col-lg-6 -right">
+      {{ page.footer_top_right }}
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endif %}

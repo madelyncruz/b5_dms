@@ -1,0 +1,62 @@
+@import "../node_modules/bootstrap/scss/alert";
+
+//--------------------------------------
+// ALERT MESSAGES: DEFAULT
+//--------------------------------------
+.alert {
+  border: 0;
+  display: flex;
+  position: relative;
+
+  &.alert-dismissible {
+    margin: 0;
+    padding: 20px 30px;
+  }
+
+  &:before,
+  &:after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+  a:not(.btn) {
+    font-weight: 700;
+  }
+}
+.alert-success {
+  align-items: center;
+  background-color: var(--bs-green-100);
+  border: 0;
+
+  &,
+  a:not(.btn) {
+    color: $green;
+  }
+}
+.alert-warning {
+  background-color: var(--bs-yellow-100);
+}
+.alert .d-flex {
+  width: 100%;
+  > span:last-child {
+    flex-grow: 1;
+  }
+}
+
+//--------------------------------------
+// ALERT MESSAGE: DANGER
+//--------------------------------------
+.alert-danger a {
+  color: #8f3232;
+}
+
+//--------------------------------------
+// ALERT MESSAGES: REGION CONTENT
+//--------------------------------------
+.region-content {
+  --region-content-alert-messages-mb: var(--bs-spacing-5);
+
+  .messages-wrapper {
+    margin-bottom: var(--region-content-alert-messages-mb);
+  }
+}

@@ -1,0 +1,40 @@
+
+//--------------------------------------
+// COMMENT form
+//--------------------------------------
+.comment-form {
+  --comment-form-modal-border-top: 1px solid var(--bs-border-color);
+  --comment-form-modal-margin-top: var(--bs-spacing-7);
+  --comment-form-modal-padding-top: var(--bs-spacing-7);
+
+  .modal & {
+    border-top: var(--comment-form-modal-border-top);
+    margin-top: var(--comment-form-modal-margin-top);
+    padding-top: var(--comment-form-modal-padding-top);
+  }
+
+  .js-filter-wrapper {
+    display: none;
+  }
+}
+
+//--------------------------------------
+// COMMENT ITEMS
+//--------------------------------------
+.comment-items {
+  .avatar-author {
+    --avatar-author-picture-size: var(--bs-spacing-8);
+  }
+  .links .divider {
+    --divider-height: 2px;
+  }
+}
+
+//--------------------------------------
+// COMMENT LINKS
+//--------------------------------------
+.comment-links {
+  .modal & {
+    display: none !important;
+  }
+}

@@ -1,0 +1,12 @@
+{% if page.header_bottom_left or page.header_bottom_right %}
+<div{{ header_bottom_attributes }}>
+  <div class="row">
+    <div class="col-6 -left d-flex align-items-center">
+      {{ page.header_bottom_left }}
+    </div>
+    <div class="col-6 -right d-flex align-items-center justify-content-end">
+      {{ page.header_bottom_right }}
+    </div>
+  </div>
+</div>
+{% endif %}

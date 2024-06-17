@@ -1,0 +1,11 @@
+//--------------------------------------
+// ENTITY MODERATION FORM
+//--------------------------------------
+.entity-moderation-form {
+  padding: 20px 20px 5px;
+}
+.entity-moderation-form__item:not(:last-child) {
+  border-right: 1px solid $border-color;
+  margin-right: 20px;
+  padding-right: 20px;
+}

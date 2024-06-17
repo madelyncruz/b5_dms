@@ -1,0 +1,59 @@
+name: DMS Bootstrap Theme
+type: theme
+description: "DMS base theme built with Bootstrap 5."
+core_version_requirement: ^9 || ^10
+base theme: false
+package: "DMS"
+
+regions:
+  header_top_left: "Header Top (Left)"
+  header_top_center: "Header Top (Center)"
+  header_top_right: "Header Top (Right)"
+  header_bottom_left: "Header Bottom (Left)"
+  header_bottom_right: "Header Bottom (Right)"
+  banner: "Banner"
+  banner_sticky: "Banner (Sticky)"
+  highlighted_top: "Highlighted (Top)"
+  highlighted_left: "Highlighted (Left)"
+  highlighted_right: "Highlighted (Right)"
+  highlighted_bottom: "Highlighted (Bottom)"
+  help: "Help"
+  content: "Content"
+  sidebar_first: "Sidebar (Primary)"
+  sidebar_second: "Sidebar (Secondary)"
+  footer_showcase: "Footer Showcase"
+  footer_logo: "Footer Logo"
+  footer_top_left: "Footer Top (Left)"
+  footer_top_right: "Footer Top (Right)"
+  footer_bottom_left: "Footer Bottom (Left)"
+  footer_bottom_right: "Footer Bottom (Right)"
+  modal: "Modal"
+  offcanvas: "Offcanvas"
+
+dependencies:
+ - bootstrap4_modal:bootstrap4_modal
+ - chosen:chosen_lib
+ - twig_tweak:twig_tweak
+
+libraries:
+  - b5_dms/theme.components
+
+libraries-extend:
+  core/drupal.ajax:
+    - b5_dms/misc.throbber
+  core/drupal.message:
+    - b5_dms/misc.message
+
+libraries-override:
+  chosen/drupal.chosen:
+    css:
+      component:
+        css/chosen-drupal.css: false
+  system/base:
+    css:
+      component:
+        css/components/progress.module.css: false
+  views/views.module:
+    css:
+      component:
+        css/views.module.css: false

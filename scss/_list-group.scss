@@ -1,0 +1,12 @@
+@import "../node_modules/bootstrap/scss/list-group";
+
+//--------------------------------------
+// LIST GROUP: STRIPED
+//--------------------------------------
+.list-group-striped {
+  --list-group-striped-hover-bg-color: var(--bs-light);
+
+  .list-group-item:hover {
+    background-color: var(--list-group-striped-hover-bg-color);
+  }
+}

@@ -1,0 +1,133 @@
+# Bootstrap libraries.
+twbs.bootstrap-bundle:
+  remote: https://github.com/twbs/bootstrap
+  version: 5.1.3
+  license:
+    name: MIT
+    url: https://github.com/twbs/bootstrap/blob/main/LICENSE
+    gpl-compatible: true
+  js:
+    /libraries/twbs.bootstrap/dist/js/bootstrap.bundle.min.js: { minified: true }
+
+twbs.bootstrap-datepicker:
+  version: 1.10.0
+  license:
+    name: MIT
+    url: https://github.com/uxsolutions/bootstrap-datepicker/blob/master/LICENSE
+    gpl-compatible: true
+  js:
+    /libraries/twbs.bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js: { minified: true }
+  css:
+    theme:
+      /libraries/twbs.bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css: { minified: true }
+
+twbs.bootstrap-icons:
+  version: 1.10.5
+  license:
+    name: MIT
+    url: https://github.com/twbs/icons/blob/main/LICENSE
+    gpl-compatible: true
+  css:
+    theme:
+      /libraries/twbs.bootstrap-icons/font/bootstrap-icons.min.css: { minified: true }
+
+# Drupal's miscellaneous libraries.
+misc.throbber:
+  version: VERSION
+  js:
+    js/misc/throbber.js: {}
+
+misc.message:
+  version: VERSION
+  js:
+    js/misc/message.js: {}
+
+# JQuery libraries.
+jquery.match-height:
+  version: 0.7.2
+  license:
+    name: MIT
+    url: https://github.com/liabru/jquery-match-height/blob/master/LICENSE
+    gpl-compatible: true
+  js:
+    /libraries/jquery.match-height/dist/jquery.matchHeight-min.js: { minified: true }
+
+# Icon libraries.
+icon.remix:
+  version: 4.2.0
+  license:
+    name: MIT
+    url: https://github.com/Remix-Design/RemixIcon/blob/master/License
+    gpl-compatible: true
+  css:
+    theme:
+      /libraries/remix-icon/fonts/remixicon.css: {}
+
+# Theme libraries.
+js-datepicker:
+  version: 1.10.0
+  license:
+    name: MIT
+    url: https://github.com/uxsolutions/bootstrap-datepicker/blob/master/LICENSE
+    gpl-compatible: true
+  js:
+    js/datepicker.js: {}
+  dependencies:
+    - b5_dms/twbs.bootstrap-datepicker
+
+theme.js:
+  version: VERSION
+  js:
+    js/global.js: {}
+  dependencies:
+    - core/drupal.message
+
+theme.components:
+  version: VERSION
+  css:
+    theme:
+      css/bootstrap.css: { minified: true }
+      css/utilities.css: {}
+      css/styles.css: {}
+      css/typography.css: {}
+      css/libraries.css: {}
+      css/modules.css: {}
+      css/custom.css: {}
+  js:
+    js/script.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once
+    - b5_dms/twbs.bootstrap-bundle
+    - b5_dms/twbs.bootstrap-icons
+    - b5_dms/theme.js
+    - b5_dms/chosen
+
+theme.node-form:
+  version: VERSION
+  js:
+    js/node-form.js: {}
+  dependencies:
+    - b5_dms/global-styling
+
+# Modules libraries.
+modules.chosen:
+  version: 1.8.7
+  license:
+    name: MIT
+    url: https://github.com/harvesthq/chosen-package/blob/master/LICENSE.md
+    gpl-compatible: true
+  dependencies:
+    - chosen/drupal.chosen
+    - chosen_lib/chosen.css
+
+modules.phone-international:
+  version: VERSION
+  license:
+    name: MIT
+    url: https://github.com/jackocnr/intl-tel-input/blob/master/LICENSE
+    gpl-compatible: true
+  css:
+    theme:
+      /libraries/intl-tel-input/build/css/intlTelInput.min.css: {}

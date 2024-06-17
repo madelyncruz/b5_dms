@@ -1,0 +1,618 @@
+@import "variables/colors/gray";
+@import "variables/colors/red";
+
+$prefix:                                       'bs-';
+$font-heading:                                 'IBM Plex Sans', sans-serif;
+$font-body:                                    'IBM Plex Sans', sans-serif;
+$font-helper:                                  'Nunito Sans', sans-serif;
+$theme-assets-path:                            '../assets';
+$icon-spritesheet-12x12:                       '../assets/spritesheet-12x12.svg';
+$icon-spritesheet-16x16:                       '../assets/spritesheet-16x16.svg';
+$icon-spritesheet-24x24:                       '../assets/spritesheet-24x24.svg';
+$icon-spritesheet-32x32:                       '../assets/spritesheet-32x32.svg';
+$icon-spritesheet-40x40:                       '../assets/spritesheet-40x40.svg';
+$icon-spritesheet-48x48:                       '../assets/spritesheet-48x48.svg';
+$icon-spritesheet-56x56:                       '../assets/spritesheet-56x56.svg';
+$icon-spritesheet-64x64:                       '../assets/spritesheet-64x64.svg';
+$icon-spritesheet-72x72:                       '../assets/spritesheet-72x72.svg';
+$icon-spritesheet-80x80:                       '../assets/spritesheet-80x80.svg';
+$icon-spritesheet-120x120:                     '../assets/spritesheet-120x120.svg';
+
+//--------------------------------------
+// Typography
+//--------------------------------------
+$ui-label: (
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+);
+$ui-heading: (
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+);
+$ui-data: (
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+);
+$ui-body-opening: (
+  'h1',
+  'h2',
+);
+$ui-body-large: (
+  'h1', // large
+  'h2', // medium
+);
+$ui-body-normal: (
+  'h1', // medium
+  'h2', // regular
+);
+$ui-body-caption: (
+  'h1', // medium
+  'h2', // regular
+);
+
+$font-sizes: (
+  1: 120px,
+  2: 80px,
+  3: 72px,
+  4: 64px,
+  5: 56px,
+  6: 48px,
+  7: 40px,
+  8: 32px,
+  9: 24px,
+  10: 18px,
+  11: 16px,
+  12: 14px,
+  13: 12px,
+  large: 240px,
+);
+
+$line-heights: (
+  1: 120%,
+  sm: 130%,
+  base: 140%,
+  lg: 150%,
+);
+
+//--------------------------------------
+// Containers
+//--------------------------------------
+// scss-docs-start sizing-variables
+$max-widths: (
+  600: 600px,
+  780: 780px,
+  100: 100%,
+);
+// scss-docs-end sizing-variables
+
+//--------------------------------------
+// Background
+//--------------------------------------
+// scss-docs-start default-background-opts
+$default-image-background-opts: (
+  'background-repeat': no-repeat,
+  'background-position': center,
+  'background-size': contain,
+);
+$default-icon-background-opts: (
+  'content': '',
+  'display': inline-block,
+  'height': 24px,
+  'margin-right': 8px,
+  'vertical-align': middle,
+  'width': 24px,
+);
+// scss-docs-end default-background-opts
+
+// scss-docs-start border-radius-variables
+$rounded-border: (
+  0: 0,
+  1: 4px,
+  2: 8px,
+  3: 12px,
+  full: 100%,
+);
+// scss-docs-end border-radius-variables
+
+//--------------------------------------
+// DEFINE SPACERS
+//--------------------------------------
+$primary-spacers: (
+  0: 0,
+  1: 8px,
+  2: 12px,
+  3: 16px,
+  4: 24px,
+  5: 32px,
+  6: 40px,
+  7: 48px,
+  8: 56px,
+  9: 64px,
+  10: 72px,
+  11: 80px,
+  12: 96px,
+  13: 120px,
+);
+
+//--------------------------------------
+// DEFINE INDIVIDUAL SPACERS
+//--------------------------------------
+$primary-spacer-1: map-get($primary-spacers, 1);
+$primary-spacer-2: map-get($primary-spacers, 2);
+$primary-spacer-3: map-get($primary-spacers, 3);
+$primary-spacer-4: map-get($primary-spacers, 4);
+$primary-spacer-5: map-get($primary-spacers, 5);
+$primary-spacer-6: map-get($primary-spacers, 6);
+$primary-spacer-7: map-get($primary-spacers, 7);
+$primary-spacer-8: map-get($primary-spacers, 8);
+$primary-spacer-9: map-get($primary-spacers, 9);
+$primary-spacer-10: map-get($primary-spacers, 10);
+$primary-spacer-11: map-get($primary-spacers, 11);
+$primary-spacer-12: map-get($primary-spacers, 12);
+$primary-spacer-13: map-get($primary-spacers, 13);
+
+//--------------------------------------
+// Colors.
+//--------------------------------------
+$primary-gradient-first:                #490200;
+$primary-gradient-second:               #c62415;
+$gradient-100:                          linear-gradient(90deg, $primary-gradient-first 0%, $primary-gradient-second 100%);
+$gradient-200:                          linear-gradient(226.11deg,$primary-gradient-second,#1743bb);
+
+//--------------------------------------
+// YELLOW COLORS
+//--------------------------------------
+$yellow:                                #f2c039;
+$yellows:                               generate-shades($yellow, 'yellow');
+
+//--------------------------------------
+// ORANGE COLORS
+//--------------------------------------
+$orange:                                #ff8934;
+$oranges: (
+  "orange": $orange,
+);
+
+//--------------------------------------
+// VIOLET COLORS
+//--------------------------------------
+$violet:                                #7a1cf2;
+$violets: (
+  "violet": $violet,
+);
+
+//--------------------------------------
+// NEUTRAL COLORS
+//--------------------------------------
+$neutral:                               #9da8c5;
+$neutrals: (
+  "neutral": $neutral,
+);
+
+//--------------------------------------
+// PRIMARY LIGHT BLUE COLORS
+//--------------------------------------
+$light-blue:                    #71c1ff;
+$light-blues: (
+  "light-blue": $light-blue,
+);
+
+//--------------------------------------
+// PRIMARY BLUE COLORS
+//--------------------------------------
+$blue:                                  #0c0b24;
+$blues:                                 generate-shades($blue, 'blue');
+
+//--------------------------------------
+// Male respondent shades
+//--------------------------------------
+// Navy blue: Legends
+$blue-navy:                             #003a51;
+$blue-navy-900:                         #005273;
+$blue-navy-800:                         #006a95;
+$blue-navy-700:                         #0082b7;
+$blue-navy-600:                         #009ad9;
+$blue-navy-500:                         #00b2fb;
+$blue-navy-400:                         #1ebeff;
+$blue-navy-300:                         #40c8ff;
+$blue-navy-200:                         #62d1ff;
+$blue-navy-100:                         #84dbff;
+$navy-blues: (
+  "blue-navy": $blue-navy,
+  "blue-navy-100": $blue-navy-100,
+  "blue-navy-200": $blue-navy-200,
+  "blue-navy-300": $blue-navy-300,
+  "blue-navy-400": $blue-navy-400,
+  "blue-navy-500": $blue-navy-500,
+  "blue-navy-600": $blue-navy-600,
+  "blue-navy-700": $blue-navy-700,
+  "blue-navy-800": $blue-navy-800,
+  "blue-navy-900": $blue-navy-900,
+);
+
+// Dark navy blue: Background
+$blue-dark-navy:                        #04345e;
+$dark-navy-blues: (
+  "blue-dark-navy": $blue-dark-navy,
+);
+
+// Cerulean blue: Gender
+$blue-cerulean:                         #127ddd;
+$cerulean-blues: (
+  "blue-cerulean": $blue-cerulean,
+);
+
+//--------------------------------------
+// All respondents shades
+//--------------------------------------
+// Midnight blue: Legends
+$blue-midnight:                         #151431;
+$blue-midnight-900:                     #13389d;
+$blue-midnight-800:                     #1743bb;
+$blue-midnight-700:                     #1b4ed9;
+$blue-midnight-600:                     #3061e6;
+$blue-midnight-500:                     #4f78e9;
+$blue-midnight-400:                     #6d8fed;
+$blue-midnight-300:                     #8ba6f1;
+$blue-midnight-200:                     #a9bdf4;
+$blue-midnight-100:                     #c8d5f8;
+$midnight-blues: (
+  "blue-midnight": $blue-midnight,
+  "blue-midnight-100": $blue-midnight-100,
+  "blue-midnight-200": $blue-midnight-200,
+  "blue-midnight-300": $blue-midnight-300,
+  "blue-midnight-400": $blue-midnight-400,
+  "blue-midnight-500": $blue-midnight-500,
+  "blue-midnight-600": $blue-midnight-600,
+  "blue-midnight-700": $blue-midnight-700,
+  "blue-midnight-800": $blue-midnight-800,
+  "blue-midnight-900": $blue-midnight-900,
+);
+
+// Night sky blue: Background
+$blue-night-sky:                        #0d1e46;
+$night-sky-blues: (
+  "blue-night-sky": $blue-night-sky,
+);
+
+// Royal / Cobalt blue: Gender
+$blue-cobalt:                           #123ebe;
+$cobalt-blues: (
+  "blue-cobalt": $blue-cobalt,
+);
+
+//--------------------------------------
+// PRIMARY TEAL COLORS
+//--------------------------------------
+$teal:                                  #35b6b4;
+$teals: (
+  "teal": $teal,
+);
+
+//--------------------------------------
+// Female respondent shades
+//--------------------------------------
+// Deep teal: Legends
+$teal-deep:                             #164d4c;
+$teal-deep-900:                         #1e6766;
+$teal-deep-800:                         #268180;
+$teal-deep-700:                         #2d9c9a;
+$teal-deep-600:                         #35b6b4;
+$teal-deep-500:                         #44c9c7;
+$teal-deep-400:                         #5fd0cf;
+$teal-deep-300:                         #79d8d6;
+$teal-deep-200:                         #93e0de;
+$teal-deep-100:                         #aee7e6;
+$deep-teals: (
+  "teal-deep": $teal-deep,
+  "teal-deep-100": $teal-deep-100,
+  "teal-deep-200": $teal-deep-200,
+  "teal-deep-300": $teal-deep-300,
+  "teal-deep-400": $teal-deep-400,
+  "teal-deep-500": $teal-deep-500,
+  "teal-deep-600": $teal-deep-600,
+  "teal-deep-700": $teal-deep-700,
+  "teal-deep-800": $teal-deep-800,
+  "teal-deep-900": $teal-deep-900,
+);
+
+// Light teal: Gender
+$teal-light:                            #2bb6b5;
+$light-teals: (
+  "teal-light": $teal-light,
+);
+
+// Night sky teal: Background
+$teal-night-sky:                        #042b2b;
+$night-sky-teals: (
+  "teal-night-sky": $teal-night-sky,
+);
+
+//--------------------------------------
+// PRIMARY GREEN COLORS
+//--------------------------------------
+$green:                                 #00b366;
+$greens:                                generate-shades($green, 'green', 1);
+
+//--------------------------------------
+// PRIMARY BLACK COLORS
+//--------------------------------------
+$black:                                 #111;
+$blacks:                                generate-shades($black, 'black');
+
+//--------------------------------------
+// WHITE COLORS
+//--------------------------------------
+$white:                                 #ffffff;
+$whites:                                generate-shades($white, 'white');
+
+//--------------------------------------
+// PRIMARY GRADIENTS
+//--------------------------------------
+$gradients: (
+  "gradient-100": $gradient-100,
+  "gradient-200": $gradient-200,
+);
+
+//--------------------------------------
+// PRIMARY SCALES
+//--------------------------------------
+$likert-scale-100:                      #072e9b;
+$likert-scale-200:                      #1743bb;
+$likert-scale-300:                      #3061e6;
+$likert-scale-400:                      #6d8fed;
+$likert-scale-500:                      $neutral;
+$likert-scale-600:                      #ffc8b8;
+$likert-scale-700:                      #f5897a;
+$likert-scale-800:                      #e6593f;
+$likert-scale-900:                      #cd4242;
+
+$likert-scales: (
+  "likert-100": $likert-scale-100,
+  "likert-200": $likert-scale-200,
+  "likert-300": $likert-scale-300,
+  "likert-400": $likert-scale-400,
+  "likert-500": $likert-scale-500,
+  "likert-600": $likert-scale-600,
+  "likert-700": $likert-scale-700,
+  "likert-800": $likert-scale-800,
+  "likert-900": $likert-scale-900,
+);
+
+//--------------------------------------
+// PRIMARY PALETTES
+//--------------------------------------
+$primary-root-palettes: map-merge-multiple(
+  $blacks,
+  $blues,
+  $grays,
+  $teals,
+  $gradients,
+  $greens,
+  $oranges,
+  $reds,
+  $whites,
+  $yellows
+);
+
+//--------------------------------------
+// RGBA COLORS
+//--------------------------------------
+$primary-rgba: (
+  "neutral":                              $neutral,
+  "violet":                               $violet,
+);
+
+//--------------------------------------
+// OPTIONS
+//--------------------------------------
+$enable-negative-margins:                true;
+
+// Fix to `Found no color leading for ${hexColor}` warning.
+$min-contrast-ratio: 2.5;
+
+//--------------------------------------
+// THEME COLORS
+//--------------------------------------
+$secondary:                              $gray;
+$light:                                  $palette-gray-light;
+
+//--------------------------------------
+// TYPOGRAPHY
+//--------------------------------------
+$font-family-sans-serif:                 $font-body;
+$line-height-base:                       1.63;
+$font-weight-medium:                     500;
+$font-weight-semibold:                   600;
+$font-weight-bold:                       700;
+$font-weight-normal:                     400;
+$headings-color:                         $black;
+$headings-font-family:                   $font-heading;
+$headings-font-weight:                   $font-weight-semibold;
+$headings-line-height:                   140%;
+
+$h1-font-size:                           56px;
+$h2-font-size:                           28px;
+$h3-font-size:                           32px;
+$h4-font-size:                           32px;
+$h5-font-size:                           24px;
+$h6-font-size:                           18px;
+
+$display-font-weight:                    400;
+$display-font-sizes: (
+  1: 72px,
+);
+
+//--------------------------------------
+// GRID CONTAINERS
+//--------------------------------------
+$container-max-widths: (
+  xxl: 1200px
+);
+
+//--------------------------------------
+// BODY
+//--------------------------------------
+$body-color:                             $palette-gray-dark;
+
+//--------------------------------------
+// BORDERS
+//--------------------------------------
+$border-radius:                          0 0;
+$border-radius-sm:                       0 0;
+$border-radius-lg:                       0 0;
+$btn-border-radius:                      0 0;
+$btn-border-radius-sm:                   0 0;
+$border-color:                           map-get($blacks, 'black-100');
+$border-color-translucent:               map-get($blacks, 'black-100');
+
+$utilities-border-colors: (
+  "red-100": #fcdbd6,
+  "white-100": rgba($white, .1),
+  "white-200": rgba($white, .2),
+);
+
+//--------------------------------------
+// NAVS
+//--------------------------------------
+$nav-tabs-border-color:                  map-get($blacks, 'black-100');
+$nav-tabs-border-width:                  1px;
+$nav-tabs-link-active-bg:                transparent;
+$nav-tabs-link-active-border-color:      transparent;
+$nav-tabs-link-active-color:             $black;
+$nav-tabs-link-hover-border-color:       transparent;
+
+//--------------------------------------
+// NAVIGATION
+//--------------------------------------
+$nav-link-color:                         map-get($blacks, 'black-600');
+$nav-link-font-weight:                   500;
+$navbar-light-color:                     map-get($blacks, 'black-600');
+$navbar-light-hover-color:               $black;
+
+//--------------------------------------
+// DROPDOWNS
+//--------------------------------------
+$dropdown-border-color:                  $border-color;
+$dropdown-item-padding-y:                8px;
+$dropdown-item-padding-x:                24px;
+$dropdown-font-size:                     15px;
+$dropdown-padding-y:                     0;
+$dropdown-padding-x:                     0;
+$dropdown-link-color:                    map-get($blacks, 'black-800');
+$dropdown-link-hover-color:              $white;
+$dropdown-link-hover-bg:                 $blue;
+
+//--------------------------------------
+// BUTTONS
+//--------------------------------------
+$btn-font-size:                          14px;
+$btn-line-height:                        16px;
+$btn-font-weight:                        700;
+$btn-padding-y:                          16px;
+$btn-padding-x:                          40px;
+$btn-padding-y-sm:                       10px;
+$btn-padding-x-sm:                       15px;
+$btn-padding-y-lg:                       22px;
+$btn-padding-x-lg:                       55px;
+$btn-focus-width:                        0;
+
+//--------------------------------------
+// FORMS
+//--------------------------------------
+$input-btn-focus-width:                  0;
+$form-text-margin-top:                   0;
+
+//--------------------------------------
+// BUTTONS + FORMS
+//--------------------------------------
+$input-btn-font-family:                  $font-body;
+
+//--------------------------------------
+// TABLES
+//--------------------------------------
+$table-bg:                               $white;
+$table-border-color:                     $border-color;
+$table-hover-bg:                         $secondary;
+$table-cell-padding-x:                   20px;
+$table-cell-padding-y:                   15px;
+$table-th-font-weight:                   600;
+$table-group-separator-color:            $blue;
+$table-hover-bg:                         $palette-gray-light;
+
+//--------------------------------------
+// CARDS
+//--------------------------------------
+$card-cap-bg:                            $palette-gray-light;
+$card-cap-color:                         map-get($blacks, 'black-800');
+$card-cap-padding-x:                     $primary-spacer-4;
+$card-cap-padding-y:                     $primary-spacer-4;
+$card-spacer-y:                          20px;
+$card-spacer-x:                          20px;
+
+//--------------------------------------
+// FORMS
+//--------------------------------------
+$form-floating-padding-x:                20px;
+$form-floating-height:                   65px;
+$form-floating-input-padding-t:          30px;
+$form-floating-label-opacity:            1;
+$form-floating-label-transform:          scale(.85) translateY(0rem) translateX(.15rem);
+
+//--------------------------------------
+// PAGINATION
+//--------------------------------------
+$pagination-border-color:                $border-color;
+$pagination-padding-y:                   12px;
+$pagination-padding-x:                   16px;
+$pagination-active-border-color:         $primary-gradient-second;
+$pagination-color:                       map-get($blacks, 'black-600');
+
+//--------------------------------------
+// PARAGRAPHS
+//--------------------------------------
+$paragraph-margin-bottom:                30px;
+
+//--------------------------------------
+// CONTAINER
+//--------------------------------------
+$container-padding-x:                    30px;
+
+//--------------------------------------
+// MODALS
+//--------------------------------------
+$modal-header-padding-x:                 $primary-spacer-6;
+$modal-header-padding-y:                 $primary-spacer-3;
+
+//--------------------------------------
+// ALERTS
+//--------------------------------------
+$alert-margin-bottom:                    0;
+
+// scss-docs-start popover-variables
+$popover-body-padding-y:                 $primary-spacer-1;
+$popover-body-padding-x:                 $primary-spacer-3;
+// scss-docs-end popover-variables
+
+// scss-docs-start form-check-variables
+$form-check-input-border:                2px solid #979797;
+$form-check-input-border-radius:         2px;
+$form-check-input-height:                20px;
+$form-check-input-width:                 20px;
+$form-check-padding-start:               2px;
+// scss-docs-end form-check-variables
+
+// scss-docs-start badge-variables
+$badge-font-size:                        0.75rem;
+$badge-padding-y:                        8px;
+$badge-padding-x:                        8px;
+$badge-border-radius:                    2px;
+// scss-docs-end badge-variables

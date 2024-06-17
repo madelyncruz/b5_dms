@@ -1,0 +1,24 @@
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - b5_dms
+id: b5_dms_tabs
+theme: b5_dms
+region: content
+weight: -1
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  provider: core
+  label_display: '0'
+  primary: true
+  secondary: true
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: /user/login

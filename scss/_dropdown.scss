@@ -1,0 +1,65 @@
+@import "../node_modules/bootstrap/scss/dropdown";
+
+//--------------------------------------
+// DROPDOWNS
+//--------------------------------------
+.dropdown-group {
+  > .no-link {
+    display: block;
+    padding: #{$dropdown-item-padding-y} #{$dropdown-item-padding-x};
+  }
+  > ul > li:not(:last-child) {
+    border-bottom: 1px solid $dropdown-border-color;
+  }
+}
+
+//--------------------------------------
+// DROPDOWNS: BUTTONS
+//--------------------------------------
+.dropdown-item.btn {
+  background: var(--bs-white);
+  color: $dropdown-link-color;
+
+  &:hover {
+    background: $dropdown-link-hover-bg;
+    color: $dropdown-link-hover-color;
+  }
+}
+
+//--------------------------------------
+// DROPDOWNS: COUNTER
+//--------------------------------------
+.dropdown-counter {
+  --dropdown-counter-dropdown-item-gap: var(--bs-spacing-2);
+
+  @include make-counter(
+    'dropdown-counter',
+    '> li > .dropdown-item',
+    '> li:first-child > .dropdown-item',
+    4,
+    'gray',
+    'white',
+    14px,
+  );
+
+  .dropdown-item {
+    align-items: center;
+    display: flex;
+    gap: var(--dropdown-counter-dropdown-item-gap);
+  }
+}
+
+//--------------------------------------
+// DROPDOWN: TOGGLE
+//--------------------------------------
+.dropstart {
+  --dropstart-dropdown-toggle-border-color: var(--bs-black-300);
+  --dropstart-dropdown-toggle-border-size: 5px;
+  --dropstart-dropdown-toggle-margin-right: 7px;
+
+  .dropdown-toggle::before {
+    border-right-color: var(--dropstart-dropdown-toggle-border-color);
+    border-width: var(--dropstart-dropdown-toggle-border-size);
+    margin-right: var(--dropstart-dropdown-toggle-margin-right);
+  }
+}

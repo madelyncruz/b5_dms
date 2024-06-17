@@ -1,0 +1,693 @@
+@import "../node_modules/bootstrap/scss/mixins";
+
+// scss-docs-start animate-image-grayscale
+@mixin animate-image-grayscale() {
+  filter: grayscale(1);
+  opacity: 0.5;
+  transition: all 300ms ease 0s;
+
+  &:hover {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+}
+// scss-docs-end animate-image-grayscale
+
+// scss-docs-start make-border-gradient
+@mixin make-border-gradient() {
+  --border-gradient-slice: 1;
+  --border-gradient-source: var(--bs-gradient-100);
+  --border-gradient-width: 2px;
+  border-image-slice: var(--border-gradient-slice);
+  border-image-source: var(--border-gradient-source);
+  border-width: var(--border-gradient-width);
+}
+// scss-docs-end make-border-gradient
+
+// scss-docs-start make-button
+@mixin make-button($button-color-variant, $button-size: 'md') {
+  display: inline-block;
+  font-family: $btn-font-family;
+  font-weight: $btn-font-weight;
+  line-height: $btn-line-height;
+  color: $body-color;
+  text-align: center;
+  text-decoration: if($link-decoration == none, null, none);
+  white-space: $btn-white-space;
+  vertical-align: middle;
+  cursor: if($enable-button-pointers, pointer, null);
+  user-select: none;
+  background-color: transparent;
+  border: $btn-border-width solid transparent;
+  text-transform: uppercase;
+  @include transition($btn-transition);
+  @include button-variant($button-color-variant, $button-color-variant);
+  @include make-button-size($button-size);
+}
+// scss-docs-end make-button
+
+// scss-docs-start make-button-gradient
+@mixin make-button-gradient($style: solid) {
+  @if $style == 'outline' {
+    --button-gradient-outline-bg-color: var(--bs-white);
+    --button-gradient-outline-color: var(--bs-black-800);
+    --button-gradient-outline-color-hover: var(--bs-white);
+    background-color: var(--button-gradient-outline-bg-color);
+    color: var(--button-gradient-outline-color);
+    @include make-border-gradient();
+  }
+  @else {
+    --button-gradient-solid-bg-color: var(--bs-gradient-100);
+    --button-gradient-solid-color: var(--bs-black-800);
+    --button-gradient-solid-color-hover: var(--bs-white);
+
+    background: var(--button-gradient-solid-bg-color);
+    color: var(--button-gradient-solid-color);
+    @include make-border-gradient();
+
+    &,
+    &:hover {
+      color: var(--button-gradient-solid-color-hover);
+    }
+  }
+
+  &:focus {
+    box-shadow: 0 0 transparent;
+  }
+}
+// scss-docs-end make-button-gradient
+
+// scss-docs-start make-button-size
+@mixin make-button-size($button-size: 'md') {
+  @if $button-size == 'sm' {
+    @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, $btn-border-radius-sm);
+  }
+  @else {
+    @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-border-radius);
+  }
+}
+// scss-docs-end make-button-size
+
+// scss-docs-start make-button-style
+@mixin make-button-style($include_default: false) {
+  letter-spacing: var(--button-letter-spacing);
+  @if $include_default {
+    font-family: var(--button-font-family);
+    font-weight: var(--button-font-weight);
+    line-height: var(--button-line-height);
+  }
+  position: relative;
+  text-transform: uppercase;
+}
+// scss-docs-end make-button-style
+
+// scss-docs-start make-button-plain
+@mixin make-button-plain($button-size: 'md', $bg-color: 'white', $text-color: 'black-600', $border-shade: $border-color) {
+  background: var(--bs-#{$bg-color});
+  border: 1px solid #{$border-shade};
+  color: var(--bs-#{$text-color});
+  @if $button-size == 'sm' {
+    @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, $btn-border-radius-sm);
+  }
+  @else {
+    @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-border-radius);
+  }
+}
+// scss-docs-end make-button-plain
+
+// scss-docs-start make-dms-icon
+@mixin make-dms-icon($content, $font-size: null, $color: null) {
+  font-family: "DMS Icon";
+  content: "#{$content}";
+  @if $font-size {
+    font-size: $font-size;
+  }
+  @if $color {
+    color: $color;
+  }
+}
+// scss-docs-end make-dms-icon
+
+// scss-docs-start make-icon-background
+@mixin make-icon-background($icon-bg-options) {
+  $icon-background-options: map-merge($default-icon-background-opts, $icon-bg-options);
+  @each $property, $value in $icon-background-options {
+    @if $property == 'background' {
+      background: url(#{$theme-assets-path}/#{$value}) no-repeat 0 0 / contain;
+    }
+    @else if $property == 'background-linear' {
+      background: $value;
+    }
+    @else if $property == 'background-svg' {
+      background: $value no-repeat 0 0 / contain;
+    }
+    @else if $property == 'width' {
+      min-width: $value;
+    }
+    @else {
+      #{$property}: $value;
+    }
+  }
+}
+// scss-docs-end make-icon-background
+
+// scss-docs-start make-image-background
+@mixin make-image-background($image-bg-options, $hidden-text: false) {
+  $image-background-options: map-merge($default-image-background-opts, $image-bg-options);
+
+  @each $property, $value in $image-background-options {
+    @if $property == 'background-image' {
+      background-image: url(#{$theme-assets-path}/#{$value});
+    }
+    @else if $property == 'background-svg' {
+      background-image: $value;
+    }
+    @else {
+      #{$property}: $value;
+    }
+  }
+
+  @if $hidden-text {
+    color: transparent;
+    font-size: 0;
+    overflow: hidden;
+    text-indent: -9999px;
+  }
+}
+// scss-docs-end make-image-background
+
+// scss-docs-start make-spritesheet-12x12
+@mixin make-spritesheet-12x12() {
+  background-image: url($icon-spritesheet-12x12);
+  background-size: 96px;
+  height: 12px;
+  min-width: 12px;
+  width: 12px;
+}
+// scss-docs-end make-spritesheet-12x12
+
+// scss-docs-start make-spritesheet-16x16
+@mixin make-spritesheet-16x16() {
+  background-image: url($icon-spritesheet-16x16);
+  background-size: 256px;
+  height: 16px;
+  min-width: 16px;
+  width: 16px;
+}
+// scss-docs-end make-spritesheet-16x16
+
+// scss-docs-start make-spritesheet-24x24
+@mixin make-spritesheet-24x24() {
+  background-image: url($icon-spritesheet-24x24);
+  background-size: 480px;
+  height: 24px;
+  min-width: 24px;
+  width: 24px;
+}
+// scss-docs-end make-spritesheet-24x24
+
+// scss-docs-start make-spritesheet-32x32
+@mixin make-spritesheet-32x32() {
+  background-image: url($icon-spritesheet-32x32);
+  background-size: 225px;
+  height: 32px;
+  min-width: 32px;
+  width: 32px;
+}
+// scss-docs-end make-spritesheet-32x32
+
+// scss-docs-start make-spritesheet-40x40
+@mixin make-spritesheet-40x40() {
+  background-image: url($icon-spritesheet-40x40);
+  background-size: 80px;
+  height: 40px;
+  min-width: 40px;
+  width: 40px;
+}
+// scss-docs-end make-spritesheet-40x40
+
+// scss-docs-start make-spritesheet-48x48
+@mixin make-spritesheet-48x48() {
+  background-image: url($icon-spritesheet-48x48);
+  background-size: 385px;
+  height: 48px;
+  min-width: 48px;
+  width: 48px;
+}
+// scss-docs-end make-spritesheet-48x48
+
+// scss-docs-start make-spritesheet-56x56
+@mixin make-spritesheet-56x56() {
+  background-image: url($icon-spritesheet-56x56);
+  background-size: 840px;
+  height: 56px;
+  min-width: 56px;
+  width: 56px;
+}
+// scss-docs-end make-spritesheet-56x56
+
+// scss-docs-start make-spritesheet-64x64
+@mixin make-spritesheet-64x64() {
+  background-image: url($icon-spritesheet-64x64);
+  background-size: 64px;
+  height: 64px;
+  min-width: 64px;
+  width: 64px;
+}
+// scss-docs-end make-spritesheet-64x64
+
+// scss-docs-start make-spritesheet-72x72
+@mixin make-spritesheet-72x72() {
+  background-image: url($icon-spritesheet-72x72);
+  background-size: 144px;
+  height: 72px;
+  min-width: 72px;
+  width: 72px;
+}
+// scss-docs-end make-spritesheet-72x72
+
+// scss-docs-start make-spritesheet-80x80
+@mixin make-spritesheet-80x80() {
+  background-image: url($icon-spritesheet-80x80);
+  background-size: 400px;
+  height: 80px;
+  min-width: 80px;
+  width: 80px;
+}
+// scss-docs-end make-spritesheet-80x80
+
+// scss-docs-start make-spritesheet-120x120
+@mixin make-spritesheet-120x120() {
+  background-image: url($icon-spritesheet-120x120);
+  background-size: 240px;
+  height: 120px;
+  min-width: 120px;
+  width: 120px;
+}
+// scss-docs-end make-spritesheet-120x120
+
+// scss-docs-start position-spritesheet-bg
+@mixin position-spritesheet-bg($bounding-box-size, $column, $row) {
+  $x: 0;
+  $y: 0;
+  @if $column > 1 {
+    $x: -(($column - 1) * $bounding-box-size) + px;
+  }
+  @if $row > 1 {
+    $y: -(($row - 1) * $bounding-box-size) + px;
+  }
+  background-position: $x $y;
+}
+// scss-docs-end position-spritesheet-bg
+
+// scss-docs-start make-icon-background
+@mixin make-icon-background($icon-bg-options) {
+  $icon-background-options: map-merge($default-icon-background-opts, $icon-bg-options);
+  @each $property, $value in $icon-background-options {
+    @if $property == 'background' {
+      background: url(#{$theme-assets-path}/#{$value}) no-repeat 0 0 / contain;
+    }
+    @else if $property == 'background-linear' {
+      background: $value;
+    }
+    @else if $property == 'background-svg' {
+      background: $value no-repeat 0 0 / contain;
+    }
+    @else if $property == 'width' {
+      min-width: $value;
+    }
+    @else {
+      #{$property}: $value;
+    }
+  }
+}
+// scss-docs-end make-icon-background
+
+// scss-docs-start make-grid-cols
+@mixin make-grid-cols() {
+  position: relative;
+  margin-bottom: -1px;
+}
+// scss-docs-end make-grid-cols
+
+// scss-docs-start make-card-header
+@mixin make-card-header() {
+  @include make-ui-label-style(--bs-black-800);
+  @include make-ui-label-size('h3');
+
+  background-color: $card-cap-bg;
+  border-bottom: 1px solid var(--bs-border-color);
+  display: block;
+  padding: $card-cap-padding-y $card-cap-padding-x;
+}
+// scss-docs-end make-card-header
+
+// scss-docs-start make-size
+@mixin make-size($width-size, $height-size, $use-min: false) {
+  @if ($height-size) {
+    @if ($use-min) {
+      min-height: map-get($primary-spacers, $width-size);
+    }
+    height: map-get($primary-spacers, $width-size);
+  }
+  @if ($width-size) {
+    @if ($use-min) {
+      min-width: map-get($primary-spacers, $width-size);
+    }
+    width: map-get($primary-spacers, $width-size);
+  }
+}
+// scss-docs-end make-size
+
+// scss-docs-start make-counter-table
+@mixin make-counter-table($counter, $handle, $operations, $float: false) {
+  counter-reset: #{$counter};
+  display: block;
+  margin-bottom: 0;
+  overflow-x: scroll;
+
+  >:not(:first-child) {
+    border-top: 2px solid var(--bs-blue);
+  }
+
+  thead {
+    th.views-align-right {
+      text-align: right;
+    }
+    .label {
+      margin-bottom: 0;
+      @include make-ui-label-size('h4');
+    }
+  }
+
+  tr {
+    border-bottom: 1px solid $border-color;
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  // TABLE CELL
+  td {
+    background-color: var(--bs-white);
+    border: 0;
+    height: var(--bs-spacing-10);
+    vertical-align: middle;
+  }
+
+  td.#{$handle} {
+    padding: 0;
+    position: relative;
+    &::before {
+      align-items: center;
+      background-color: var(--bs-gray-light);
+      border-right: 1px solid $border-color;
+      color: rgba(38,47,64,.4);
+      content: counter(#{$counter});
+      counter-increment: #{$counter};
+      display: flex;
+      font-size: 32px;
+      font-weight: 500;
+      height: 100%;
+      justify-content: center;
+      left: 0;
+      line-height: 140%;
+      padding: var(--bs-spacing-3) var(--bs-spacing-4);
+      text-align: center;
+      vertical-align: middle;
+      width: var(--bs-spacing-11);
+
+
+      @if $float {
+        left: 0;
+        border-bottom: 1px solid $border-color;
+        position: absolute;
+        top: 0;
+        z-index: 1;
+      }
+    }
+  }
+
+  // HIDE DRAGGABLE HANDLE
+  .tabledrag-handle {
+    display: none;
+  }
+  .#{$operations} {
+    display: flex;
+    align-items: center;
+  }
+}
+// scss-docs-end make-counter-table
+
+
+// scss-docs-start make-counter
+@mixin make-counter($counter, $target, $setter, $size, $bg-color: 'violet', $text-color: 'white', $font-size: 18px) {
+  --#{$counter}-size: #{$size};
+  --#{$counter}-font-size: #{$font-size};
+  --#{$counter}-bg-color: var(--bs-#{$bg-color});
+  --#{$counter}-text-color: var(--bs-#{$text-color});
+
+  counter-reset: #{$counter};
+  &.-start-0 {
+    --#{$counter}-start: 0;
+  }
+
+  #{$setter} {
+    &::before {
+      counter-set: #{$counter} var(--#{$counter}-start);
+    }
+  }
+  #{$target} {
+    align-items: center;
+    display: flex;
+
+    &::before {
+      align-content: center;
+      background-color: var(--#{$counter}-bg-color);
+      border-radius: map-get($primary-spacers, $size);
+      color: var(--#{$counter}-text-color);
+      content: counter(#{$counter});
+      counter-increment: #{$counter};
+      display: flex;
+      font-size: var(--#{$counter}-font-size);
+      flex-wrap: wrap;
+      justify-content: center;
+      vertical-align: middle;
+
+      @include make-size($size, $size, true);
+    }
+  }
+}
+// scss-docs-end make-counter
+
+// scss-docs-start make-sticky-table-cell
+@mixin make-sticky-table-cell() {
+  position: sticky;
+  right: -1px;
+  text-align: right;
+  z-index: 1;
+
+  &:before {
+    background-color: $border-color;
+    content: "";
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1px;
+    z-index: 2;
+  }
+}
+// scss-docs-end make-sticky-table-cell
+
+// scss-docs-start make-field-suffix
+@mixin make-field-suffix() {
+  --field-suffix-background-color: var(--bs-gray-light);
+  --field-suffix-color: var(--bs-black-800);
+  --field-suffix-font-size: 14px;
+  --field-suffix-padding-x: var(--bs-spacing-3);
+  --field-suffix-padding-y: var(--bs-spacing-4);
+
+  background-color: var(--field-suffix-background-color);
+  color: var(--field-suffix-color);
+  font-size: var(--field-suffix-font-size);
+  padding: var(--field-suffix-padding-y) var(--field-suffix-padding-x);
+}
+// scss-docs-end make-field-suffix
+
+// scss-docs-start make-ui-label
+@mixin make-ui-label-style($color: --bs-black-600) {
+  font-family: $font-body;
+  color: var($color);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+@mixin make-ui-label-size($text-size) {
+  @if $text-size == 'h1' {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+  @else if $text-size == 'h2' {
+    font-size: 16px;
+    line-height: 20.8px;
+  }
+  @else if $text-size == 'h3' {
+    font-size: 14px;
+    line-height: 18.2px;
+  }
+  @else if $text-size == 'h4' {
+    font-size: 12px;
+    line-height: 15.6px;
+  }
+}
+// scss-docs-end make-ui-label
+
+// scss-docs-start make-ui-text-helper-variables
+@mixin make-ui-text-helper-style($color: --bs-black-600) {
+  font-family: $font-helper;
+  font-size: 12px;
+  color: var($color);
+  font-weight: 400;
+  line-height: 140%;
+}
+// scss-docs-end make-ui-text-helper-variables
+
+// scss-docs-start make-ui-data
+// @deprecate
+@mixin make-ui-data-style() {
+  font-family: $font-heading;
+  font-weight: 400;
+}
+@mixin make-ui-data-size($text-size) {
+  @if $text-size == 'h1' {
+    font-size: 72px;
+    letter-spacing: -0.5px;
+    line-height: 86.4px;
+    @include media-breakpoint-up(md) {
+      font-size: 120px;
+      line-height: 144px;
+    }
+  }
+  @else if $text-size == 'h2' {
+    font-size: 72px;
+    letter-spacing: -0.5px;
+    line-height: 86.4px;
+  }
+  @else if $text-size == 'h3' {
+    font-size: 48px;
+    line-height: 62.4px;
+  }
+  @else if $text-size == 'h4' {
+    font-size: 32px;
+    line-height: 41.6px;
+  }
+  @else if $text-size == 'h5' {
+    font-size: 24px;
+    line-height: 31.2px;
+  }
+  @else if $text-size == 'h6' {
+    font-size: 18px;
+    line-height: 27px;
+  }
+}
+// scss-docs-end make-ui-data
+
+// scss-docs-start make-ui-body-opening
+// @deprecate
+@mixin make-ui-body-opening-style() {
+  font-family: $font-body;
+  font-weight: 400;
+}
+@mixin make-ui-body-opening-size($text-size) {
+  @if $text-size == 'h1' {
+    font-size: 32px;
+    line-height: 44.8px;
+  }
+  @else if $text-size == 'h2' {
+    font-size: 24px;
+    line-height: 33.6px;
+  }
+}
+// scss-docs-end make-ui-body-opening
+
+// scss-docs-start make-ui-body-large
+// @deprecate
+@mixin make-ui-body-large-style() {
+  font-family: $font-body;
+  font-weight: 400;
+}
+@mixin make-ui-body-large-size($text-size) {
+  @if $text-size == 'h1' {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 25.2px;
+  }
+  @else if $text-size == 'h2' {
+    font-size: 18px;
+    line-height: 25.2px;
+  }
+}
+// scss-docs-end make-ui-body-large
+
+// scss-docs-start make-ui-body-normal
+// @deprecate
+@mixin make-ui-body-normal-style() {
+  font-family: $font-body;
+  font-weight: 400;
+}
+@mixin make-ui-body-normal-size($text-size) {
+  @if $text-size == 'h1' {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22.4px;
+  }
+  @else if $text-size == 'h2' {
+    font-size: 16px;
+    line-height: 25.6px;
+  }
+}
+// scss-docs-end make-ui-body-normal
+
+// scss-docs-start make-ui-body-caption
+// @deprecate
+@mixin make-ui-body-caption-style() {
+  font-family: $font-body;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19.6px;
+}
+@mixin make-ui-body-caption-size($text-size) {
+  @if $text-size == 'h1' {
+    font-weight: 500;
+  }
+}
+// scss-docs-end make-ui-body-caption
+
+// scss-docs-end make-divider
+@mixin make-divider($content: 'before', $width: 40px, $height: 4px) {
+  --divider-height: #{$height};
+  --divider-width: #{$width};
+
+  @if $content == 'after' {
+    &:after {
+      background: var(--bs-gradient-100);
+      content: "";
+      display: block;
+      height: var(--divider-height);
+      width: var(--divider-width);
+    }
+  }
+  @else {
+    &:before {
+      background: var(--bs-gradient-100);
+      content: "";
+      display: block;
+      height: var(--divider-height);
+      width: var(--divider-width);
+    }
+  }
+}
+// scss-docs-end make-divider

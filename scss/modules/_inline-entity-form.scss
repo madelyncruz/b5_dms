@@ -1,0 +1,158 @@
+//--------------------------------------
+// INLINE ENTITY FORM: SIMPLE
+//--------------------------------------
+// scss-docs-start inline-entity-form-simple
+.field--widget-inline-entity-form-simple {
+
+  &,
+  > div > .fieldset-wrapper > .form-group {
+    margin-bottom: 0;
+  }
+
+  > div > .label {
+    display: none;
+  }
+  .clearfix .spinner-ajax {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+  }
+}
+// scss-docs-end inline-entity-form-simple
+
+//--------------------------------------
+// INLINE ENTITY FORM: COMPLEX
+//--------------------------------------
+// scss-docs-start inline-entity-form-complex
+.field--widget-inline-entity-form-complex {
+  table {
+    @include make-counter-table('ief-tabledrag-counter', 'ief-tabledrag-handle', 'ief-entity-operations', true);
+    .inline-entity-form-node-label {
+      padding-left: 100px;
+    }
+  }
+}
+
+.field--widget-inline-entity-form-complex-table-view-mode {
+  table {
+    @include make-counter-table('ief-tabledrag-counter', 'inline-entity-form-node-label', 'ief-entity-operations', true);
+    .inline-entity-form-node-label {
+      padding-left: 100px;
+    }
+  }
+}
+
+.field--widget-inline-entity-form-complex-table-view-mode,
+.field--widget-inline-entity-form-complex {
+  &,
+  .fieldset-wrapper > .form-group {
+    margin-bottom: 0;
+  }
+  > div > div > .label,
+  .tableresponsive-toggle-columns {
+    display: none;
+  }
+
+  // FORM ACTIONS
+  .container-inline {
+    display: flex;
+    gap: var(--bs-spacing-2);
+    .btn[name*="-add-existing"] {
+      @include make-button-style(true);
+      @include make-button-plain();
+      @include make-button-gradient('outline');
+      &:not(:last-child) {
+        margin-right: var(--bs-spacing-1);
+      }
+    }
+  }
+  .ief-form > .fieldset-wrapper > .form-group > .form-group[id*="actions"],
+  .ief-form > .fieldset-wrapper > .form-group[id*="actions"] {
+    margin-bottom: 0;
+    margin-top: $primary-spacer-5;
+  }
+  .ief-row-form td {
+    padding: 0;
+    > .ief-form-row {
+      margin: -2px;
+    }
+  }
+}
+
+.ief-entity-operations input {
+  text-transform: inherit;
+  letter-spacing: inherit;
+  color: $dropdown-link-color;
+}
+
+table.ief-entity-table {
+  // border-left: 1px solid var(--bs-border-color);
+  // border-right: 1px solid var(--bs-border-color);
+  th.ief-tabledrag-header,
+  .ief-tabledrag-handle {
+    display: none;
+  }
+  .ief-entity-operations {
+    margin-bottom: 0;
+  }
+  .ief-row-entity td.inline-entity-form-node-label {
+    font-weight: 500;
+    min-width: 260px;
+    padding-left: 100px;
+  }
+}
+// scss-docs-end inline-entity-form-complex
+
+// scss-docs-start ief-form-bottom
+.ief-form-bottom {
+  &.ief-form.form-wrapper .fieldset-wrapper {
+    gap: 0;
+  }
+}
+// scss-docs-end ief-form-bottom
+
+//--------------------------------------
+// INLINE ENTITY FORM: TABLE ROWS
+//--------------------------------------
+.ief-form.ief-form-row {
+  --ief-form-row-bg-color: var(--bs-gray-light);
+  --ief-form-row-padding-x: var(--bs-spacing-3);
+  --ief-form-row-padding-y: var(--bs-spacing-3);
+  --ief-form-row-form-actions-margin-x: 0;
+  --ief-form-row-form-actions-margin-y: var(--bs-spacing-4);
+  --ief-form-row-form-actions-btn-cancel-bg-color: transparent;
+  --ief-form-row-form-actions-btn-cancel-height: 52px;
+  --ief-form-row-form-actions-btn-cancel-padding-x: var(--bs-spacing-3);
+  --ief-form-row-form-actions-btn-cancel-padding-y: var(--bs-spacing-3);
+
+  background-color: var(--ief-form-row-bg-color);
+  padding: var(--ief-form-row-padding-y) var(--ief-form-row-padding-x);
+
+  .form-group {
+    margin-bottom: 0;
+  }
+
+  div[data-drupal-selector*="form-actions"] {
+    display: flex;
+    gap: var(--bs-spacing-2);
+    margin: var(--ief-form-row-form-actions-margin-y) var(--ief-form-row-form-actions-margin-x);
+
+    .btn[data-drupal-selector*="-form-actions-ief-edit-save"] {
+      @include make-button-style(true);
+      @include make-button-plain();
+      @include make-button-gradient('outline');
+      &:not(:last-child) {
+        margin-right: var(--bs-spacing-1);
+      }
+    }
+
+    .form-submit[name*=cancel],
+    .form-submit[data-drupal-selector*=remove-confirm],
+    .form-submit[data-drupal-selector*=remove-cancel] {
+      background-color: var(--ief-form-row-form-actions-btn-cancel-bg-color);
+      min-height: var(--ief-form-row-form-actions-btn-cancel-height);
+      padding: var(--ief-form-row-form-actions-btn-cancel-padding-y) var(--ief-form-row-form-actions-btn-cancel-padding-x);
+    }
+  }
+}

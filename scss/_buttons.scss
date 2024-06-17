@@ -1,0 +1,165 @@
+@import "../node_modules/bootstrap/scss/buttons";
+@import "../node_modules/bootstrap/scss/button-group";
+
+//--------------------------------------
+// BUTTONS
+//--------------------------------------
+.btn {
+  @include make-button-style();
+}
+.btn-icon {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+a.button[id*="edit-delete"],
+a.button[id*="edit-cancel"],
+input.btn[id*="edit-preview"] {
+  @include make-button-style(true);
+  @include make-button-plain();
+  @include make-button-gradient('outline');
+
+  display: inline-block;
+  height: 50px;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+a.button[id*="edit-delete"] {
+  min-height: 52px;
+}
+.button.button--small,
+.tabledrag-toggle-weight-wrapper .link {
+  @include make-button($black, 'sm');
+}
+
+//--------------------------------------
+// BUTTONS: CLOSE
+//--------------------------------------
+.btn-close {
+  background-size: 12px;
+
+  .alert-dismissible & {
+    top: 5px;
+  }
+}
+
+//--------------------------------------
+// BUTTONS: RESET
+//--------------------------------------
+.btn-reset {
+  background-color: var(--bs-gray);
+  padding: $primary-spacer-3;
+}
+
+//--------------------------------------
+// BUTTONS: SOLID
+//--------------------------------------
+.btn-danger,
+.btn-info,
+.btn-success,
+.btn-warning {
+  &,
+  &:hover,
+  &:focus {
+    color: var(--bs-white);
+  }
+}
+.btn-outline-danger,
+.btn-outline-info,
+.btn-outline-success,
+.btn-outline-warning {
+  &:hover,
+  &:focus {
+    color: var(--bs-white);
+  }
+}
+.btn-white {
+  background-color: var(--bs-white);
+  border: 2px solid var(--bs-blue-100);
+  color: var(--bs-black-800);
+}
+.btn-light {
+  color: var(--bs-black-600);
+}
+.btn[disabled] {
+  cursor: no-drop;
+  opacity: 0.5;
+}
+
+//--------------------------------------
+// BUTTONS: GRADIENT
+//--------------------------------------
+.btn-gradient {
+  @include make-button-gradient();
+}
+
+
+//--------------------------------------
+// BUTTONS: EXPORT
+//--------------------------------------
+.btn.btn-play {
+  color: var(--bs-white);
+  padding: 0;
+
+  &:before {
+    background: url(#{$theme-assets-path}/svg/icon-button-play.svg) no-repeat 0 0 / contain;
+    display: inline-block;
+    height: 50px;
+    vertical-align: middle;
+    width: 53px;
+  }
+  &.-playing {
+    opacity: .9;
+  }
+}
+
+.btn.btn-more-dark {
+  border-bottom: 3px solid #273658;
+  color: var(--bs-white);
+  padding: 0 0 6px;
+}
+
+// BOTTOM GRADIENT BORDER
+.btn-underline-gradient {
+  color: var(--bs-black-600);
+  padding: 0;
+  &:after {
+    @include make-icon-background((
+      'background-linear': var(--bs-gradient-100),
+      'height': 2px,
+      'margin-top': 7px,
+      'width': 100%,
+    ));
+  }
+}
+
+//--------------------------------------
+// BUTTONS: OUTLINE
+//--------------------------------------
+.btn-outline-secondary {
+  border-color: var(--bs-black-600);
+  color: var(--bs-black-600);
+}
+.btn-outline-gradient {
+  @include make-button-gradient('outline');
+}
+.btn-outline-light {
+  color: var(--bs-black-800);
+  &,
+  &:hover {
+    border-color: $border-color;
+  }
+}
+.btn-outline-white {
+  background-color: transparent;
+  border: 2px solid var(--bs-white);
+  border-color: var(--bs-white-200);
+  color: var(--bs-white);
+
+  &:hover {
+    background-color: var(--bs-white);
+    border-color: var(--bs-white);
+    color: var(--bs-blue);
+  }
+}

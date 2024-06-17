@@ -1,0 +1,1426 @@
+<?php
+
+/**
+ * @file
+ * DMS base theme built with Bootstrap 5.
+ */
+
+use Drupal\b5_dms\InlineEntityFormTable;
+use Drupal\b5_dms\Utility;
+use Drupal\block\BlockInterface;
+use Drupal\block\Entity\Block;
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Link;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Render\Markup;
+use Drupal\Core\Routing\RouteObjectInterface;
+use Drupal\Core\Template\Attribute;
+use Drupal\Core\Url;
+use Drupal\filter\FilterFormatInterface;
+use Drupal\image\Plugin\Field\FieldType\ImageItem as FieldTypeImageItem;
+use Drupal\node\NodeInterface;
+use Drupal\node\NodeTypeInterface;
+use Drupal\taxonomy\TermInterface;
+use Drupal\taxonomy\VocabularyInterface;
+
+/**
+ * Implements hook_preprocess_field().
+ */
+function b5_dms_preprocess_field(&$variables) {
+  $element = $variables['element'] ?? NULL;
+  $field_type = $element['#field_type'] ?? NULL;
+  $entity = $element['#object'] ?? NULL;
+
+  // Generate HTML attributes variables.
+  _b5_dms_component_attributes($variables);
+
+  // Register variable in comment field for template usage.
+  if ($entity instanceof EntityInterface && $field_type === 'comment') {
+    /** @var \Drupal\comment\CommentStorageInterface $comment_storage */
+    $comment_storage = \Drupal::entityTypeManager()->getStorage('comment');
+    $comment_count = $comment_storage->getQuery()
+      ->condition('entity_id', $entity->id())
+      ->condition('entity_type', 'node')
+      ->count()
+      ->accessCheck(TRUE)
+      ->execute();
+    $variables['comment_count'] = $comment_count;
+
+    /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
+    $view_builder = \Drupal::entityTypeManager()->getViewBuilder('comment');
+
+    $comment_threads = [];
+    foreach (Element::children($variables['comments']) as $key) {
+      $element = &$variables['comments'][$key] ?? [];
+      $comment = $element['#comment'] ?? NULL;
+
+      if (!$comment) {
+        continue;
+      }
+
+      $thread = substr($comment->getThread(), 0, 2);
+      $view_mode = $element['#view_mode'];
+
+      if ($comment->hasParentComment()) {
+        $comment_threads[$thread]['replies'][] = $view_builder->view($comment, $view_mode);
+      }
+      else {
+        $comment_threads[$thread]['parent'] = $view_builder->view($comment, $view_mode);
+      }
+    }
+
+    $variables['comment_threads']['comments'] = $comment_threads;
+    $variables['comment_threads']['pager'] = $variables['comments']['pager'] ?? NULL;
+  }
+
+  // Register variable in phone_international field for template usage.
+  if ($entity instanceof EntityInterface && $field_type === 'phone_international') {
+    // Instantiate utility class.
+    $util = new Utility();
+
+    // Load the phone_international library.
+    $variables['#attached']['library'][] = 'b5_dms/modules.phone-international';
+
+    foreach ($element['#items']->getValue() as $idx => $item) {
+      // Get the item value.
+      $phone_number = $item['value'];
+
+      // Skip empty value.
+      if (!$phone_number) {
+        continue;
+      }
+
+      /** @var \Drupal\b5_dms\Utility\PhoneNumberTrait[] $phone_instance  */
+      $phone_instance = $util->phoneInstance($phone_number);
+
+      // Retrieve the country code.
+      $variables['items'][$idx]['content']['#country_code'] = $phone_instance['code_region'] ?? NULL;
+
+      // Add plain text for the phone number content.
+      $variables['items'][$idx]['content']['#plain_text'] = $phone_number;
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function b5_dms_preprocess_form(&$variables) {
+  // Generate HTML attributes variables.
+  _b5_dms_component_attributes($variables);
+}
+
+/**
+ * Implements hook_preprocess_comment().
+ */
+function b5_dms_preprocess_comment(&$variables) {
+  /** @var \Drupal\comment\CommentInterface $comment */
+  $comment = $variables['comment'];
+
+  // Get the theme settings.
+  $author_view_mode = theme_get_setting('b5_dms_comment_user_view_mode') ?? 'default';
+  $comment_date = theme_get_setting('b5_dms_comment_date');
+  $comment_date_format = theme_get_setting('b5_dms_comment_date_format') ?? 'short';
+
+  /** @var \Drupal\Core\Entity\EntityViewBuilderInterface $entity_view_builder */
+  $entity_view_builder = \Drupal::entityTypeManager()->getViewBuilder('user');
+
+  // Override the user picture variable if present.
+  // The visibility of user picture is being controlled
+  // through theme settings.
+  if ($variables['user_picture']) {
+    $variables['user_picture'] = $entity_view_builder->view($comment->getOwner(), $author_view_mode);
+  }
+
+  // Override the comment created variable if present.
+  // The visibility and date format is being controlled
+  // through theme settings.
+  // Get the date formatter service.
+  $date_formatter = \Drupal::service('date.formatter');
+
+  // Format the current timestamp using a specific format.
+  $variables['created'] = $comment_date ? $date_formatter->format($comment->getCreatedTime(), $comment_date_format) : NULL;
+
+  /** @var \Drupal\comment\CommentInterface */
+  $comment = $variables['comment'];
+
+  // Ensure the comment object exists and is fully loaded.
+  if ($comment) {
+    // Retrieve the comment thread by exploding the thread.
+    $thread_parts = explode('.', $comment->getThread());
+
+    // Get the parent thread.
+    $parent_part = $thread_parts[0] ?? NULL;
+    $parent_thread = str_replace('/', '', $parent_part);
+
+    /** @var \Drupal\Core\Entity\EntityInterface $commented_entity */
+    $commented_entity = $variables['commented_entity'];
+
+    // Retrieve the comment replies count.
+    $comment_replies_count = \Drupal::entityQuery('comment')
+      ->condition('entity_type', 'node')
+      ->condition('entity_id', $commented_entity->id())
+      ->condition('thread', '%' . $parent_thread . '%', 'LIKE')
+      ->condition('pid', NULL, 'IS NOT')
+      ->accessCheck(TRUE)
+      ->count()
+      ->execute();
+
+    // Override the comment lazy builders.
+    $view_mode = $variables['elements']['#view_mode'] ?? 'default';
+    $variables['content']['links']['#lazy_builder'] = [
+      '\Drupal\b5_dms\CommentLazyBuilders::buildLinks', [
+        $comment->id(),
+        $view_mode,
+        $comment->language()->getId(),
+        $comment_replies_count,
+        !empty($comment->in_preview),
+        $comment->hasParentComment(),
+        $variables['elements']['#theme'],
+      ],
+    ];
+
+    // Render array to be forced to be placeholdered.
+    $variables['content']['links']['#create_placeholder'] = TRUE;
+  }
+}
+
+/**
+ * Implements hook_preprocess_form_element().
+ */
+function b5_dms_preprocess_form_element(&$variables) {
+  // Set floating elements variable.
+  $variables['floating_elements'] = _b5_dms_form_floating_elements();
+  $element = $variables['element'];
+  $parents = $element['#parents'] ?? [];
+  $attributes = $element['#attributes'] ?? [];
+
+  // Generate HTML attributes variables.
+  _b5_dms_component_attributes($variables);
+
+  // Override the BEF datepicker labels.
+  if (isset($attributes['class']) && !empty($attributes['class']) && in_array('bef-datepicker', $attributes['class'])) {
+    if (array_search('min', $parents)) {
+      $variables['label']['#title'] = t('Start date');
+    }
+    if (array_search('max', $parents)) {
+      $variables['label']['#title'] = t('End date');
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_links().
+ */
+function b5_dms_preprocess_links(&$variables) {
+  $theme_hook_original = $variables['theme_hook_original'] ?? NULL;
+
+  // Build dropdown ID.
+  if (isset($variables['attributes'])) {
+    $dropdown_id = NULL;
+    foreach ($variables['attributes'] as $attribute) {
+      if (is_string($attribute)) {
+        $dropdown_id = $attribute;
+      }
+    }
+  }
+
+  // Set variable for dropdown ID and button text.
+  if (isset($dropdown_id)) {
+    $variables['dropdown_id'] = $dropdown_id;
+    $variables['dropdown_button_text'] = t('Operations');
+  }
+
+  /** @var \Drupal\Core\Language\LanguageInterface $language */
+  $language = \Drupal::languageManager()->getCurrentLanguage();
+  if (isset($dropdown_id) && $theme_hook_original === 'links__language_block') {
+    // Set the current language ID as the dropdown button text.
+    $variables['dropdown_button_text'] = $language->getId();
+  }
+
+  foreach ($variables['links'] as $idx => $item) {
+    // Set dropdown-item class if dropdown ID is set.
+    // Otherwise, set nav-link class.
+    if (isset($dropdown_id)) {
+      // Add dropdown-item class in menu links.
+      $variables['links'][$idx]['link']['#options']['attributes']['class'][] = 'dropdown-item';
+    }
+    else {
+      // Add nav-link class in menu links.
+      $variables['links'][$idx]['link']['#options']['attributes']['class'][] = 'nav-link';
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_menu_local_task().
+ */
+function b5_dms_preprocess_menu_local_task(&$variables) {
+  $link = $variables['element']['#link'];
+  $url = $link['url'];
+  $options = $url->getOptions();
+  $url->setOptions($options + $link['localized_options']);
+  $variables['item'] = Link::fromTextAndUrl($link['title'], $url);
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function b5_dms_preprocess_html(&$variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  $current_path = \Drupal::service('path.current')->getPath();
+
+  $user_form_routes = ['user.login', 'user.pass', 'user.register'];
+  if (in_array($route_name, $user_form_routes)) {
+    $variables['attributes']['class'][] = 'path-user-form';
+  }
+
+  if ($variables['root_path']) {
+    $variables['attributes']['class'][] = 'path-' . _b5_dms_convert_html_id($variables['root_path'], TRUE);
+  }
+
+  $variables['attributes']['class'][] = 'path-' . _b5_dms_convert_html_id($current_path, TRUE);
+
+  // Check if page contains node.
+  // Add class to body tag.
+  $node = \Drupal::request()->attributes->get('node');
+  if ($node instanceof NodeInterface) {
+    $variables['attributes']['class'][] = 'path-node-type-' . _b5_dms_convert_html_id($node->bundle());
+    $variables['attributes']['class'][] = 'path-node-' . _b5_dms_convert_html_id($node->bundle() . '-' . $node->id());
+  }
+
+  if ($is_front = \Drupal::service('path.matcher')->isFrontPage()) {
+    $variables['attributes']['class'][] = 'path-frontpage';
+  }
+  if (isset($variables['page']['sidebar_first'])) {
+    $variables['attributes']['class'][] = 'path-sidebar path-sidebar-first';
+  }
+  if (isset($variables['page']['sidebar_second'])) {
+    $variables['attributes']['class'][] = 'path-sidebar path-sidebar-second';
+  }
+
+  // Add class if user is logged in or not.
+  if (\Drupal::currentUser()->isAnonymous()) {
+    $variables['attributes']['class'][] = 'not-logged-in';
+  }
+  else {
+    $variables['attributes']['class'][] = 'logged-in';
+  }
+}
+
+/**
+ * Process variables to format email messages.
+ *
+ * @see htmlmail.html.twig
+ */
+function b5_dms_preprocess_htmlmail(array &$variables) {
+  $message = &$variables['message'];
+  $message['header'] = theme_get_setting('b5_dms_mail_header');
+  $message['footer'] = theme_get_setting('b5_dms_mail_footer');
+}
+
+/**
+ * Process variables to format email messages.
+ *
+ * @see swiftmailer.html.twig
+ */
+function b5_dms_preprocess_swiftmailer(array &$variables) {
+  $message = &$variables['message'];
+  $message['header'] = theme_get_setting('b5_dms_mail_header');
+  $message['footer'] = theme_get_setting('b5_dms_mail_footer');
+}
+
+/**
+ * Implements hook_preprocess_table().
+ */
+function b5_dms_preprocess_table(array &$variables) {
+  _b5_dms_generate_table_hook($variables);
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function b5_dms_preprocess_page(&$variables) {
+  // Declare theme settings.
+  $variables['container'] = theme_get_setting('b5_dms_fluid_container') ? 'container-fluid' : 'container';
+  $variables['footer_show'] = theme_get_setting('b5_dms_footer_show');
+  $variables['footer_about_title'] = theme_get_setting('b5_dms_footer_about_title');
+  $variables['footer_about_message'] = theme_get_setting('b5_dms_footer_about_message');
+  $variables['project_link_show'] = theme_get_setting('b5_dms_project_link_show');
+  $variables['project_link_title'] = theme_get_setting('b5_dms_project_link_title');
+  $variables['project_link_url'] = theme_get_setting('b5_dms_project_link_url');
+
+  /** @var \Drupal\Core\Extension\ExtensionPathResolver $extension_path_resolver */
+  $extension_path_resolver = \Drupal::service('extension.path.resolver');
+  $variables['base_theme_path'] = $extension_path_resolver->getPath('theme', 'b5_dms');
+
+  $element_attributes = [
+    'header_attributes' => [
+      'id' => ['header'],
+      'class' => ['header', 'navbar-expand'],
+      'role' => ['tab'],
+      'aria-label' => t('Site header'),
+    ],
+    'header_top_attributes' => [
+      'class' => ['header-top'],
+    ],
+    'header_bottom_attributes' => [
+      'class' => ['header-bottom'],
+    ],
+    'banner_attributes' => [
+      'id' => ['banner'],
+      'class' => ['banner'],
+      'role' => ['banner'],
+    ],
+    'banner_sticky_attributes' => [
+      'id' => ['banner-sticky'],
+      'class' => ['banner-sticky'],
+    ],
+    'navigation_attributes' => [
+      'id' => ['navigation'],
+      'class' => ['navigation'],
+    ],
+    'highlighted_attributes' => [
+      'id' => ['highlighted'],
+      'class' => ['highlighted'],
+    ],
+    'main_section_attributes' => [
+      'id' => ['main-container'],
+      'class' => ['px-0'],
+    ],
+    'sidebar_first_attributes' => [
+      'id' => ['sidebar-first'],
+      'class' => ['sidebar sidebar-first'],
+      'role' => 'complementary',
+    ],
+    'sidebar_second_attributes' => [
+      'id' => ['sidebar-second'],
+      'class' => ['sidebar sidebar-second'],
+    ],
+    'footer_attributes' => [
+      'id' => ['footer'],
+      'class' => ['footer'],
+    ],
+    'footer_top_attributes' => [
+      'class' => ['footer-top'],
+    ],
+    'footer_bottom_attributes' => [
+      'class' => ['footer-bottom'],
+    ],
+    'modal_attributes' => [
+      'class' => ['modal-wrapper'],
+    ],
+    'offcanvas_attributes' => [
+      'class' => ['offcanvas-wrapper'],
+    ],
+  ];
+
+  // Define navbar top background classes.
+  $element_attributes['header_attributes']['class'][] = theme_get_setting('b5_dms_navbar_top_background');
+  $element_attributes['header_attributes']['class'][] = theme_get_setting('b5_dms_navbar_top_color');
+
+  // Add information about the number of sidebars.
+  if (!empty($variables['page']['sidebar_first']) && empty($variables['page']['sidebar_second'])) {
+    $variables['attributes']['class'][] = 'layout-one-sidebar';
+    $variables['attributes']['class'][] = 'layout-sidebar-first';
+    $element_attributes['sidebar_first_attributes']['class'][] = 'col-md-4 col-lg-3';
+    $element_attributes['main_section_attributes']['class'][] = 'col-md-8 col-lg-9 order-md-1';
+  }
+  elseif (empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
+    $variables['attributes']['class'][] = 'layout-one-sidebar';
+    $element_attributes['sidebar_second_attributes']['class'][] = 'col-md-4 col-lg-3';
+    $element_attributes['main_section_attributes']['class'][] = 'col-md-8 col-lg-9 order-md-1';
+  }
+  elseif (!empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
+    $variables['attributes']['class'][] = 'layout-two-sidebar';
+    $element_attributes['sidebar_first_attributes']['class'][] = 'col-md-4 col-lg-3';
+    $element_attributes['sidebar_second_attributes']['class'][] = 'col-md-4 col-lg-2';
+    $element_attributes['main_section_attributes']['class'][] = 'col-md-8 col-lg-7 order-md-1';
+  }
+  else {
+    $variables['attributes']['class'][] = 'layout-no-sidebars';
+    $element_attributes['main_section_attributes']['class'][] = 'col-sm-12';
+  }
+
+  // Declare region attributes.
+  foreach ($element_attributes as $element => $attributes) {
+    $variables[$element] = $attributes;
+    $variables[$element] = new Attribute($variables[$element]);
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view_field().
+ */
+function b5_dms_preprocess_views_view_field(&$variables) {
+  $option_type = $variables['field']->options['type'] ?? NULL;
+
+  if ($option_type === 'phone_international_formatter') {
+    $phone_number = $variables['output'];
+
+    if (!empty($phone_number)) {
+      // Instantiate utility class.
+      $util = new Utility();
+
+      // Load the phone_international library.
+      $variables['#attached']['library'][] = 'b5_dms/phone-international';
+
+      /** @var \Drupal\b5_dms\Utility\PhoneNumberTrait[] $phone_instance  */
+      $phone_instance = $util->phoneInstance($phone_number);
+
+      // Retrieve the country code.
+      $country_code = $phone_instance['code_region'] ?? NULL;
+    }
+  }
+
+  // Override phone_international_formatter field output.
+  if (isset($country_code) && !empty($country_code)) {
+    // Build field output with flag icon.
+    $output = '<div class="phone-international d-flex align-items-center gap-2 my-1"><span class="iti__flag iti__' . Html::getId($country_code) . '"></span>' . $phone_number . '</div>';
+    $variables['output'] = Markup::create($output);
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function b5_dms_theme_suggestions_form_alter(array &$suggestions, array $variables) {
+  $element = $variables['element'];
+
+  // Get current form mode.
+  $form_mode = $element['#attributes']['form-mode'] ?? NULL;
+
+  /** @var \Symfony\Component\HttpFoundation\Request $request */
+  $request = \Drupal::request();
+  $route_name = $request->attributes->get('_route');
+
+  // Default node form theme suggestion.
+  if (is_array($element['#theme']) && in_array('node_form', $element['#theme'])) {
+    $suggestions[] = 'form__node';
+  }
+
+  // Node form theme suggestion per bundle.
+  $node = $request->attributes->get('node');
+  if ($node instanceof NodeInterface) {
+    $suggestions[] = 'form__node_' . _b5_dms_convert_html_id($node->bundle() . '_form');
+  }
+
+  // Node form theme suggestion per form ID.
+  if (isset($element['#form_id'])) {
+    $suggestions[] = 'form__' . _b5_dms_convert_html_id($element['#form_id']);
+  }
+
+  // Node form theme suggestion per bundle and form mode.
+  if ($node instanceof NodeInterface && $form_mode) {
+    $suggestions[] = 'form__node_' . _b5_dms_convert_html_id($node->bundle() . '_' . $form_mode . '_form');
+  }
+
+  // Node type per bundle theme suggestion.
+  $node_type = $request->attributes->get('node_type');
+  if ($node_type instanceof NodeTypeInterface) {
+    $suggestions[] = 'form__node_' . _b5_dms_convert_html_id($node_type->id());
+  }
+
+  // Taxonomy term form theme suggestion.
+  $taxonomy_term = $request->attributes->get('taxonomy_term');
+  if ($taxonomy_term instanceof TermInterface) {
+    $suggestions[] = 'form__taxonomy_term';
+  }
+
+  // Taxonomy vocabulary form theme suggestion.
+  $taxonomy_vocabulary = $request->attributes->get('taxonomy_vocabulary');
+  if ($taxonomy_vocabulary instanceof VocabularyInterface) {
+    $suggestions[] = 'form__taxonomy_term';
+  }
+
+  // User form theme suggestion.
+  if ($route_name == 'entity.user.edit_form' || $route_name == 'user.admin_create') {
+    $suggestions[] = 'form__user';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function b5_dms_theme_suggestions_details_alter(array &$suggestions, array $variables) {
+  $element = $variables['element'];
+  if (isset($element['#id'])) {
+    $suggestions[] = 'details__' . _b5_dms_convert_html_id($element['#id']);
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_block_alter().
+ */
+function b5_dms_theme_suggestions_block_alter(array &$suggestions, array $variables) {
+  $entity = NULL;
+
+  if (isset($variables['elements']['#id'])) {
+    /** @var \Drupal\block\BlockInterface $entity  */
+    $entity = Block::load($variables['elements']['#id']);
+  }
+
+  // Add suggestion template for blocks assigned in modal region.
+  if ($entity instanceof BlockInterface && $entity->getRegion() == 'modal') {
+    $suggestions[] = 'block__modal';
+  }
+
+  // Add suggestion template for blocks assigned in offcanvas region.
+  if ($entity instanceof BlockInterface && $entity->getRegion() == 'offcanvas') {
+    $suggestions[] = 'block__offcanvas';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function b5_dms_theme_suggestions_form_element_alter(array &$suggestions, array $variables) {
+  $element = $variables['element'];
+  $element_id = $element['#id'] ?? NULL;
+  $element_type = $element['#type'] ?? NULL;
+
+  if ($element_id) {
+    $suggestions[] = 'form_element__' . _b5_dms_convert_html_id($element_id);
+  }
+
+  // Enable checkbox switch if enabled from the theme settings.
+  if ($element_id && $element_type === 'checkbox' && _b5_dms_apply_element($element_id)) {
+    $suggestions[] = 'form_element__input__checkbox_switch';
+  }
+
+  if (isset($element['#parents'])) {
+    foreach ($element['#parents'] as $parent) {
+      $suggestions[] = 'form_element__' . _b5_dms_convert_html_id($parent);
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function b5_dms_theme_suggestions_input_alter(array &$suggestions, array $variables) {
+  $element = $variables['element'];
+  $element_id = $element['#id'] ?? NULL;
+  $array_parents = $element['#array_parents'] ?? [];
+
+  // Add back the original theme hook suggestion.
+  if (isset($variables['theme_hook_original'])) {
+    $suggestions[] = $variables['theme_hook_original'];
+  }
+
+  // Default theme suggestion.
+  if ($element['#type'] == 'submit') {
+    $suggestions[] = 'input__submit';
+  }
+
+  // Theme suggestion for upload button.
+  if ($element['#type'] == 'submit' && in_array('upload_button', $array_parents)) {
+    $suggestions[] = 'input__upload_button';
+  }
+
+  // Enable checkbox switch if enabled from the theme settings.
+  if ($element['#type'] == 'checkbox' && $element_id && _b5_dms_apply_element($element_id)) {
+    $suggestions[] = 'input__checkbox_switch';
+  }
+
+  // Theme suggestion for submit.
+  if ($element['#type'] == 'submit' && $element_id) {
+    $suggestions[] = 'input__submit_' . _b5_dms_convert_html_id($element_id);
+  }
+
+  // Add input template for flatpickr widget.
+  if ($element['#type'] === 'textfield' && isset($element['#attributes']['flatpickr-name'])) {
+    $suggestions[] = 'input__textfield_flatpickr';
+  }
+
+  // Add input template for the outlined buttons.
+  $btn_outlined = ['button-next', 'button-prev'];
+  if ($element['#type'] == 'submit' && isset($element['#name']) && in_array($element['#name'], $btn_outlined)) {
+    $suggestions[] = 'input__submit_button_outlined';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_field_alter().
+ */
+function b5_dms_theme_suggestions_field_alter(array &$suggestions, array $variables) {
+  $element = $variables['element'];
+  $element_formatter = $variables['element']['#formatter'] ?? NULL;
+
+  // Check if the field formatter is a boolean.
+  if ($element_formatter === 'boolean') {
+    // Get the information as possible.
+    $entity = $element['#object'];
+    $field_name = $element['#field_name'];
+    $field_definition = $entity->getFieldDefinition($field_name);
+
+    // Check if valid field definition.
+    if ($field_definition instanceof FieldDefinitionInterface) {
+      $formatter = _b5_dms_get_field_display_component_by_entity_view_mode($field_definition, $entity->getEntityTypeId(), $entity->bundle());
+    }
+
+    // Add suggestion for boolean (1/0) output formatter.
+    if (isset($formatter['settings']['format']) && $formatter['settings']['format'] == 'boolean') {
+      $suggestions[] = 'field__boolean_checkbox';
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function b5_dms_theme_suggestions_table_alter(array &$suggestions, array $variables) {
+  $table_id = $variables['attributes']['id'] ?? NULL;
+
+  // Default table suggestion.
+  if ($table_id) {
+    $suggestions[] = 'table__' . _b5_dms_convert_html_id($table_id);
+  }
+
+  // Generate table attributes.
+  _b5_dms_generate_table_hook($variables);
+
+  // Table suggestion by data table hook.
+  if (isset($variables['attributes']['data-table-hook'])) {
+    $suggestions[] = $variables['attributes']['data-table-hook'];
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function b5_dms_theme_suggestions_user_alter(array &$suggestions, array $variables) {
+  $elements = $variables['elements'];
+  $suggestions[] = 'user__' . $elements['#view_mode'];
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function b5_dms_theme_suggestions_image_formatter_alter(array &$suggestions, array $variables) {
+  $item = $variables['item'];
+  if ($item instanceof FieldTypeImageItem) {
+    $entity = $item->getEntity();
+    $field_name = $variables['item']->getParent()->getName();
+    $suggestions[] = 'image_formatter__' . _b5_dms_convert_html_id($field_name);
+    $suggestions[] = 'image_formatter__' . _b5_dms_convert_html_id($entity->getEntityTypeId() . '__' . $field_name);
+    $suggestions[] = 'image_formatter__' . _b5_dms_convert_html_id($entity->getEntityTypeId() . '__' . $entity->bundle() . '__' . $field_name);
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function b5_dms_theme_suggestions_container_alter(&$suggestions, array $variables) {
+  // Get information.
+  $element = $variables['element'];
+  $element_bundle = $element['#bundle'] ?? NULL;
+  $element_entity_type = $element['#entity_type'] ?? NULL;
+  $element_form_mode = $element['#form_mode'] ?? NULL;
+  $element_id = $element['#id'] ?? NULL;
+  $element_attributes = $element['#attributes'] ?? NULL;
+
+  if (isset($element['ief_entity_edit']) || isset($element['ief_entity_remove'])) {
+    $suggestions[] = 'container__ief_actions';
+  }
+  if (isset($element['#type']) && $element['#type'] == 'view') {
+    $suggestions[] = 'container__' . _b5_dms_convert_html_id($element['#name']);
+    $suggestions[] = 'container__' . _b5_dms_convert_html_id($element['#name'] . '__' . $element['#display_id']);
+  }
+  if (isset($element['#type']) && $element['#type'] == 'container' && isset($element['children']['#type'])) {
+    $suggestions[] = 'container__' . _b5_dms_convert_html_id($element['children']['#type']);
+  }
+
+  // Container suggestion for entity reference views search widget.
+  if ($element_id && isset($element_attributes['data-ervs-type']) && $element_attributes['data-ervs-type'] === 'entity_reference_views_search') {
+    $suggestions[] = 'container__' . _b5_dms_convert_html_id($element_id);
+  }
+
+  // Container suggestion for IEF actions.
+  if (isset($element['ief_entity_edit'])) {
+    // Default IEF dropdown actions suggestion.
+    $suggestions[] = 'container__ief_dropdown_actions';
+
+    // IEF dropdown actions suggestion for each form.
+    $attributes = $element['ief_entity_edit']['#attributes'] ?? NULL;
+    $form_id = $attributes['data-form-id'] ?? NULL;
+    if ($form_id) {
+      $form_id = _b5_dms_remove_random_characters($form_id);
+      $suggestions[] = 'container__ief_dropdown_actions__' . _b5_dms_convert_html_id($form_id);
+    }
+
+    // IEF dropdown actions suggestion for views.
+    $display_id = $attributes['data-display-id'] ?? NULL;
+    $view_id = $attributes['data-view-id'] ?? NULL;
+    if ($form_id && $view_id && $display_id) {
+      $suggestions[] = 'container__ief_dropdown_actions__' . _b5_dms_convert_html_id($form_id . '__' . $view_id . '__' . $display_id);
+    }
+  }
+
+  // Container suggestion for IEF complex.
+  if ($element_bundle && $element['#type'] === 'inline_entity_form') {
+    // Build IEF parents.
+    $ief_parents = [
+      $element_entity_type,
+      $element_bundle,
+      $element_form_mode,
+    ];
+
+    // Find elements that contain a specific substring.
+    $ief_parents = array_filter($ief_parents);
+
+    if ($ief_parents) {
+      $ief_parents = implode('__', $ief_parents);
+      $suggestions[] = 'container__ief__' . _b5_dms_convert_html_id($ief_parents);
+    }
+  }
+
+  // Container suggestion for IEF simple.
+  if (isset($element['widget'][0]['inline_entity_form'])) {
+    $widget = $element['widget'][0];
+    $ief_form = $widget['inline_entity_form'];
+    $widget_entity_type = $widget['#entity_type'] ?? NULL;
+    $widget_bundle = $widget['#bundle'] ?? NULL;
+    $ief_form_bundle = $ief_form['#bundle'] ?? NULL;
+    $ief_form_mode = $ief_form['#form_mode'] ?? NULL;
+
+    // Build IEF parents.
+    $ief_parents = [
+      $widget_entity_type,
+      $widget_bundle,
+      $ief_form_bundle,
+      $ief_form_mode,
+    ];
+
+    // Find elements that contain a specific substring.
+    $ief_parents = array_filter($ief_parents);
+
+    if ($ief_parents) {
+      $ief_parents = implode('__', $ief_parents);
+      $suggestions[] = 'container__ief__' . _b5_dms_convert_html_id($ief_parents);
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function b5_dms_theme_suggestions_checkboxes_alter(&$suggestions, array $variables) {
+  $element = $variables['element'];
+  $array_parents = isset($element['#array_parents']) ? implode('__', $element['#array_parents']) : '';
+  $parents = isset($element['#parents']) ? implode('__', $element['#parents']) : '';
+  if ($parents) {
+    $suggestions[] = 'checkboxes__' . _b5_dms_convert_html_id($element['#type'] . '__' . $parents);
+  }
+  if ($array_parents) {
+    $suggestions[] = 'checkboxes__' . _b5_dms_convert_html_id($element['#type'] . '__' . $array_parents);
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ *
+ * Provides region based on menu suggestions.
+ */
+function b5_dms_theme_suggestions_links_alter(array &$suggestions, array $variables) {
+  $theme_hook_original = $variables['theme_hook_original'] ?? NULL;
+  if ($theme_hook_original === 'links__language_block') {
+    $suggestions[] = 'links__dropbutton';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ *
+ * Provides region based on menu suggestions.
+ */
+function b5_dms_theme_suggestions_menu_alter(array &$suggestions, array $variables) {
+  $menu_name = $variables['menu_name'] ?? NULL;
+  $region = $variables['attributes']['region'] ?? NULL;
+  $region = $region ? _b5_dms_convert_html_id($region) : NULL;
+
+  // Suggestion for menus assigned in sidebar first region.
+  if ($region === 'sidebar_first') {
+    $suggestions[] = 'menu__dropdown';
+  }
+
+  // Suggestion for menus assigned in region.
+  if ($region) {
+    $suggestions[] = 'menu__' . $region;
+    $suggestions[] = 'menu__' . $menu_name . '__' . $region;
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function b5_dms_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  $route_match = \Drupal::routeMatch();
+  $route_name = $route_match->getRouteName();
+  $node = $route_match->getParameter('node');
+
+  if ($node && $node instanceof NodeInterface) {
+    $suggestions[] = 'page__node__' . $node->bundle();
+  }
+  if (isset($variables['page']['sidebar_first'])) {
+    $suggestions[] = 'page__sidebar_first';
+  }
+  if (isset($variables['page']['sidebar_second'])) {
+    $suggestions[] = 'page__sidebar_second';
+  }
+
+  // Use a generic template for user form pages.
+  $user_form_routes = ['user.login', 'user.pass', 'user.register'];
+  if (in_array($route_name, $user_form_routes)) {
+    $suggestions[] = 'page__user_forms';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function b5_dms_theme_suggestions_radios_alter(array &$suggestions, array $variables) {
+  $element = $variables['element'];
+  $entity_type = $element['#entity_type'] ?? NULL;
+  $bundle = $element['#bundle'] ?? NULL;
+  $field_name = $element['#field_name'] ?? NULL;
+
+  // Add template suggestions for each entity type, bundle and field name.
+  if ($entity_type && $bundle && $field_name) {
+    $suggestions[] = 'radios__' . $entity_type . '__' . $bundle . '__' . $field_name;
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Pass block region value to content so this can be used in
+ * b5_dms_theme_suggestions_menu_alter.
+ */
+function b5_dms_preprocess_block(&$variables) {
+  $entity = NULL;
+
+  if (isset($variables['elements']['#id'])) {
+    /** @var \Drupal\block\BlockInterface $entity  */
+    $entity = Block::load($variables['elements']['#id']);
+  }
+
+  if ($entity instanceof BlockInterface) {
+    $variables['content']['#attributes']['region'] = $entity->getRegion();
+    $variables['content']['#attributes']['id'] = $variables['elements']['#id'];
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function b5_dms_preprocess_container(&$variables) {
+  $element = $variables['element'];
+  $element_type = $element['#type'] ?? NULL;
+
+  // Check if container is views.
+  $variables['container_is_views'] = $element_type == 'view';
+
+  // Generate HTML attributes variables.
+  _b5_dms_component_attributes($variables);
+}
+
+/**
+ * Implements template_preprocess_details().
+ *
+ * Define a unique ID and pass the ID variable so that it can be used
+ * in the `details.html.twig` template file.
+ */
+function b5_dms_preprocess_details(&$variables) {
+  $element = $variables['element'];
+  $id = $element['#id'] ?? '';
+  if (isset($element['#entity_type']) && isset($element['#bundle'])) {
+    $id .= $element['#entity_type'] . '_' . $element['#bundle'];
+  }
+  if (isset($element['#group_name'])) {
+    $id .= '_' . $element['#group_name'];
+    $id .= '_' . $element['#weight'];
+  }
+  $variables['id'] = Html::getId($id);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function b5_dms_preprocess_field_multiple_value_form(&$variables) {
+  $element = $variables['element'];
+
+  // Add class on field cardinality table.
+  if ($variables['multiple'] == TRUE && isset($element['#attributes']['data-fcc'])) {
+    $variables['element'][0]['#attributes']['class'][] = 'field-cardinality-single';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function b5_dms_preprocess_fieldset(&$variables) {
+  // Generate HTML attributes variables.
+  _b5_dms_component_attributes($variables);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function b5_dms_preprocess_layout(&$variables) {
+  // Generate HTML attributes variables.
+  _b5_dms_component_attributes($variables);
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function b5_dms_preprocess_node(&$variables) {
+  // Generate HTML attributes variables.
+  _b5_dms_component_attributes($variables);
+}
+
+/**
+ * Implements hook_theme_suggestions_fieldset_alter().
+ */
+function b5_dms_theme_suggestions_fieldset_alter(array &$suggestions, array $variables) {
+  $element = $variables['element'];
+  if (isset($element['#id'])) {
+    $suggestions[] = 'fieldset__' . _b5_dms_convert_html_id($element['#id']);
+  }
+}
+
+/**
+ * Implements hook_preprocess_user().
+ */
+function b5_dms_preprocess_user(&$variables) {
+  // Register variables for avatar template usage.
+  // @see @b5_dms/templates/content/user--avatar-name.html.twig
+  // @see @b5_dms/templates/content/user--avatar-name-author.html.twig
+  $variables['default_name'] = \Drupal::config('user.settings')->get('anonymous');
+  $variables['b5_dms_avatar_theme'] = theme_get_setting('b5_dms_avatar_theme');
+  $variables['b5_dms_avatar_name_first'] = theme_get_setting('b5_dms_avatar_name_first');
+  $variables['b5_dms_avatar_name_last'] = theme_get_setting('b5_dms_avatar_name_last');
+  $variables['b5_dms_avatar_designation'] = theme_get_setting('b5_dms_avatar_designation');
+
+  // Generate HTML attributes variables.
+  _b5_dms_component_attributes($variables);
+}
+
+/**
+ * Implements hook_preprocess_username().
+ */
+function b5_dms_preprocess_username(&$variables) {
+  $account = $variables['account'];
+  $variables['name'] = $account->getDisplayName();
+}
+
+/**
+ * Implements hook_preprocess_mimemail_message().
+ */
+function b5_dms_preprocess_mimemail_message(&$variables) {
+  $language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+  $base_path = str_replace('/' . $language, '', Url::fromRoute('<front>', [], ['absolute' => TRUE])->toString());
+  $variables['mail_css'] = $base_path . '/themes/custom/b5_dms/dist/css/mail.css';
+}
+
+/**
+ * Implements hook_preprocess_webform_confirmation().
+ */
+function b5_dms_preprocess_webform_confirmation(&$variables) {
+  /** @var \Drupal\webform\WebformMessageManagerInterface $message_manager */
+  $message_manager = \Drupal::service('webform.message_manager');
+
+  // Set title.
+  $variables['title'] = $message_manager->build('confirmation_title');
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function b5_dms_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Get information.
+  $storage = $form_state->getStorage();
+  $form_object = $form_state->getFormObject();
+
+  // Check if getEntity method exists.
+  if (method_exists($form_object, 'getEntity')) {
+    /** @var \Drupal\Core\Entity\EntityInterface $entity */
+    $entity = $form_object->getEntity();
+  }
+
+  // Add form class per entity type ID and bundle.
+  if (isset($entity) && $entity instanceof EntityInterface) {
+    $form_class = _b5_dms_convert_html_id($entity->getEntityTypeId() . '_' . $entity->bundle() . '_form', $use_html = TRUE);
+
+    // Check if same form class exists.
+    if (!in_array($form_class, $form['#attributes']['class'])) {
+      $form['#attributes']['class'][] = $form_class;
+    }
+  }
+
+  // Register the form display in attributes for theme suggestions usage.
+  // @see b5_dms_theme_suggestions_form_alter().
+  if (isset($storage['form_display']) && $storage['form_display'] instanceof EntityFormDisplayInterface) {
+    $form['#attributes']['form-mode'] = $storage['form_display']->getMode();
+  }
+
+  // Wrap email element in description class for style consistency.
+  if ($form_id == 'user_pass') {
+    $form['mail']['#prefix'] = '<small class="form-description description text-muted">';
+    $form['mail']['#suffix'] = '</small>';
+  }
+
+  // Use the element description as placeholder.
+  if ($form_id == 'user_login_form') {
+    $form['name']['#attributes']['placeholder'] = t('Enter your username or e-mail address');
+    $form['name']['#description'] = NULL;
+    $form['pass']['#attributes']['placeholder'] = t('Enter the password that accompanies your username');
+    $form['pass']['#description'] = NULL;
+  }
+
+  // Get the form entity type loader.
+  $entity_type = $form['#entity_type'] ?? NULL;
+
+  // Get module handler service.
+  $module_handler = \Drupal::service('module_handler');
+
+  // "datetime_flatpickr" library fails to load in referenced field.
+  // As a workaround, enforce to load the "datetime_flatpickr" library.
+  if ($entity_type === 'node' && $module_handler->moduleExists('datetime_flatpickr')) {
+    $storage = $form_state->getStorage();
+    if (isset($storage['inline_entity_form'])) {
+      $form['#attached']['library'][] = 'datetime_flatpickr/flatpickr-init';
+    }
+  }
+
+  // Add classes to BEF datepicker for CSS and JS usage.
+  foreach (Element::children($form) as $key) {
+    $element = &$form[$key] ?? [];
+    $children_element = &$element[$key] ?? [];
+    $plugin_id = $element['#context']['#plugin_id'] ?? NULL;
+    if (!$children_element || $plugin_id !== 'bef_datepicker') {
+      continue;
+    }
+    $children_element['#attributes']['class'][] = 'form-date-wrapper';
+    $children_element['#attributes']['class'][] = 'js-form-date-wrapper';
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function b5_dms_form_comment_form_alter(&$form, FormStateInterface $form_state) {
+  /** @var \Drupal\filter\FilterFormatInterface */
+  $filter_format = \Drupal::service('entity_type.manager')->getStorage('filter_format')->load('comment');
+
+  // Change comment body text format.
+  if ($filter_format instanceof FilterFormatInterface && isset($form['comment_body']['widget'])) {
+    $form['comment_body']['widget'][0]['#format'] = 'comment';
+  }
+
+  // Override submit button text.
+  $form['actions']['submit']['#value'] = t('Post comment');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Load the node-form script.
+ */
+function b5_dms_form_node_form_alter(&$form, FormStateInterface $form_state) {
+  if (theme_get_setting('b5_dms_lib_node_form')) {
+    $form['#attached']['library'][] = 'b5_dms/theme.node-form';
+  }
+}
+
+/**
+ * Implements template_inline_entity_form_entity_table().
+ *
+ * Add `views-align-right` class to `actions` table header and cell.
+ */
+function b5_dms_preprocess_inline_entity_form_entity_table(&$variables) {
+  // Override inline entity form table action links.
+  $ief = new InlineEntityFormTable();
+  $ief->alterTable($variables);
+}
+
+/**
+ * The allowed form elements for floating style.
+ *
+ * @return array
+ *   The allowed floating elements.
+ */
+function _b5_dms_form_floating_elements() {
+  return [
+    'email',
+    'textfield',
+    'textarea',
+    'password',
+    'number',
+    'select',
+    'entity_autocomplete',
+    'select_or_other_select',
+  ];
+}
+
+/**
+ * Get the field display component by entity view mode.
+ *
+ * @param \Drupal\Core\Field\FieldDefinitionInterface $field_definition
+ *   The entity field definition.
+ * @param string $entity_type
+ *   The entity type ID.
+ * @param string $entity_bundle
+ *   The entity bundle.
+ *
+ * @return array|null
+ *   Returns the field display component information.
+ */
+function _b5_dms_get_field_display_component_by_entity_view_mode(FieldDefinitionInterface $field_definition, string $entity_type, string $entity_bundle) {
+  /** @var \Drupal\Core\Field\FieldStorageDefinitionInterface $field_storage_definition */
+  $field_storage_definition = $field_definition->getFieldStorageDefinition();
+  if (!$field_storage_definition instanceof FieldStorageDefinitionInterface) {
+    return;
+  }
+
+  /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
+  $entity_display_repository = \Drupal::service('entity_display.repository');
+  $display = $entity_display_repository->getViewDisplay($entity_type, $entity_bundle);
+
+  return $display->getComponent($field_definition->getName());
+}
+
+/**
+ * Converts a string for for use as an HTML element ID or suggestions ID.
+ *
+ * @param string $value
+ *   The value to clean.
+ * @param bool $use_html
+ *   (Optional) Whether to use HTML-specific ID cleaning.
+ *   Defaults to FALSE.
+ *
+ * @return string
+ *   The cleaned value suitable for use as an
+ *   HTML element ID or suggestions ID.
+ */
+function _b5_dms_convert_html_id(string $value, $use_html = FALSE) {
+  // Use hypernated string which is suitable for hook suggestions
+  // and for consistency purposes.
+  $id = str_replace(['/', '-'], ['_', '_'], $value);
+
+  // Use HTML element ID which is suitable for class names.
+  if ($use_html) {
+    $id = Html::getId($id);
+  }
+
+  return $id;
+}
+
+/**
+ * Apply the element by IDs.
+ *
+ * @param string $element_id
+ *   The ID of the element to check against the input IDs.
+ * @param string $element_type
+ *   The element type. For example switch or modal.
+ *
+ * @return bool
+ *   Returns TRUE if the element ID is found in the list of input IDs.
+ *   Otherwise, return FALSE.
+ */
+function _b5_dms_apply_element(string $element_id, string $element_type = 'switch') {
+  $route_match = \Drupal::routeMatch();
+  $view_id = $route_match->getParameter('view_id');
+  $use_element = FALSE;
+
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $route_match->getParameter('node');
+
+  // Get the input switch settings.
+  $settings = theme_get_setting('b5_dms_input_switch');
+
+  // Get the modal settings.
+  if ($element_type === 'modal') {
+    $settings = theme_get_setting('b5_dms_ief_table_action_ignore');
+  }
+
+  // Skip empty settings.
+  if (!$settings) {
+    return $use_element;
+  }
+
+  // Get the setting.
+  $settings = $settings ? explode(PHP_EOL, $settings) : [];
+
+  foreach ($settings as $setting) {
+    $setting_item = explode('|', $setting);
+
+    // The element ID.
+    $setting_element_id = isset($setting_item[0]) && !empty($setting_item[0]) ? trim($setting_item[0]) : NULL;
+
+    // The entity type ID. For example, node, view etc.
+    $setting_entity_type_id = isset($setting_item[1]) && !empty($setting_item[1]) ? trim($setting_item[1]) : NULL;
+
+    // The entity bundle.
+    $setting_entity_type_bundle = isset($setting_item[2]) && !empty($setting_item[2]) ? trim($setting_item[2]) : NULL;
+
+    // Check if element ID matches with settings element ID.
+    $element_matched = _b5_dms_matches_pattern($element_id, $setting_element_id);
+
+    if ($element_matched && !$setting_entity_type_id && !$setting_entity_type_bundle) {
+      // Use element in any entity.
+      $use_element = TRUE;
+    }
+    elseif ($setting_entity_type_id === 'node' && $node instanceof NodeInterface && $element_matched && $node->bundle() === $setting_entity_type_bundle) {
+      // Use element on node.
+      $use_element = TRUE;
+    }
+    elseif ($setting_entity_type_id === 'view' && $view_id === $setting_entity_type_bundle && $element_matched) {
+      // Use element on views.
+      $use_element = TRUE;
+    }
+  }
+
+  return $use_element;
+}
+
+/**
+ * Generate component attributes.
+ */
+function _b5_dms_component_attributes(&$variables) {
+  $components['counter'] = [
+    'class' => ['counter-container'],
+  ];
+  $components['counter_item'] = [
+    'class' => ['card', 'card-md', 'counter-item'],
+  ];
+  $components['counter_heading'] = [
+    'class' => ['card-heading', 'ui-data', 'fs-8', 'counter-title'],
+  ];
+  $components['card_heading'] = [
+    'class' => ['card-heading', 'ui-data', 'fs-8'],
+  ];
+  $components['label_large'] = [
+    'class' => ['ui-label', 'fs-10'],
+  ];
+  $components['label_normal'] = [
+    'class' => ['ui-label', 'fs-11'],
+  ];
+  $components['label_small'] = [
+    'class' => ['ui-label', 'fs-12'],
+  ];
+  $components['label_extra_small'] = [
+    'class' => ['ui-label', 'fs-13'],
+  ];
+
+  // Set attributes for each component.
+  foreach ($components as $component => $component_attributes) {
+    $variables[$component . '_attributes'] = new Attribute($component_attributes);
+  }
+}
+
+/**
+ * Generate table hook for template usage.
+ *
+ * @param array $variables
+ *   The table variables.
+ */
+function _b5_dms_generate_table_hook(&$variables) {
+  /** @var  \Drupal\Core\Routing\CurrentRouteMatch $route_match */
+  $route_match = \Drupal::routeMatch();
+
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $route_match->getParameter('node');
+  $node = $node instanceof NodeInterface ? $node : NULL;
+  $table_id = $variables['attributes']['id'] ?? NULL;
+
+  // Add variable of the current node.
+  if ($node) {
+    $variables['node'] = $node;
+  }
+
+  // If the table ID is present, generate a data-table-hook attribute
+  // for template hooks usage.
+  if ($node && $table_id) {
+    // Generate table ID and remove trailing random characters.
+    $table_id = _b5_dms_convert_html_id(preg_replace('/--.*/', '', $table_id), $use_html = TRUE);
+
+    // Set a default table hook value.
+    $table_hook = $table_id;
+
+    // Add data-table-id attribute.
+    $variables['attributes']['data-table-id'] = $table_id;
+
+    // Prepend table hook value for node forms.
+    $table_hook .= '__' . 'node' . '__' . _b5_dms_convert_html_id($node->bundle(), $use_html = TRUE);
+
+    // Set data-table-hook attribute.
+    $variables['attributes']['data-table-hook'] = 'table__' . _b5_dms_convert_html_id($table_hook);
+  }
+}
+
+/**
+ * Check if a string matches a specific pattern.
+ *
+ * @param string $string
+ *   The string to check.
+ * @param string $pattern
+ *   The pattern to match against.
+ *
+ * @return bool
+ *   Returns TRUE if the string matches the pattern.
+ *   Otherwise, return FALSE.
+ */
+function _b5_dms_matches_pattern(string $string, $pattern) {
+  // Check if string and pattern contains value.
+  if (!$string || !$pattern) {
+    return FALSE;
+  }
+  return preg_match('/^' . preg_quote($pattern, '/') . '.*$/', $string);
+}
+
+/**
+ * Get the page title from requested route.
+ *
+ * @return string
+ *   The resolver title.
+ */
+function _b5_dms_page_title() {
+  $request = \Drupal::request();
+  $page_title = '';
+  if ($route = $request->attributes->get(RouteObjectInterface::ROUTE_OBJECT)) {
+    $resolver_title = \Drupal::service('title_resolver')->getTitle($request, $route);
+  }
+  if (isset($resolver_title) && !empty($resolver_title)) {
+    $page_title = $resolver_title;
+  }
+  return $page_title;
+}
+
+/**
+ * Eliminates any characters from the first occurrence of "--" onwards.
+ *
+ * The random characters is commonly generated by AJAX callback.
+ * It's too specific and needs to be removed.
+ *
+ * An example format is "edit-field-node-1e-entities-0-actions--7J28W65MWx0".
+ * The random characters with occurence of "--" will be removed.
+ * The output will be like "edit-field-node-1e-entities-0-actions".
+ *
+ * @param string $string
+ *   The string to be processed.
+ *
+ * @return string
+ *   The string with characters removed from the
+ *   first occurrence of "--" onwards.
+ */
+function _b5_dms_remove_random_characters(string $string) {
+  return preg_replace('/--.*/', '', $string);
+}

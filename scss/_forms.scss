@@ -1,0 +1,439 @@
+@import "../node_modules/bootstrap/scss/forms";
+
+
+//--------------------------------------
+// FORM
+//--------------------------------------
+form {
+  --form-actions-margin-top: var(--bs-spacing-4);
+}
+
+input ~ label {
+  margin-left: 5px;
+}
+
+form .description {
+  display: block;
+  margin-bottom: 0;
+  margin-top: var(--bs-spacing-1);
+
+  .list-items {
+    margin-bottom: 0;
+    padding-left: var(--bs-spacing-2);
+  }
+}
+
+//--------------------------------------
+// BASIC ELEMENTS
+//--------------------------------------
+.element-basic {
+  --element-basic-input-border-radius: 4px;
+  --element-basic-input-border-size: 0;
+  --element-basic-input-bg-color: var(--bs-gray-light);
+  --element-basic-input-gap: var(--bs-spacing-4);
+  --element-basic-input-height: 48px;
+  --element-basic-gutter: 0;
+
+  gap: var(--element-basic-input-gap);
+  @include make-row(var(--element-basic-gutter));
+
+  > * {
+    @include make-col(12);
+  }
+
+  .form-control {
+    background-color: var(--element-basic-input-bg-color);
+    border-radius: var(--element-basic-input-border-radius);
+    border-width: var(--element-basic-input-border-size);
+    height: var(--element-basic-input-height);
+  }
+}
+
+//--------------------------------------
+// FORM ELEMENTS
+//--------------------------------------
+.element-hidden {
+  > div:not(.messages) {
+    display: none;
+  }
+}
+
+//--------------------------------------
+// FORM RADIOS
+//--------------------------------------
+.form-radios {
+  .description {
+    margin-bottom: 0;
+  }
+}
+.radio.has-none {
+  display: none;
+}
+.radio label.form-required::after {
+  display: none;
+}
+
+//--------------------------------------
+// FORM ACTIONS
+//--------------------------------------
+.form-actions {
+  margin-top: var(--form-actions-margin-top);
+  position: relative;
+}
+
+//--------------------------------------
+// REQUIRED FORM LABEL
+//--------------------------------------
+label.form-required {
+  &:after {
+    content: "*";
+    color: var(--bs-red);
+    margin-left: 2px;
+  }
+}
+
+label.error {
+  color: var(--bs-red);
+  font-size: 12px;
+  margin: 0;
+}
+
+.js input.form-autocomplete {
+  background: none;
+}
+.js-form-item .label {
+  margin-bottom: $primary-spacer-2;
+}
+
+input.form-number {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+input.form-number::-webkit-outer-spin-button,
+input.form-number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input.form-number[type=number] {
+  -moz-appearance:textfield;
+}
+.js-form-item {
+  position: relative;
+}
+.form-group {
+  margin-bottom: 0;
+}
+
+//--------------------------------------
+// TEXTAREA
+//--------------------------------------
+.form-type-textarea label > span {
+  font-size: 0;
+}
+.form-type-textarea .link {
+  @include make-button($black, 'sm');
+}
+.js-filter-wrapper [data-drupal-selector*="help"] {
+  display: none;
+}
+
+//--------------------------------------
+// FORM: FIELDSET
+//--------------------------------------
+.details-description {
+  color: rgba(38, 47, 64, 0.6) !important;
+  font-size: 14px;
+  line-height: 160%;
+}
+
+//--------------------------------------
+// FORM ELEMENTS
+//--------------------------------------
+.js-form-item {
+  .help-text {
+    color: var(--bs-black-400);
+    font-size: 22px;
+    position: absolute;
+    right: 13px;
+    top: 24px;
+    z-index: 1;
+  }
+  textarea.form-textarea {
+    height: auto;
+  }
+  &.form-type-select-or-other-select label {
+    transform: translateY(0);
+  }
+}
+.js-form-type-checkbox {
+  margin-bottom: 15px;
+
+  .help-text {
+    top: 0;
+  }
+}
+
+//--------------------------------------
+// FORM ELEMENTS: CARD
+//--------------------------------------
+.card {
+  .form-control {
+    height: auto;
+  }
+  .form-text {
+    background-color: var(--card-form-text-input-bg-color);
+  }
+  form & {
+    --card-form-text-input-bg-color: var(--bs-white);
+  }
+}
+
+/* Change autocomplete input color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-transition-delay: 9999s;
+}
+
+.btn.field-add-more-submit {
+  box-shadow: 0 0 transparent;
+  width: auto;
+}
+
+//--------------------------------------
+// TEXT FIELDS
+//--------------------------------------
+/* Text fields */
+.field--type-string-long label {
+  margin-bottom: 12px;
+}
+
+//--------------------------------------
+// @group Checkbox
+// @description Default style for checkbox.
+//--------------------------------------
+.checkbox,
+.radio {
+  --form-check-input-margin-top: 0;
+  --form-check-input-checked-bg-color: var(--bs-blue);
+  --form-check-input-checked-border-color: var(--bs-blue);
+  --form-check-input-checked-color: var(--bs-white);
+  --form-check-input-checked-disabled-bg-color: var(--bs-black-600);
+  --form-check-input-checked-disabled-border-color: var(--bs-black-600);
+  --form-check-label-margin-left: var(--bs-spacing-3);
+
+  .form-item-inner {
+    align-items: center;
+    display: flex;
+  }
+}
+.form-check-input {
+  margin-top: var(--form-check-input-margin-top);
+  &:checked {
+    background-color: var(--form-check-input-checked-bg-color);
+    border-color: var(--form-check-input-checked-border-color);
+    color: var(--form-check-input-checked-color);
+  }
+  &:checked:disabled {
+    background-color: var(--form-check-input-checked-disabled-bg-color);
+    border-color: var(--form-check-input-checked-disabled-border-color);
+  }
+
+  ~ label {
+    margin-left: var(--form-check-label-margin-left);
+  }
+}
+
+.field--type-boolean legend {
+  margin-bottom: 24px;
+}
+
+//--------------------------------------
+// CHECKBOX: BUTTON STYLE
+//--------------------------------------
+.checkbox-button {
+  --checkbox-button-color: var(--bs-black-600);
+  --checkbox-button-border-color: var(--bs-border-color);
+  --checkbox-button-active-bg: var(--bs-primary-rgb);
+  --checkbox-button-active-bg-opacity: 0.05;
+  --checkbox-button-active-border-color: var(--bs-blue);
+  --checkbox-button-active-color: var(--bs-blue);
+
+  .checkbox {
+    margin-bottom: 0;
+  }
+  .form-checkboxes,
+  .form-radios,
+  .field--type-list-string .fieldset-wrapper > div:first-child {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  input.form-radio,
+  input.form-checkbox {
+    display: none;
+  }
+
+  input ~ .custom-control-label {
+    border: 1px solid var(--checkbox-button-border-color);
+    color: var(--checkbox-button-color);
+    cursor: pointer;
+    font-family: $font-body;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: inherit;
+    line-height: 160%;
+    margin: 0;
+    padding: 16px 24px;
+    text-transform: inherit;
+  }
+  input:checked ~ .custom-control-label {
+    background-color: rgba(var(--checkbox-button-active-bg), var(--checkbox-button-active-bg-opacity));
+    border-color: var(--checkbox-button-active-border-color);
+
+    &,
+    .ui-label {
+      color: var(--checkbox-button-active-color);
+    }
+  }
+
+  // BOOLEAN STYLE
+  .field--type-boolean .fieldset-wrapper > div {
+    align-items: center;
+    display: flex;
+    gap: $primary-spacer-2;
+
+    > div:last-child {
+      order: -1;
+    }
+  }
+}
+
+//--------------------------------------
+// CHECKBOX: BUTTON STYLE GRID
+//--------------------------------------
+.checkbox-button.-grid {
+  --checkbox-button-grid-bg-color: var(--bs-gray-light);
+  --checkbox-button-grid-radios-gap: 0;
+  --checkbox-button-grid-label-radius: var(--bs-spacing-1);
+
+  .form-radios {
+    gap: var(--checkbox-button-grid-radios-gap);
+    > div {
+      border-radius: var(--checkbox-button-grid-label-radius);
+      flex: 0 0 100%;
+      max-width: 100%;
+
+      @include media-breakpoint-up(sm) {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+    }
+    label {
+      background-color: var(--checkbox-button-grid-bg-color);
+      border-radius: var(--checkbox-button-grid-label-radius);
+    }
+  }
+
+  .form-item-inner,
+  .form-radios label {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+//--------------------------------------
+// @group Checkbox compact
+// @description Style for large checkbox.
+//--------------------------------------
+.checkbox-compact {
+  --checkbox-compact-input-border-radius: 4px;
+  --checkbox-compact-input-height: 24px;
+  --checkbox-compact-input-margin: 2px 24px 0 0;
+  --checkbox-compact-input-width: 24px;
+  --checkbox-compact-label-color: var(--bs-black);
+  --checkbox-compact-label-font-size: 18px;
+  --checkbox-compact-label-font-weight: 600;
+  --checkbox-compact-label-letter-spacing: inherit;
+  --checkbox-compact-label-line-height: 28px;
+  --checkbox-compact-label-margin: 0;
+  --checkbox-compact-description-border: 1px solid var(--bs-border-color);
+  --checkbox-compact-description-padding-bottom: var(--spacing-4);
+
+  .form-group {
+    margin-bottom: 0;
+  }
+  .checkbox {
+    margin-bottom: 0;
+
+    label {
+      color: var(--checkbox-compact-label-color);
+      font-size: var(--checkbox-compact-label-font-size);
+      font-weight: var(--checkbox-compact-label-font-weight);
+      letter-spacing: var(--checkbox-compact-label-letter-spacing);
+      line-height: var(--checkbox-compact-label-line-height);
+      margin: var(--checkbox-compact-label-margin);
+    }
+    input {
+      border-radius: var(--checkbox-compact-input-border-radius);
+      height: var(--checkbox-compact-input-height);
+      margin: var(--checkbox-compact-input-margin);
+      min-height: var(--checkbox-compact-input-height);
+      min-width: var(--checkbox-compact-input-width);
+      width: var(--checkbox-compact-input-width);
+    }
+  }
+
+  .form-item-description {
+    border-bottom: var(--checkbox-compact-description-border);
+    padding-bottom: var(--checkbox-compact-description-padding-bottom);
+
+    .description {
+      margin-top: 0;
+    }
+  }
+}
+
+//--------------------------------------
+// NODE FORM: DESCRIPTION RESET
+//--------------------------------------
+.node-form {
+  .form-type-vertical-tabs,
+  .field--name-langcode {
+    display: none;
+  }
+  .fieldset-wrapper .form-radios + div.description {
+    margin-bottom: 0;
+  }
+}
+
+//--------------------------------------
+// @group Forms
+// @description Forms validation style.
+//
+// For more detailed information, see the bootstrap documentation.
+//
+// @link https://getbootstrap.com/docs/5.1/forms/validation/
+//--------------------------------------
+.invalid-feedback {
+  --invalid-feedback-bg-color: var(--bs-red-100);
+  --invalid-feedback-border-color: var(--bs-red-750);
+  --invalid-feedback-border-size: 4px;
+  --invalid-feedback-margin-top: var(--bs-spacing-1);
+  --invalid-feedback-padding-x: var(--bs-spacing-2);
+  --invalid-feedback-padding-y: var(--bs-spacing-2);
+
+  background-color: var(--invalid-feedback-bg-color);
+  border-left: var(--invalid-feedback-border-size) solid var(--invalid-feedback-border-color);
+  display: block;
+  margin-top: var(--invalid-feedback-margin-top);
+  padding: var(--invalid-feedback-padding-y) var(--invalid-feedback-padding-x);
+}
+
+// Visually hide the form label.
+.form-no-label > .form-item-inner > label {
+  display: none;
+}

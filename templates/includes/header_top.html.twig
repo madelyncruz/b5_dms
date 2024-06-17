@@ -1,0 +1,15 @@
+{% if page.header_top_left or page.header_top_center or page.header_top_right %}
+<div{{ header_top_attributes }}>
+  <div class="row">
+    <div class="col-sm-4 -left">
+      {{ page.header_top_left }}
+    </div>
+    <div class="col-sm-4 -center">
+      {{ page.header_top_center }}
+    </div>
+    <div class="col-sm-4 -right d-flex justify-content-end">
+      {{ page.header_top_right }}
+    </div>
+  </div>
+</div>
+{% endif %}

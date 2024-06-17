@@ -1,0 +1,44 @@
+//--------------------------------------
+// HIERARCHICAL SELECT AJAX
+//--------------------------------------
+.field--widget-hierarchical-select-ajax {
+  .hsa-select {
+    flex: 0 0 33%;
+    position: relative;
+  }
+  .form-group {
+    border: 0;
+    display: flex;
+    padding: 0;
+  }
+  .description {
+    margin-bottom: 0;
+  }
+
+  //--------------------------------------
+  // CARD
+  //--------------------------------------
+  .card & {
+    & {
+      padding: 0;
+    }
+    .hsa-container > .hsa-select {
+      padding: $primary-spacer-4;
+
+      &:not(:last-child) {
+        border-right: 1px solid $border-color;
+      }
+    }
+    .form-group {
+      margin: 0 -#{$primary-spacer-4} -#{$primary-spacer-4};
+    }
+  }
+}
+
+
+//--------------------------------------
+// CARD FORM GROUP
+//--------------------------------------
+.card-form-group .card-header-label>.field--widget-hierarchical-select-ajax >fieldset>.label {
+  margin-bottom: 0;
+}

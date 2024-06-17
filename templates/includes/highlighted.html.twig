@@ -1,0 +1,25 @@
+{% if page.highlighted_top or page.highlighted_left or page.highlighted_right or page.highlighted_bottom %}
+  <div class="highlighted bg-white shadow-sm py-4 px-5 px-lg-11 mb-2">
+    <div class="row d-flex align-items-center">
+      {% if page.highlighted_top %}
+      <div class="col-12">
+        {{ page.highlighted_top }}
+      </div>
+      {% endif %}
+
+      <div class="col-sm-6">
+        {{ page.highlighted_left }}
+      </div>
+
+      <div class="col-sm-6 d-flex justify-content-end">
+        {{ page.highlighted_right }}
+      </div>
+
+      {% if page.highlighted_bottom %}
+      <div class="col-12">
+        {{ page.highlighted_bottom }}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}

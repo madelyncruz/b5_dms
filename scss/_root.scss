@@ -1,0 +1,30 @@
+@import "../node_modules/bootstrap/scss/root";
+
+:root {
+  // Generate palette colors.
+  @each $color, $value in $primary-root-palettes {
+    --#{$prefix}#{$color}: #{$value};
+  }
+
+  // Generate spacers.
+  @each $spacer, $value in $primary-spacers {
+    --#{$prefix}spacing-#{$spacer}: #{$value};
+  }
+
+  // Generate other component styles.
+  --bs-border-color: rgba(38,47,64,.1);
+
+  // Generate rgba colors.
+  @each $color, $value in $primary-rgba {
+    --#{$variable-prefix}#{$color}-rgb: #{to-rgb($value)};
+  }
+
+  // Generate primary colors.
+  --primary-color: var(--bs-blue);
+
+  // Buttons.
+  --button-font-family: var(--bs-font-sans-serif);
+  --button-font-weight: 700;
+  --button-letter-spacing: 0.1em;
+  --button-line-height: 16px;
+}

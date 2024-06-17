@@ -1,0 +1,28 @@
+@import "../node_modules/bootstrap/scss/toasts";
+
+//--------------------------------------
+// TOAST HEADER
+//--------------------------------------
+.toast-header {
+  .btn-close {
+    display: block;
+    background-color: var(--bs-white);
+    border-radius: 30px;
+    height: 30px;
+    margin: 0;
+    min-width: 30px;
+    opacity: 1;
+    padding: 0;
+  }
+}
+
+//--------------------------------------
+// TOAST BODY
+//--------------------------------------
+.toast-body {
+  color: $body-color;
+
+  ul {
+    margin-bottom: 0;
+  }
+}

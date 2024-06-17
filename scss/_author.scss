@@ -1,0 +1,87 @@
+//--------------------------------------
+// @group Avatar
+// @description Avatar component
+//
+// A simple avatar component with different sizes.
+//
+// @example
+//   <div class="avatar-author avatar-md">
+//     <div class="picture"></div>
+//     <div class="name">
+//       <div class="name-last"></div>
+//       <div class="name-first"></div>
+//       <div class="job-title"></div>
+//     </div>
+//   </div>
+//--------------------------------------
+.avatar-author {
+  --avatar-author-gap: var(--bs-spacing-3);
+  --avatar-author-name-ms: 4px;
+  --avatar-author-picture-size: var(--bs-spacing-6);
+  --avatar-author-picture-placeholder: var(--bs-light);
+  --avatar-author-min-width: 200px;
+
+  align-items: center;
+
+  &.avatar-md {
+    --avatar-author-picture-size: var(--bs-spacing-9);
+  }
+  &.avatar-lg {
+    --avatar-author-picture-size: 200px;
+  }
+
+  display: flex;
+  gap: var(--avatar-author-gap);
+
+  .field__items {
+    line-height: normal;
+    min-height: inherit;
+  }
+
+  .name {
+    align-content: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    min-width: var(--avatar-author-min-width);
+
+    &,
+    .field__item {
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .name-last {
+    font-weight: 500;
+    text-transform: uppercase;
+    ~ .name-first {
+      margin-left: var(--avatar-author-name-ms);
+    }
+  }
+  .mail {
+    flex: 0 0 100%;
+    line-height: normal;
+  }
+  .picture {
+    background-color: var(--avatar-author-picture-placeholder);
+    border-radius: var(--avatar-author-picture-size);
+    max-width: var(--avatar-author-picture-size);
+    max-height: var(--avatar-author-picture-size);
+    min-width: var(--avatar-author-picture-size);
+    overflow: hidden;
+
+    img {
+      border-radius: var(--avatar-author-picture-size);
+      min-height: var(--avatar-author-picture-size);
+      min-width: var(--avatar-author-picture-size);
+    }
+  }
+}
+
+.view-b5-dms-user .avatar-author .picture {
+  order: 1;
+}
+.view-b5-dms-user .avatar-author .name {
+  justify-content: flex-end;
+  text-align: right;
+}

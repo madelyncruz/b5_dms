@@ -1,0 +1,61 @@
+@import "../node_modules/bootstrap/scss/modal";
+
+//--------------------------------------
+// MODAL: BODY
+//--------------------------------------
+.modal-body {
+  --modal-body-padding-x: var(--bs-spacing-6);
+  --modal-body-padding-y: var(--bs-spacing-6);
+
+  padding: var(--modal-body-padding-y) var(--modal-body-padding-x);
+}
+
+//--------------------------------------
+// MODAL: FULLSCREEN
+//--------------------------------------
+.modal-fullscreen {
+  --modal-fullscreen-padding-x: var(--bs-spacing-6);
+  --modal-fullscreen-padding-y: var(--bs-spacing-6);
+
+  padding: var(--modal-fullscreen-padding-y) var(--modal-fullscreen-padding-x);
+}
+
+//--------------------------------------
+// MODAL: FOOTER
+//--------------------------------------
+.modal-footer {
+  --modal-footer-padding-x: var(--bs-spacing-6);
+  --modal-footer-padding-y: var(--bs-spacing-2);
+  --modal-footer-button-margin-x: var(--bs-spacing-1);
+  --modal-footer-button-margin-y: 0;
+  --modal-footer-button-height: 52px;
+
+  padding: var(--modal-footer-padding-y) var(--modal-footer-padding-x);
+
+  .btn {
+    margin: var(--modal-footer-button-margin-y) var(--modal-footer-button-margin-x);
+    min-height: var(--modal-footer-button-height);
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+//--------------------------------------
+// MODAL: FORM
+//--------------------------------------
+.modal  {
+  form {
+    --modal-form-actions-margin-x: 0;
+    --modal-form-actions-margin-y: 0;
+  }
+
+  .modal-body .form-actions {
+    margin: var(--modal-form-actions-margin-y) var(--modal-form-actions-margin-x);
+  }
+
+  .form-exposed-filter-actions .btn-reset {
+    display: none;
+  }
+}
