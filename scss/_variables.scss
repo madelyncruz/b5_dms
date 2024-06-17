@@ -422,6 +422,7 @@ $min-contrast-ratio: 2.5;
 //--------------------------------------
 // THEME COLORS
 //--------------------------------------
+$gray:                                   #586472;
 $secondary:                              $gray;
 $light:                                  $palette-gray-light;
 
@@ -507,9 +508,9 @@ $dropdown-item-padding-x:                24px;
 $dropdown-font-size:                     15px;
 $dropdown-padding-y:                     0;
 $dropdown-padding-x:                     0;
-$dropdown-link-color:                    map-get($blacks, 'black-800');
-$dropdown-link-hover-color:              $white;
-$dropdown-link-hover-bg:                 $blue;
+$dropdown-link-color:                    $gray;
+$dropdown-link-hover-color:              inherit;
+$dropdown-link-hover-bg:                 inherit;
 
 //--------------------------------------
 // BUTTONS

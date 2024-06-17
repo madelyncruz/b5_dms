@@ -3,6 +3,20 @@
 //--------------------------------------
 // DROPDOWNS
 //--------------------------------------
+.dropdown-menu {
+  --dropdown-menu-item-font-weight: 500;
+  --dropdown-menu-item-hover-color: var(--bs-red-950);
+  --dropdown-menu-item-hover-bg-color: var(--bs-red-300);
+}
+.dropdown-item {
+  font-weight: var(--dropdown-menu-item-font-weight);
+
+  &:hover,
+  &:focus {
+    background-color: var(--dropdown-menu-item-hover-bg-color);
+    color: var(--dropdown-menu-item-hover-color);
+  }
+}
 .dropdown-group {
   > .no-link {
     display: block;

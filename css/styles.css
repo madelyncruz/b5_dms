@@ -28,7 +28,7 @@
   --bs-light-blue: #71c1ff;
   --bs-violet: #7a1cf2;
   --bs-primary-rgb: 12, 11, 36;
-  --bs-secondary-rgb: 205, 208, 214;
+  --bs-secondary-rgb: 88, 100, 114;
   --bs-success-rgb: 0, 179, 102;
   --bs-info-rgb: 13, 202, 240;
   --bs-warning-rgb: 242, 192, 57;
@@ -5521,7 +5521,7 @@ em.placeholder {
   }
 }
 .progress__percentage {
-  color: #cdd0d6;
+  color: #586472;
 }
 
 .shade-danger .shade-border {
@@ -5864,15 +5864,15 @@ em.placeholder {
 }
 
 .table-secondary {
-  --bs-table-bg: #f5f6f7;
-  --bs-table-striped-bg: #eaebec;
+  --bs-table-bg: #dee0e3;
+  --bs-table-striped-bg: #d4d6d9;
   --bs-table-striped-color: #111;
-  --bs-table-active-bg: #dedfe0;
+  --bs-table-active-bg: #cacbce;
   --bs-table-active-color: #111;
-  --bs-table-hover-bg: #e4e5e6;
+  --bs-table-hover-bg: #cfd0d3;
   --bs-table-hover-color: #111;
   color: #111;
-  border-color: #dedfe0;
+  border-color: #cacbce;
 }
 
 .table-success {
@@ -8011,7 +8011,7 @@ em.placeholder {
   padding: 8px 24px;
   clear: both;
   font-weight: 400;
-  color: rgba(17, 17, 17, 0.8);
+  color: #586472;
   text-align: inherit;
   text-decoration: none;
   white-space: nowrap;
@@ -8027,8 +8027,8 @@ em.placeholder {
   border-bottom-left-radius: calc(0 0 - 1px);
 }
 .dropdown-item:hover, .dropdown-item:focus {
-  color: #ffffff;
-  background-color: #0c0b24;
+  color: inherit;
+  background-color: inherit;
 }
 .dropdown-item.active, .dropdown-item:active {
   color: #ffffff;
@@ -8057,7 +8057,7 @@ em.placeholder {
 .dropdown-item-text {
   display: block;
   padding: 8px 24px;
-  color: rgba(17, 17, 17, 0.8);
+  color: #586472;
 }
 
 .dropdown-menu-dark {
@@ -8089,6 +8089,20 @@ em.placeholder {
   color: #adb5bd;
 }
 
+.dropdown-menu {
+  --dropdown-menu-item-font-weight: 500;
+  --dropdown-menu-item-hover-color: var(--bs-red-950);
+  --dropdown-menu-item-hover-bg-color: var(--bs-red-300);
+}
+
+.dropdown-item {
+  font-weight: var(--dropdown-menu-item-font-weight);
+}
+.dropdown-item:hover, .dropdown-item:focus {
+  background-color: var(--dropdown-menu-item-hover-bg-color);
+  color: var(--dropdown-menu-item-hover-color);
+}
+
 .dropdown-group > .no-link {
   display: block;
   padding: 8px 24px;
@@ -8099,11 +8113,11 @@ em.placeholder {
 
 .dropdown-item.btn {
   background: var(--bs-white);
-  color: rgba(17, 17, 17, 0.8);
+  color: #586472;
 }
 .dropdown-item.btn:hover {
-  background: #0c0b24;
-  color: #ffffff;
+  background: inherit;
+  color: inherit;
 }
 
 .dropdown-counter {
