@@ -570,6 +570,10 @@
   padding-right: 8px !important;
 }
 
+.field--type-datetime {
+  white-space: nowrap;
+}
+
 .flexslider {
   background-color: var(--bs-blue-dark);
   border: 0;
@@ -936,7 +940,7 @@
 .ief-entity-operations input {
   text-transform: inherit;
   letter-spacing: inherit;
-  color: rgba(17, 17, 17, 0.8);
+  color: #586472;
 }
 
 table.ief-entity-table th.ief-tabledrag-header,
