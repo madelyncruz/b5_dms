@@ -20,7 +20,7 @@
       }
 
       // Overrides add more submit button.
-      var iefAddMoreSubmit = once('bs5-ief-submit', '.field-add-more-submit', context);
+      var iefAddMoreSubmit = once('bs5-ief-submit', '.field-add-more-submit > div > div', context);
       if (iefAddMoreSubmit.length) {
         iefAddMoreSubmit.forEach(processAddMoreSubmit);
       }
@@ -176,8 +176,8 @@
    * using the parent "ief-submit" class and "ief-add-more" attribute.
    *
    * @code
-   *  <div class="ief-submit" ief-add-more="add more foo text">
-   *  <div class="field--type-entity-reference"></div>
+   *  <div class="field-add-more-submit" ief-add-more="add more foo text">
+   *    <div class="field--type-entity-reference"></div>
    *  </div>
    * @endcode
    *
@@ -186,10 +186,18 @@
    */
   function processAddMoreSubmit(element) {
     element = $(element);
-    var addMoreSubmit = element.closest('.field--type-entity-reference').parent('.ief-submit');
-    if (addMoreSubmit.length) {
-      var submit = addMoreSubmit.attr('ief-add-more') || 'Add more';
+    const iefAddMoreSubmit = element.closest('.field--type-entity-reference').parent('.ief-submit');
+    const addMoreSubmit = element.find('.field-add-more-submit');
+
+    // Todo: Fix this later.
+    if (iefAddMoreSubmit.length) {
+      var submit = iefAddMoreSubmit.attr('ief-add-more') || 'Add more';
       element.val(Drupal.t(submit));
+    }
+
+    if (addMoreSubmit.length) {
+      var submit = element.attr('ief-add-more') || 'Add more';
+      addMoreSubmit.val(Drupal.t(submit));
     }
   }
 
