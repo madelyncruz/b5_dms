@@ -30,7 +30,55 @@
       if (flatpickrField.length) {
         flatpickrField.forEach(processFlatpickrField);
       }
+
+      // Input masking for number field.
+      var inputNumberMask = once('bs5-input-mask-number', '.js-form-type-number input[data-drupal-selector]', context);
+      if (inputNumberMask.length) {
+        inputNumberMask.forEach(processInputNumberMask);
+      }
     }
+  }
+
+  /**
+   * Process input masking for number field.
+   *
+   * @param {object} element
+   *   The input number field context.
+   */
+  function processInputNumberMask(input) {
+    // Initialize input object.
+    const $input = $(input);
+
+    // Visually hide the number field.
+    $input.hide();
+
+    // Create a new number field for masking.
+    const $clone = $('<input/>', {
+      'class': 'form-control clone-form-control',
+      'id': 'clone-' + $input.attr('id'),
+      'name': 'clone-' + $input.attr('id'),
+      'type': 'text',
+      'value': $input.val(),
+      'placeholder': Drupal.t('Enter cost'),
+    }).insertAfter($input);
+
+    // Instantiate input masking.
+    Inputmask({
+      alias: 'decimal',
+      radixPoint: ".",
+      groupSeparator: ",",
+      digits: 2,
+      digitsOptional: false,
+      prefix: '',
+      autoUnmask: true,
+      rightAlign: false,
+    }).mask($clone);
+
+    // Pre-populate number value while typing the number
+    // in dummy number field.
+    $clone.on('keyup blur', function() {
+      $input.val(this.value.replace(/[^0-9.]/g, ''));
+    });
   }
 
   /**

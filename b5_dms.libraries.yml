@@ -131,3 +131,15 @@ modules.phone-international:
   css:
     theme:
       /libraries/intl-tel-input/build/css/intlTelInput.min.css: {}
+
+libraries.jquery.inputmask:
+  remote: https://github.com/RobinHerbots/jquery.inputmask
+  version: '5.0.8'
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/mit-license.php
+    gpl-compatible: true
+  js:
+    /libraries/jquery.inputmask/dist/jquery.inputmask.min.js: { minified: true }
+  dependencies:
+    - core/jquery

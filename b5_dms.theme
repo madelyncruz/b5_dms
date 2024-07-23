@@ -1137,6 +1137,7 @@ function b5_dms_form_comment_form_alter(&$form, FormStateInterface $form_state) 
 function b5_dms_form_node_form_alter(&$form, FormStateInterface $form_state) {
   if (theme_get_setting('b5_dms_lib_node_form')) {
     $form['#attached']['library'][] = 'b5_dms/theme.node-form';
+    $form['#attached']['library'][] = 'b5_dms/libraries.jquery.inputmask';
   }
 }
 
