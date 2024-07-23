@@ -1922,6 +1922,13 @@ form .card .field--type-file details > summary {
   margin: 0;
   padding: 0;
 }
+.card-form-group > div .form-control:disabled,
+.card-form-group > fieldset .form-control:disabled {
+  background-color: var(--bs-border-color);
+  color: var(--bs-black-500);
+  padding-left: 4px;
+  padding-right: 4px;
+}
 .card-form-group .card-header {
   border: 0;
 }
@@ -1961,9 +1968,6 @@ form .card .field--type-file details > summary {
   border-bottom: 1px solid var(--bs-border-color);
   display: block;
   padding: 24px 24px;
-}
-.card-form-group .field__items {
-  min-height: 32px;
 }
 
 .divider-before {

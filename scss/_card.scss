@@ -527,6 +527,12 @@ form .card {
       margin: 0;
       padding: 0;
     }
+    .form-control:disabled {
+      background-color: var(--bs-border-color);
+      color: var(--bs-black-500);
+      padding-left: 4px;
+      padding-right: 4px;
+    }
   }
 
   .card-header {
@@ -568,8 +574,5 @@ form .card {
   &.-label-header .field__label {
     margin: (-$primary-spacer-4) (-$primary-spacer-4) $primary-spacer-4 !important;
     @include make-card-header();
-  }
-  .field__items {
-    min-height: 32px;
   }
 }
