@@ -244,7 +244,7 @@
     }
 
     if (addMoreSubmit.length) {
-      var submit = element.attr('ief-add-more') || 'Add more';
+      var submit = element.closest('.field-add-more-submit').attr('ief-add-more') || 'Add more';
       addMoreSubmit.val(Drupal.t(submit));
     }
   }
