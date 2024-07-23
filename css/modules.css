@@ -4,13 +4,18 @@
  */
 .tabledrag-changed-warning {
   background-color: #f7f8fa;
+  border-top: 1px solid #e7e7e7;
   font-size: 14px;
-  margin-bottom: 12px;
+  margin: 0;
   padding: 16px 24px;
 }
 
 .tabledrag-toggle-weight-wrapper {
   display: none;
+}
+
+abbr.warning.tabledrag-changed {
+  color: red;
 }
 
 .form-submit[name*=cancel]:not(.dropdown-item),
@@ -91,7 +96,12 @@
   width: var(--bs-spacing-11);
 }
 .field-multiple-table .tabledrag-handle {
-  display: none;
+  background: transparent;
+  height: 100% !important;
+  left: 14px;
+  position: absolute;
+  top: 0;
+  width: 100% !important;
 }
 .field-multiple-table .ief-entity-operations {
   display: -webkit-box;
@@ -116,6 +126,11 @@
 }
 .field-multiple-table td .js-form-item {
   padding: var(--field-multiple-table-cell-form-item-py) var(--field-multiple-table-cell-form-item-px);
+}
+.field-multiple-table .warning.tabledrag-changed {
+  left: 5px;
+  position: absolute;
+  top: 5px;
 }
 
 .field--widget-file-generic .card-details {
@@ -150,7 +165,12 @@
   display: none;
 }
 .field--widget-file-generic .card-details .tabledrag-handle {
-  display: none;
+  background: transparent;
+  height: 100% !important;
+  left: 14px;
+  position: absolute;
+  top: 0;
+  width: 100% !important;
 }
 
 .comment-form {
@@ -775,7 +795,12 @@
   z-index: 1;
 }
 .field--widget-inline-entity-form-complex table .tabledrag-handle {
-  display: none;
+  background: transparent;
+  height: 100% !important;
+  left: 14px;
+  position: absolute;
+  top: 0;
+  width: 100% !important;
 }
 .field--widget-inline-entity-form-complex table .ief-entity-operations {
   display: -webkit-box;
@@ -853,7 +878,12 @@
   z-index: 1;
 }
 .field--widget-inline-entity-form-complex-table-view-mode table .tabledrag-handle {
-  display: none;
+  background: transparent;
+  height: 100% !important;
+  left: 14px;
+  position: absolute;
+  top: 0;
+  width: 100% !important;
 }
 .field--widget-inline-entity-form-complex-table-view-mode table .ief-entity-operations {
   display: -webkit-box;
@@ -1277,7 +1307,12 @@ table.ief-entity-table .ief-row-entity td.inline-entity-form-node-label {
   z-index: 1;
 }
 .view table .tabledrag-handle {
-  display: none;
+  background: transparent;
+  height: 100% !important;
+  left: 14px;
+  position: absolute;
+  top: 0;
+  width: 100% !important;
 }
 .view table .ief-entity-operations {
   display: -webkit-box;

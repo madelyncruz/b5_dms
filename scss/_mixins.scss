@@ -430,7 +430,12 @@
 
   // HIDE DRAGGABLE HANDLE
   .tabledrag-handle {
-    display: none;
+    background: transparent;
+    height: 100% !important;
+    left: 14px;
+    position: absolute;
+    top: 0;
+    width: 100% !important;
   }
   .#{$operations} {
     display: flex;
