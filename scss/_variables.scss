@@ -340,7 +340,7 @@ $night-sky-teals: (
 // PRIMARY GREEN COLORS
 //--------------------------------------
 $green:                                 #00b366;
-$greens:                                generate-shades($green, 'green', 1);
+$greens:                                generate-shades($green, 'green');
 
 //--------------------------------------
 // PRIMARY BLACK COLORS
