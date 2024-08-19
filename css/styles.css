@@ -81,6 +81,14 @@
   --bs-gradient-200: linear-gradient(226.11deg, #c62415, #1743bb);
   --bs-green: #00b366;
   --bs-green-100: rgba(0, 179, 102, 0.1);
+  --bs-green-200: rgba(0, 179, 102, 0.2);
+  --bs-green-300: rgba(0, 179, 102, 0.3);
+  --bs-green-400: rgba(0, 179, 102, 0.4);
+  --bs-green-500: rgba(0, 179, 102, 0.5);
+  --bs-green-600: rgba(0, 179, 102, 0.6);
+  --bs-green-700: rgba(0, 179, 102, 0.7);
+  --bs-green-800: rgba(0, 179, 102, 0.8);
+  --bs-green-900: rgba(0, 179, 102, 0.9);
   --bs-orange: #ff8934;
   --bs-red: #490200;
   --bs-red-950: #6b0400;
@@ -5460,19 +5468,36 @@ em.placeholder {
     background-position-x: 1rem;
   }
 }
+.progress[aria-live=polite] {
+  background: none;
+  color: var(--bs-black-800);
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  font-weight: 700;
+  height: auto;
+}
+.progress[aria-live=polite] .progress__track {
+  margin-top: 4px;
+}
+
 .progress__track {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
   height: 1rem;
+  -webkit-box-ordinal-group: 3;
+  -ms-flex-order: 2;
+  order: 2;
   overflow: hidden;
+  width: 100%;
   font-size: 0.75rem;
   border-radius: 0 0;
 }
-.progress__track.-plain .progress__bar {
-  background-image: none;
-}
 .progress__track:not([class*=bg]) {
+  border-radius: 8px;
   background-color: #e9ecef;
 }
 
@@ -5496,6 +5521,7 @@ em.placeholder {
   transition: width 0.6s ease;
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-size: 1rem 1rem;
+  border-radius: 8px;
   -webkit-animation: 1s linear infinite progress-bar-stripes;
   animation: 1s linear infinite progress-bar-stripes;
 }
@@ -5512,6 +5538,10 @@ em.placeholder {
   }
 }
 
+.progress__description br {
+  display: none;
+}
+
 [dir=rtl] .progress__bar {
   margin-left: 0;
   margin-right: -1px;
@@ -5525,7 +5555,17 @@ em.placeholder {
   }
 }
 .progress__percentage {
-  color: #586472;
+  margin-left: auto;
+  -webkit-box-ordinal-group: 2;
+  -ms-flex-order: 1;
+  order: 1;
+}
+.progress__label {
+  -webkit-box-ordinal-group: 4;
+  -ms-flex-order: 3;
+  order: 3;
+  margin-top: var(--bs-spacing-1);
+  font-weight: 400;
 }
 
 .shade-danger .shade-border {

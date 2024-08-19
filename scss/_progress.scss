@@ -1,7 +1,5 @@
 @import "../node_modules/bootstrap/scss/progress";
 
-
-
 //--------------------------------------
 // @group Progress
 // @description Progress stepper Styles.
@@ -118,18 +116,31 @@
   }
 }
 
+.progress[aria-live="polite"] {
+  background: none;
+  color: var(--bs-black-800);
+  flex-wrap: wrap;
+  font-weight: 700;
+  height: auto;
+
+  .progress__track {
+    margin-top: 4px;
+  }
+}
+
 .progress__track {
   display: flex;
+  flex: 0 0 100%;
   height: $progress-height;
+  order: 2;
   overflow: hidden; // force rounded corners by cropping it
+  width: 100%;
   @include font-size($progress-font-size);
   @include border-radius($progress-border-radius);
   @include box-shadow($progress-box-shadow);
 
-  &.-plain .progress__bar {
-    background-image: none;
-  }
   &:not([class*="bg"]) {
+    border-radius: 8px;
     background-color: $progress-bg;
   }
 }
@@ -147,7 +158,7 @@
 
   @include gradient-striped();
   background-size: $progress-height $progress-height;
-
+  border-radius: 8px;
   animation: $progress-bar-animation-timing progress-bar-stripes;
 
   @if $enable-reduced-motion {
@@ -157,6 +168,9 @@
   }
 }
 
+.progress__description br {
+  display: none;
+}
 [dir="rtl"] .progress__bar {
   margin-left: 0;
   margin-right: -1px;
@@ -169,6 +183,14 @@
   }
 }
 
-.progress__percentage {
-  color: $secondary;
+.progress {
+  &__percentage {
+    margin-left: auto;
+    order: 1;
+  }
+  &__label {
+    order: 3;
+    margin-top: var(--bs-spacing-1);
+    font-weight: 400;
+  }
 }
