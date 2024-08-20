@@ -608,6 +608,7 @@ function b5_dms_theme_suggestions_input_alter(array &$suggestions, array $variab
   $element = $variables['element'];
   $element_id = $element['#id'] ?? NULL;
   $array_parents = $element['#array_parents'] ?? [];
+  $attributes = $element['#attributes'] ?? [];
 
   // Add back the original theme hook suggestion.
   if (isset($variables['theme_hook_original'])) {
@@ -643,6 +644,16 @@ function b5_dms_theme_suggestions_input_alter(array &$suggestions, array $variab
   $btn_outlined = ['button-next', 'button-prev'];
   if ($element['#type'] == 'submit' && isset($element['#name']) && in_array($element['#name'], $btn_outlined)) {
     $suggestions[] = 'input__submit_button_outlined';
+  }
+
+  // Add input template by data-form-id attribute.
+  if ($element['#type'] == 'submit' && isset($attributes['data-form-id'])) {
+    $suggestions[] = 'input__submit_' . $attributes['data-form-id'];
+  }
+
+  // Add input template by data-id attribute.
+  if ($element['#type'] == 'submit' && isset($attributes['data-id'])) {
+    $suggestions[] = 'input__submit_' . $attributes['data-id'];
   }
 }
 
@@ -1048,6 +1059,7 @@ function b5_dms_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   // Get information.
   $storage = $form_state->getStorage();
   $form_object = $form_state->getFormObject();
+  $unique_id = $form['#id'] ? _b5_dms_remove_random_characters($form['#id']) : NULL;
 
   // Check if getEntity method exists.
   if (method_exists($form_object, 'getEntity')) {
@@ -1110,6 +1122,12 @@ function b5_dms_form_alter(&$form, FormStateInterface $form_state, $form_id) {
     }
     $children_element['#attributes']['class'][] = 'form-date-wrapper';
     $children_element['#attributes']['class'][] = 'js-form-date-wrapper';
+  }
+
+  // Register data-id and data-form-id attributes for input suggestions usage.
+  if (isset($form['actions']['submit'])) {
+    $form['actions']['submit']['#attributes']['data-id'] = _b5_dms_convert_html_id($unique_id);
+    $form['actions']['submit']['#attributes']['data-form-id'] = _b5_dms_convert_html_id($form_id);
   }
 }
 
