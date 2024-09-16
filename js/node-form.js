@@ -70,6 +70,7 @@
       digits: 2,
       digitsOptional: false,
       prefix: '',
+      allowMinus: true,
       autoUnmask: true,
       rightAlign: false,
     }).mask($clone);
@@ -77,7 +78,8 @@
     // Pre-populate number value while typing the number
     // in dummy number field.
     $clone.on('keyup blur', function() {
-      $input.val(this.value.replace(/[^0-9.]/g, ''));
+      // Allow numbers, period, and minus sign.
+      $input.val(this.value.replace(/[^0-9.-]/g, ''));
     });
   }
 
