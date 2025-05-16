@@ -1,0 +1,11 @@
+{
+  "name": "theme/b5_dms",
+  "type": "drupal-theme",
+  "description": "DMS base theme built with Bootstrap 5.",
+  "require": {
+    "composer/installers": "^1.0"
+  },
+  "extra": {
+    "installer-name": "b5_dms"
+  }
+}
