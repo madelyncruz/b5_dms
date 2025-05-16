@@ -1,7 +1,7 @@
 name: DMS Bootstrap Theme
 type: theme
 description: "DMS base theme built with Bootstrap 5."
-core_version_requirement: ^9 || ^10
+core_version_requirement: ^9 || ^10 || ^11
 base theme: false
 package: "DMS"
 

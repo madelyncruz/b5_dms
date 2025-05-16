@@ -556,6 +556,139 @@ progress {
   color: #8dcdff;
 }
 
+.link-red {
+  color: #490200;
+}
+.link-red:hover, .link-red:focus {
+  color: #3a0200;
+}
+
+.link-red-950 {
+  color: #6b0400;
+}
+.link-red-950:hover, .link-red-950:focus {
+  color: #560300;
+}
+
+.link-red-900 {
+  color: #870700;
+}
+.link-red-900:hover, .link-red-900:focus {
+  color: #6c0600;
+}
+
+.link-red-850 {
+  color: #a00a01;
+}
+.link-red-850:hover, .link-red-850:focus {
+  color: #800801;
+}
+
+.link-red-800 {
+  color: #b60d01;
+}
+.link-red-800:hover, .link-red-800:focus {
+  color: #920a01;
+}
+
+.link-red-750 {
+  color: #c62314;
+}
+.link-red-750:hover, .link-red-750:focus {
+  color: #9e1c10;
+}
+
+.link-red-700 {
+  color: #d43424;
+}
+.link-red-700:hover, .link-red-700:focus {
+  color: #aa2a1d;
+}
+
+.link-red-650 {
+  color: #e14130;
+}
+.link-red-650:hover, .link-red-650:focus {
+  color: #b43426;
+}
+
+.link-red-600 {
+  color: #ee4e3b;
+}
+.link-red-600:hover, .link-red-600:focus {
+  color: #be3e2f;
+}
+
+.link-red-550 {
+  color: #ff6c58;
+}
+.link-red-550:hover, .link-red-550:focus {
+  color: #cc5646;
+}
+
+.link-red-500 {
+  color: #ff8976;
+}
+.link-red-500:hover, .link-red-500:focus {
+  color: #ffa191;
+}
+
+.link-red-450 {
+  color: #ff9989;
+}
+.link-red-450:hover, .link-red-450:focus {
+  color: #ffada1;
+}
+
+.link-red-400 {
+  color: #ffa89a;
+}
+.link-red-400:hover, .link-red-400:focus {
+  color: #ffb9ae;
+}
+
+.link-red-350 {
+  color: #ffb6aa;
+}
+.link-red-350:hover, .link-red-350:focus {
+  color: #ffc5bb;
+}
+
+.link-red-300 {
+  color: #ffc4b9;
+}
+.link-red-300:hover, .link-red-300:focus {
+  color: #ffd0c7;
+}
+
+.link-red-250 {
+  color: #ffd0c8;
+}
+.link-red-250:hover, .link-red-250:focus {
+  color: #ffd9d3;
+}
+
+.link-red-200 {
+  color: #ffddd6;
+}
+.link-red-200:hover, .link-red-200:focus {
+  color: #ffe4de;
+}
+
+.link-red-150 {
+  color: #ffe8e4;
+}
+.link-red-150:hover, .link-red-150:focus {
+  color: #ffede9;
+}
+
+.link-red-100 {
+  color: #fff4f2;
+}
+.link-red-100:hover, .link-red-100:focus {
+  color: #fff6f5;
+}
+
 .link-violet {
   color: #7a1cf2;
 }
