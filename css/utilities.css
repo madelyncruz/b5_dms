@@ -313,12 +313,84 @@
   border-color: #71c1ff !important;
 }
 
-.border-violet {
-  border-color: #7a1cf2 !important;
+.border-red {
+  border-color: #490200 !important;
+}
+
+.border-red-950 {
+  border-color: #6b0400 !important;
+}
+
+.border-red-900 {
+  border-color: #870700 !important;
+}
+
+.border-red-850 {
+  border-color: #a00a01 !important;
+}
+
+.border-red-800 {
+  border-color: #b60d01 !important;
+}
+
+.border-red-750 {
+  border-color: #c62314 !important;
+}
+
+.border-red-700 {
+  border-color: #d43424 !important;
+}
+
+.border-red-650 {
+  border-color: #e14130 !important;
+}
+
+.border-red-600 {
+  border-color: #ee4e3b !important;
+}
+
+.border-red-550 {
+  border-color: #ff6c58 !important;
+}
+
+.border-red-500 {
+  border-color: #ff8976 !important;
+}
+
+.border-red-450 {
+  border-color: #ff9989 !important;
+}
+
+.border-red-400 {
+  border-color: #ffa89a !important;
+}
+
+.border-red-350 {
+  border-color: #ffb6aa !important;
+}
+
+.border-red-300 {
+  border-color: #ffc4b9 !important;
+}
+
+.border-red-250 {
+  border-color: #ffd0c8 !important;
+}
+
+.border-red-200 {
+  border-color: #ffddd6 !important;
+}
+
+.border-red-150 {
+  border-color: #ffe8e4 !important;
 }
 
 .border-red-100 {
   border-color: #fcdbd6 !important;
+}
+
+.border-violet {
+  border-color: #7a1cf2 !important;
 }
 
 .border-white-100 {
@@ -2845,6 +2917,120 @@
 
 /* rtl:end:remove */
 /* rtl:begin:remove */
+.text-red {
+  color: #490200 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-950 {
+  color: #6b0400 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-900 {
+  color: #870700 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-850 {
+  color: #a00a01 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-800 {
+  color: #b60d01 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-750 {
+  color: #c62314 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-700 {
+  color: #d43424 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-650 {
+  color: #e14130 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-600 {
+  color: #ee4e3b !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-550 {
+  color: #ff6c58 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-500 {
+  color: #ff8976 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-450 {
+  color: #ff9989 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-400 {
+  color: #ffa89a !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-350 {
+  color: #ffb6aa !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-300 {
+  color: #ffc4b9 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-250 {
+  color: #ffd0c8 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-200 {
+  color: #ffddd6 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-150 {
+  color: #ffe8e4 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
+.text-red-100 {
+  color: #fff4f2 !important;
+}
+
+/* rtl:end:remove */
+/* rtl:begin:remove */
 .text-violet {
   color: #7a1cf2 !important;
 }
@@ -3069,120 +3255,6 @@
 /* rtl:begin:remove */
 .text-orange {
   color: #ff8934 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red {
-  color: #490200 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-950 {
-  color: #6b0400 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-900 {
-  color: #870700 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-850 {
-  color: #a00a01 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-800 {
-  color: #b60d01 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-750 {
-  color: #c62314 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-700 {
-  color: #d43424 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-650 {
-  color: #e14130 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-600 {
-  color: #ee4e3b !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-550 {
-  color: #ff6c58 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-500 {
-  color: #ff8976 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-450 {
-  color: #ff9989 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-400 {
-  color: #ffa89a !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-350 {
-  color: #ffb6aa !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-300 {
-  color: #ffc4b9 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-250 {
-  color: #ffd0c8 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-200 {
-  color: #ffddd6 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-150 {
-  color: #ffe8e4 !important;
-}
-
-/* rtl:end:remove */
-/* rtl:begin:remove */
-.text-red-100 {
-  color: #fff4f2 !important;
 }
 
 /* rtl:end:remove */
